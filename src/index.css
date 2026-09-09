@@ -328,6 +328,24 @@ input[type="color"] {
 }
 .specHeadFigure .mono { font-size: 19px; font-weight: 600; line-height: 1; }
 
+/* Background colour swatches: shown as evidence on step 1, clickable on step 3. */
+.swatchRow { display: inline-flex; align-items: center; gap: 5px; }
+
+.swatch {
+  width: 17px;
+  height: 17px;
+  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  flex: none;
+  display: inline-block;
+  padding: 0;
+}
+.swatch.pickable { cursor: pointer; width: 26px; height: 26px; }
+.swatch.pickable:hover { border-color: var(--ink); }
+.swatch.chosen { box-shadow: 0 0 0 2px var(--navy); border-color: var(--navy); }
+
+.bgLine { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+
 .specNotes {
   margin-top: 12px;
   padding-top: 12px;

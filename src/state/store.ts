@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { Adjustments, BackgroundSpec, CropState, PhotoSpec, SheetSpec, WizardStep } from "../types";
 import { decodeStateFromUrl, encodeStateToUrl } from "../utils/share";
-import { findPreset } from "../utils/presets";
+import { defaultBackgroundColor, findPreset } from "../utils/presets";
 import { prefetchModnet } from "../utils/modnet";
 import { clearMatteCache } from "../utils/personMatte";
 
@@ -63,7 +63,8 @@ const defaultAdj: Adjustments = { brightness: 0, contrast: 0, saturation: 0, aut
 
 const defaultBg: BackgroundSpec = {
   mode: "REMOVED",
-  color: "#ffffff",
+  // Follows the starting country rather than being hard-coded, so the two never disagree.
+  color: defaultBackgroundColor(findPreset(defaultPhoto.presetId)),
   // Matting already produces a properly soft edge; extra blur only smears hair detail.
   featherPx: 0,
   // Deliberately low: higher values trade hair detail for a cleaner fringe.
@@ -121,14 +122,21 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setPhoto: (p) => {
     const next = { ...get().photo, ...p };
+
     if (p.presetId) {
       const preset = findPreset(p.presetId);
       if (preset) {
         next.width = preset.width;
         next.height = preset.height;
         next.unit = preset.unit;
+
+        // Choosing a country also applies the background it asks for. Most people never
+        // touch the colour picker, so defaulting every country to white quietly produced
+        // non-compliant photos for the ones that want grey or cream.
+        set({ bg: { ...get().bg, color: defaultBackgroundColor(preset) } });
       }
     }
+
     set({ photo: next });
   },
 
@@ -153,9 +161,16 @@ export const useAppStore = create<AppState>((set, get) => ({
     const decoded = decodeStateFromUrl();
     if (!decoded) return;
     const st = get();
+    const photo = { ...st.photo, ...decoded.photo };
+
+    // A shared link carries a country, so it has to bring that country's background with it.
+    // This path bypasses setPhoto, so the default has to be applied here too.
+    const preset = findPreset(photo.presetId);
+
     set({
-      photo: { ...st.photo, ...decoded.photo },
-      sheet: { ...st.sheet, ...decoded.sheet }
+      photo,
+      sheet: { ...st.sheet, ...decoded.sheet },
+      bg: preset ? { ...st.bg, color: defaultBackgroundColor(preset) } : st.bg
     });
   }
 }));

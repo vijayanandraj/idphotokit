@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useAppStore } from "../../state/store";
-import { findPreset, formatSize, headTargetFor, PRESETS } from "../../utils/presets";
+import { backgroundLabel, backgroundsFor, findPreset, formatSize, headTargetFor, PRESETS } from "../../utils/presets";
 import { sizeToPx } from "../../utils/units";
 import FilePicker from "../ui/FilePicker";
 import CountryPicker from "../ui/CountryPicker";
@@ -70,9 +70,15 @@ export default function StepSize() {
         </div>
 
         <div className="specNotes">
-          {preset?.background && (
-            <div className="small">
-              <b>Background:</b> {preset.background}
+          {preset && (
+            <div className="small bgLine">
+              <b>Background:</b>
+              <span className="swatchRow">
+                {backgroundsFor(preset).map(b => (
+                  <span key={b.color} className="swatch" style={{ background: b.color }} />
+                ))}
+              </span>
+              {backgroundLabel(preset)} — applied automatically
             </div>
           )}
           {preset?.note && <div className="small">{preset.note}</div>}

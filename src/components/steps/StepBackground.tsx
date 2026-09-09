@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAppStore } from "../../state/store";
 import Slider from "../ui/Slider";
 import { sizeToPx } from "../../utils/units";
+import { backgroundLabel, backgroundsFor, findPreset } from "../../utils/presets";
 import { getCroppedCanvas } from "../../utils/cropper";
 import { applyAdjustmentsToImageData } from "../../utils/image";
 import { personMatte } from "../../utils/personMatte";
@@ -25,6 +26,10 @@ export default function StepBackground() {
   const setBg = useAppStore(s => s.setBg);
 
   const outPx = useMemo(() => sizeToPx(photo.width, photo.height, photo.unit, photo.dpi), [photo]);
+
+  const preset = useMemo(() => findPreset(photo.presetId), [photo.presetId]);
+  const accepted = useMemo(() => backgroundsFor(preset), [preset]);
+  const presetName = preset?.name ?? "a custom size";
 
   const origRef = useRef<HTMLCanvasElement | null>(null);
   const remRef = useRef<HTMLCanvasElement | null>(null);
@@ -112,31 +117,35 @@ export default function StepBackground() {
     }
   };
 
+  // Re-render whenever anything the preview depends on changes, background settings
+  // included. Calling renderPreviews() straight after setBg() instead would redraw with the
+  // *previous* colour — the state update has not been applied to this closure yet — so a
+  // colour only ever took effect on the following interaction. The matte is cached, so
+  // reacting to every change here is cheap.
   useEffect(() => {
     if (imageBitmap && croppedAreaPixels) {
       void renderPreviews();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageBitmap, croppedAreaPixels, photo.width, photo.height, photo.dpi, photo.unit]);
+  }, [
+    imageBitmap,
+    croppedAreaPixels,
+    photo.width,
+    photo.height,
+    photo.dpi,
+    photo.unit,
+    bg.color,
+    bg.featherPx,
+    bg.edgeTighten
+  ]);
 
   const selectMode = (mode: PreviewKind) => {
     setBg({ mode });
   };
 
-  const onColorChange = async (hex: string) => {
-    setBg({ color: hex });
-    await renderPreviews();
-  };
-
-  const onFeatherChange = async (v: number) => {
-    setBg({ featherPx: v });
-    await renderPreviews();
-  };
-
-  const onEdgeTightenChange = async (v: number) => {
-    setBg({ edgeTighten: v / 100 });
-    await renderPreviews();
-  };
+  const onColorChange = (hex: string) => setBg({ color: hex });
+  const onFeatherChange = (v: number) => setBg({ featherPx: v });
+  const onEdgeTightenChange = (v: number) => setBg({ edgeTighten: v / 100 });
 
   if (!imageBitmap) return <div className="small">Upload an image in Step 1 first.</div>;
   if (!croppedAreaPixels) return <div className="small">Finish cropping in Step 2 first.</div>;
@@ -179,11 +188,30 @@ export default function StepBackground() {
               </div>
 
               <div className="bgCardFooter" onClick={(e) => e.stopPropagation()}>
-                <label style={{ margin: 0 }}>Background color</label>
+                <div className="swatchRow">
+                  {accepted.map(option => (
+                    <button
+                      key={option.color}
+                      type="button"
+                      title={`${option.label} — accepted for ${presetName}`}
+                      aria-label={`${option.label} background`}
+                      aria-pressed={bg.color.toLowerCase() === option.color.toLowerCase()}
+                      className={`swatch pickable ${
+                        bg.color.toLowerCase() === option.color.toLowerCase() ? "chosen" : ""
+                      }`}
+                      style={{ background: option.color }}
+                      onClick={() => onColorChange(option.color)}
+                    />
+                  ))}
+                </div>
+                <label htmlFor="bgColor" style={{ margin: 0 }}>
+                  Or pick
+                </label>
                 <input
+                  id="bgColor"
                   type="color"
                   value={bg.color}
-                  onChange={(e) => void onColorChange(e.target.value)}
+                  onChange={(e) => onColorChange(e.target.value)}
                 />
               </div>
             </div>
@@ -198,15 +226,18 @@ export default function StepBackground() {
           <div className="card" style={{ marginTop: 12 }}>
             <div className="grid2">
               <div>
-                <Slider label="Soften edge" value={bg.featherPx} min={0} max={3} step={1} onChange={(v) => void onFeatherChange(v)} />
+                <Slider label="Soften edge" value={bg.featherPx} min={0} max={3} step={1} onChange={(v) => onFeatherChange(v)} />
               </div>
               <div>
-                <Slider label="Trim edge" value={Math.round(bg.edgeTighten * 100)} min={0} max={100} step={5} onChange={(v) => void onEdgeTightenChange(v)} />
+                <Slider label="Trim edge" value={Math.round(bg.edgeTighten * 100)} min={0} max={100} step={5} onChange={(v) => onEdgeTightenChange(v)} />
               </div>
             </div>
             <div className="small" style={{ marginTop: 6 }}>
-              Raise Trim edge only if a rim of the old background still shows — it thins fine hair as it climbs.
-              Off-white (#f8f8f8) often looks more natural than pure white.
+              {preset
+                ? `${presetName} accepts ${backgroundLabel(preset).toLowerCase()} — already applied.`
+                : "No country selected, so plain white is used."}{" "}
+              Raise Trim edge only if a rim of the old background still shows — it thins fine
+              hair as it climbs.
             </div>
           </div>
 
