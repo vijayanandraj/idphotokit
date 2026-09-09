@@ -1,4 +1,5 @@
-import { detectFaceOnCanvas, segmentCanvas, type FaceBox } from "./mediapipe";
+import { detectFaceOnCanvas, type FaceBox } from "./mediapipe";
+import { personMatte } from "./personMatte";
 
 /**
  * Auto-framing for passport photos.
@@ -122,7 +123,7 @@ function findCrownRow(
 /**
  * Measure the head in a source image. Returns null when no face is found.
  */
-export async function measureHead(bitmap: ImageBitmap): Promise<HeadMetrics | null> {
+export async function measureHead(bitmap: ImageBitmap, cacheKey = "autoframe"): Promise<HeadMetrics | null> {
   const { canvas, scale } = drawToCanvas(bitmap, ANALYSIS_MAX_EDGE);
 
   const face: FaceBox | null = await detectFaceOnCanvas(canvas);
@@ -131,7 +132,9 @@ export async function measureHead(bitmap: ImageBitmap): Promise<HeadMetrics | nu
   let crownY: number | null = null;
   let crownFromMask = false;
   try {
-    const mask = await segmentCanvas(canvas);
+    // The same matte used for background removal. It resolves hair far better than the old
+    // mask, which is exactly what finding the top of the head depends on.
+    const { mask } = await personMatte(canvas, cacheKey);
     crownY = findCrownRow(mask, face, canvas.width, canvas.height);
   } catch {
     crownY = null;

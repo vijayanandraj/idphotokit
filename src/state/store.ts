@@ -2,6 +2,8 @@ import { create } from "zustand";
 import type { Adjustments, BackgroundSpec, CropState, PhotoSpec, SheetSpec, WizardStep } from "../types";
 import { decodeStateFromUrl, encodeStateToUrl } from "../utils/share";
 import { findPreset } from "../utils/presets";
+import { prefetchModnet } from "../utils/modnet";
+import { clearMatteCache } from "../utils/personMatte";
 
 type AppState = {
   step: WizardStep;
@@ -97,6 +99,11 @@ export const useAppStore = create<AppState>((set, get) => ({
       set({ imageFile: undefined, imageUrl: undefined, imageBitmap: undefined });
       return;
     }
+
+    // Start the ~13MB matting model downloading now, so it lands while the crop step is
+    // being used rather than stalling the background step later.
+    prefetchModnet();
+    clearMatteCache();
 
     const url = URL.createObjectURL(file);
     const bitmap = await createImageBitmap(file);

@@ -15,6 +15,7 @@ dist-ssr
 # Local test photos (personal images - never commit)
 test-images
 public/test-images
+model-images
 
 # Editor directories and files
 .vscode/*

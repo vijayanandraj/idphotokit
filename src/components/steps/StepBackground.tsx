@@ -5,7 +5,8 @@ import Slider from "../ui/Slider";
 import { sizeToPx } from "../../utils/units";
 import { getCroppedCanvas } from "../../utils/cropper";
 import { applyAdjustmentsToImageData } from "../../utils/image";
-import { segmentCanvas } from "../../utils/mediapipe";
+import { personMatte } from "../../utils/personMatte";
+import { isModnetLoaded } from "../../utils/modnet";
 import { compositeWithMask } from "../../utils/background";
 import CornerTicks from "../ui/CornerTicks";
 
@@ -29,6 +30,7 @@ export default function StepBackground() {
   const remRef = useRef<HTMLCanvasElement | null>(null);
 
   const [busy, setBusy] = useState<string | null>(null);
+  const [degraded, setDegraded] = useState(false);
 
   const buildTileBase = async (): Promise<HTMLCanvasElement> => {
     if (!imageBitmap || !croppedAreaPixels) throw new Error("Missing image/crop");
@@ -47,9 +49,29 @@ export default function StepBackground() {
     return cropped;
   };
 
+  /** Identifies the pixels being matted, so the matte survives colour and slider changes. */
+  const matteKey = useMemo(
+    () =>
+      JSON.stringify([
+        croppedAreaPixels,
+        crop.rotation,
+        outPx.w,
+        outPx.h,
+        adj.brightness,
+        adj.contrast,
+        adj.saturation
+      ]),
+    [croppedAreaPixels, crop.rotation, outPx.w, outPx.h, adj]
+  );
+
   const renderPreviews = async () => {
     if (!origRef.current || !remRef.current) return;
-    setBusy("Rendering previews...");
+
+    // Only the first matte for a given crop is slow; after that the cache answers instantly,
+    // so colour and slider changes should not announce a wait.
+    const firstPass = !isModnetLoaded();
+    setBusy(firstPass ? "Preparing the matting model (13 MB, first time only)…" : "Rendering previews…");
+
     try {
       const base = await buildTileBase();
 
@@ -63,10 +85,20 @@ export default function StepBackground() {
         ctx.drawImage(base, 0, 0);
       }
 
-      // REMOVED preview (segmentation)
+      // REMOVED preview
       {
-        const mask = await segmentCanvas(base);
-        const removed = compositeWithMask(base, mask.data, mask.width, mask.height, bg.color, bg.featherPx, bg.edgeTighten);
+        const { mask, source } = await personMatte(base, matteKey);
+        setDegraded(source === "fallback");
+
+        const removed = compositeWithMask(
+          base,
+          mask.data,
+          mask.width,
+          mask.height,
+          bg.color,
+          bg.featherPx,
+          bg.edgeTighten
+        );
 
         const c = remRef.current;
         c.width = removed.width;
@@ -184,6 +216,12 @@ export default function StepBackground() {
           </div>
 
           {busy && <div className="small" style={{ marginTop: 8 }}>{busy}</div>}
+          {degraded && (
+            <div className="small" style={{ marginTop: 8, color: "var(--redline)" }}>
+              The matting model couldn't load, so a simpler cut-out is being used — hair and
+              accessories may be rougher. Check your connection and reload to get the better one.
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { useAppStore } from "../../state/store";
 import { sizeToPx } from "../../utils/units";
 import { getCroppedCanvas } from "../../utils/cropper";
 import { applyAdjustmentsToImageData } from "../../utils/image";
-import { segmentCanvas } from "../../utils/mediapipe";
+import { personMatte } from "../../utils/personMatte";
 import { compositeWithMask } from "../../utils/background";
 import { renderSheet } from "../../utils/sheet";
 import CornerTicks from "../ui/CornerTicks";
@@ -48,6 +48,21 @@ export default function StepDownload() {
 
   const outPx = useMemo(() => sizeToPx(photo.width, photo.height, photo.unit, photo.dpi), [photo]);
 
+  /** Must match the key used on the background step so the matte is computed once. */
+  const matteKey = useMemo(
+    () =>
+      JSON.stringify([
+        croppedAreaPixels,
+        crop.rotation,
+        outPx.w,
+        outPx.h,
+        adj.brightness,
+        adj.contrast,
+        adj.saturation
+      ]),
+    [croppedAreaPixels, crop.rotation, outPx.w, outPx.h, adj]
+  );
+
   const buildFinalTile = async (): Promise<HTMLCanvasElement> => {
     if (!imageBitmap || !croppedAreaPixels) throw new Error("Missing image/crop");
 
@@ -69,7 +84,7 @@ export default function StepDownload() {
     // 3) Background removal (optional)
     if (bg.mode !== "REMOVED") return cropped;
 
-    const mask = await segmentCanvas(cropped);
+    const { mask } = await personMatte(cropped, matteKey);
     const composited = compositeWithMask(
       cropped,
       mask.data,

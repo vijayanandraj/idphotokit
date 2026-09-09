@@ -33,7 +33,8 @@ export function compositeWithMask(
   mh: number,
   bgColor: string,
   featherPx: number,
-  tighten: number
+  tighten: number,
+  refineEdges = true
 ): HTMLCanvasElement {
   const out = document.createElement("canvas");
   out.width = src.width;
@@ -52,7 +53,8 @@ export function compositeWithMask(
 
   const { alpha, fg } = refineMatte(srcImg, maskAlpha, Math.max(1, mw | 0), Math.max(1, mh | 0), {
     tighten: clamp01(tighten),
-    featherPx
+    featherPx,
+    refineEdges
   });
 
   for (let i = 0; i < alpha.length; i++) {

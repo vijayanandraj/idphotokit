@@ -28,11 +28,14 @@ https://passport-maker-ten.vercel.app/
 - Vite
 - Zustand (state management)
 - react-easy-crop (crop UI)
-- MediaPipe Tasks Vision (face detection + multiclass selfie segmentation)
+- MediaPipe Tasks Vision (face detection)
+- MODNet portrait matting (Apache-2.0), run locally via ONNX Runtime Web
 
+Everything is client-side. The matting model is served from this site rather than a
+third-party CDN, so no request describing your photo is made to anyone.
 
-
-Everything is client-side.
+The matting model and its runtime are fetched the first time you remove a background —
+about 16MB, then cached by the browser. Nothing is downloaded for the crop-only path.
 
 
 ---
@@ -70,22 +73,31 @@ Everything is client-side.
 - Soften edge (extra blur on the finished edge; usually not needed)
 - Trim edge (pulls the cut-out edge in to kill a colour fringe; raising it thins fine hair)
 
-The segmentation model only seeds the cut-out. Its mask is far too coarse for hair — it
-returns a smooth blob, and it drops accessories such as hair ribbons entirely. So the edge is
-re-derived from the photo at full resolution (`utils/matting.ts`):
+The cut-out comes from **MODNet** (`utils/modnet.ts`), a portrait matting model that predicts
+alpha directly. It runs locally through ONNX Runtime Web at 512px on the short edge.
 
-- the mask's boundary is widened *outward* into the background, into a band where stray hair
-  might live; regions the model is confident about are never re-estimated, so ribbons and
-  collars can't be washed out
-- inside that band the local foreground and background colours are estimated, and the
-  compositing equation `I = aF + (1-a)B` is solved per pixel for the alpha
-- two confidence terms keep a wide band safe: how distinguishable F and B are, and how well
-  the solved alpha actually explains the pixel (a wrinkle in the backdrop does not)
-- where that colour model can't explain a pixel, distance from the local backdrop colour
-  decides instead — this is what rescues a blue ribbon the model called background
-- a guided filter follows image edges rather than mask edges, and the old background colour
-  is finally unmixed out of the semi-transparent pixels so pale hair keeps no rim of the
-  room it was shot in
+This replaced a selfie-segmentation mask plus a lot of colour reasoning, which failed in two
+opposite ways that no amount of tuning could fix, because colour alone cannot tell them
+apart:
+
+- a blue hair ribbon in front of a blue wall *is* the backdrop colour, so it was deleted
+- a cluttered room has no single backdrop colour, so lumps of wall were kept
+
+A model that understands people has no such trouble. `utils/matting.ts` is now only a
+finishing pass over the predicted alpha — it resamples onto the output grid, sharpens the
+edge along real image edges with a guided filter, and unmixes the old background colour out
+of semi-transparent pixels so pale hair keeps no rim of the room it was shot in. None of
+those steps can add or remove a region.
+
+Notes:
+
+- the **fp16** weights are used deliberately. MODNet does not survive uint8 quantisation —
+  the 6.6MB build produces noise — and fp16 is indistinguishable from fp32 at half the size
+- the matte is cached per crop, so changing the background colour or the edge sliders is
+  instant rather than re-running inference
+- the model download starts as soon as a photo is chosen, overlapping with the crop step
+- if the runtime cannot load at all, the old selfie segmentation is used as a fallback and
+  the UI says so
 
 ### Step 4: Download
 - Single image export (PNG/JPEG)
