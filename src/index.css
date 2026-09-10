@@ -562,6 +562,45 @@ input[type="color"] {
 .sheetPreview { background: var(--paper); padding: 10px; }
 .sheetPreview .previewCanvas { max-height: 62vh; width: auto; max-width: 100%; margin: 0 auto; border: 1px solid var(--line-strong); }
 
+/* ---------------- Photo-taking tips (step 1) ----------------
+
+   Reuses the download step's .panel so the two collapsibles in the app behave and read
+   the same way. The grid is two columns of short rules; on a phone it stacks. */
+
+.tipsPanel { margin-bottom: 0; }
+
+.tipsIntro { margin: 0 0 14px; }
+
+.tipGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+}
+
+.tip { display: flex; flex-direction: column; gap: 3px; }
+
+.tipLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+
+/* The prohibitions sit apart from the rules — they are a different kind of instruction,
+   and running them into the grid buried them. */
+.tipAvoid {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--redline);
+  background: var(--redline-tint);
+  border-radius: 0 4px 4px 0;
+}
+.tipAvoid .tipLabel { color: var(--redline); margin-bottom: 4px; }
+
+.tipAvoidList { margin: 0; padding-left: 18px; }
+.tipAvoidList li { margin-top: 2px; }
+
 /* details/summary styling used in StepSize */
 details > summary { list-style: none; cursor: pointer; user-select: none; }
 details > summary::-webkit-details-marker { display: none; }
@@ -646,6 +685,11 @@ details > summary::-webkit-details-marker { display: none; }
   .actionRow .grow-action { flex: 2.2 1 auto; }
 
   .toolRow > * { flex: 1 1 150px; }
+}
+
+/* Two columns of tips become one — at this width each rule would be three words wide. */
+@media (max-width: 560px) {
+  .tipGrid { grid-template-columns: 1fr; gap: 12px; }
 }
 
 /* Compact stepper: on a narrow screen only the current step needs its name. */

@@ -218,9 +218,9 @@ export default function StepDownload() {
                   value={sheet.paper}
                   onChange={(e) => setSheet({ paper: e.target.value as any })}
                 >
+                  <option value="P4x6">4 × 6 inch</option>
                   <option value="A4">A4</option>
                   <option value="A3">A3</option>
-                  <option value="P4x6">4 × 6 inch</option>
                   <option value="CUSTOM">Custom</option>
                 </select>
               </div>

@@ -4,6 +4,7 @@ import { backgroundLabel, backgroundsFor, findPreset, formatSize, headTargetFor,
 import { sizeToPx } from "../../utils/units";
 import FilePicker from "../ui/FilePicker";
 import CountryPicker from "../ui/CountryPicker";
+import PhotoTips from "../ui/PhotoTips";
 
 export default function StepSize() {
   const photo = useAppStore(s => s.photo);
@@ -26,6 +27,8 @@ export default function StepSize() {
 
         <FilePicker onPick={f => void setImageFile(f)} />
       </section>
+
+      <PhotoTips />
 
       <section className="card">
         <div className="sectionTitle">Where is this photo for?</div>

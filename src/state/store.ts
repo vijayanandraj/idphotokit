@@ -50,7 +50,7 @@ type AppState = {
 };
 
 const defaultPhoto: PhotoSpec = {
-  presetId: "SCHENGEN",
+  presetId: "IND",
   width: 35,
   height: 45,
   unit: "mm",
@@ -72,7 +72,10 @@ const defaultBg: BackgroundSpec = {
 };
 
 const defaultSheet: SheetSpec = {
-  paper: "A4"
+  // 4x6 is what photo counters and home printers actually load, and it takes six
+  // 35x45mm photos — enough for a passport application with spares. A4 is a document
+  // size: printing photos on it wastes most of the page.
+  paper: "P4x6"
 };
 
 export const useAppStore = create<AppState>((set, get) => ({
