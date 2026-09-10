@@ -5,7 +5,7 @@ import { getCroppedCanvas } from "../../utils/cropper";
 import { applyAdjustmentsToImageData } from "../../utils/image";
 import { personMatte } from "../../utils/personMatte";
 import { compositeWithMask } from "../../utils/background";
-import { renderSheet } from "../../utils/sheet";
+import { planSheet, renderSheet } from "../../utils/sheet";
 import CornerTicks from "../ui/CornerTicks";
 import { GitHubStarCard } from "../ui/GitHubStar";
 
@@ -30,6 +30,13 @@ async function canvasToBlob(
   });
 }
 
+const PAPER_LABELS: Record<string, string> = {
+  A4: "A4",
+  A3: "A3",
+  P4x6: "4 × 6 inch",
+  CUSTOM: "Custom"
+};
+
 export default function StepDownload() {
   const setStep = useAppStore(s => s.setStep);
   const imageBitmap = useAppStore(s => s.imageBitmap);
@@ -42,11 +49,17 @@ export default function StepDownload() {
   const setSheet = useAppStore(s => s.setSheet);
 
   const [busy, setBusy] = useState<string | null>(null);
-  const [maxCount, setMaxCount] = useState<number>(0);
 
   const previewRef = useRef<HTMLCanvasElement | null>(null);
+  const sheetRef = useRef<HTMLCanvasElement | null>(null);
 
   const outPx = useMemo(() => sizeToPx(photo.width, photo.height, photo.unit, photo.dpi), [photo]);
+
+  /** How many photos will fit — known without rendering anything. */
+  const layout = useMemo(
+    () => planSheet(sheet, photo.dpi, outPx.w, outPx.h),
+    [sheet, photo.dpi, outPx.w, outPx.h]
+  );
 
   /** Must match the key used on the background step so the matte is computed once. */
   const matteKey = useMemo(
@@ -85,7 +98,7 @@ export default function StepDownload() {
     if (bg.mode !== "REMOVED") return cropped;
 
     const { mask } = await personMatte(cropped, matteKey);
-    const composited = compositeWithMask(
+    return compositeWithMask(
       cropped,
       mask.data,
       mask.width,
@@ -94,28 +107,34 @@ export default function StepDownload() {
       bg.featherPx,
       bg.edgeTighten
     );
-
-    return composited;
   };
 
-  const renderPreview = async () => {
-    if (!previewRef.current) return;
-    setBusy("Rendering preview...");
+  const drawInto = (target: HTMLCanvasElement | null, source: HTMLCanvasElement) => {
+    if (!target) return;
+    target.width = source.width;
+    target.height = source.height;
+    const ctx = target.getContext("2d")!;
+    ctx.clearRect(0, 0, target.width, target.height);
+    ctx.drawImage(source, 0, 0);
+  };
+
+  /** Renders both previews from one matte, so opening either section costs nothing extra. */
+  const renderPreviews = async () => {
+    setBusy("Rendering preview…");
     try {
       const tile = await buildFinalTile();
-      const c = previewRef.current;
-      const ctx = c.getContext("2d")!;
-      c.width = tile.width;
-      c.height = tile.height;
-      ctx.clearRect(0, 0, c.width, c.height);
-      ctx.drawImage(tile, 0, 0);
+      drawInto(previewRef.current, tile);
+      if (sheetRef.current) {
+        const { sheetCanvas } = renderSheet(tile, sheet, photo.dpi);
+        drawInto(sheetRef.current, sheetCanvas);
+      }
     } finally {
       setBusy(null);
     }
   };
 
   const downloadSingle = async (fmt: "png" | "jpeg") => {
-    setBusy("Building single image...");
+    setBusy("Building photo…");
     try {
       const tile = await buildFinalTile();
       const mime = fmt === "png" ? "image/png" : "image/jpeg";
@@ -127,169 +146,151 @@ export default function StepDownload() {
   };
 
   const downloadSheet = async (fmt: "png" | "jpeg") => {
-    setBusy("Building print sheet...");
+    setBusy("Building print sheet…");
     try {
       const tile = await buildFinalTile();
-      const { sheetCanvas, maxCount: mc } = renderSheet(tile, sheet);
-      setMaxCount(mc);
-
+      const { sheetCanvas } = renderSheet(tile, sheet, photo.dpi);
       const mime = fmt === "png" ? "image/png" : "image/jpeg";
       const blob = await canvasToBlob(sheetCanvas, mime, 0.92);
-      downloadBlob(blob, `sheet_${sheet.paper}_${sheet.dpi}dpi.${fmt}`);
+      downloadBlob(blob, `sheet_${sheet.paper}_${layout.count}up_${photo.dpi}dpi.${fmt}`);
     } finally {
       setBusy(null);
     }
   };
 
   useEffect(() => {
-    if (imageBitmap && croppedAreaPixels) void renderPreview();
+    if (imageBitmap && croppedAreaPixels) void renderPreviews();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageBitmap, croppedAreaPixels, bg, adj, crop]);
+  }, [imageBitmap, croppedAreaPixels, bg, adj, crop, sheet, photo.dpi]);
 
   if (!imageBitmap) {
     return <div className="small">Upload an image in Step 1 first.</div>;
   }
 
+  const paperName = PAPER_LABELS[sheet.paper] ?? sheet.paper;
+
   return (
     <div className="row">
       <div className="col grow">
-        <div className="card">
-          <div className="sectionTitle">Single photo</div>
+        <details className="panel" open>
+          <summary className="panelHead">
+            <span className="panelTitle">Single photo</span>
+            <span className="panelMeta mono">
+              {outPx.w} × {outPx.h}px · {photo.dpi} DPI
+            </span>
+          </summary>
 
-          <div className="row wrap">
-            <button className="btn primary" onClick={() => void downloadSingle("png")} disabled={!!busy}>Download PNG</button>
-            <button className="btn primary" onClick={() => void downloadSingle("jpeg")} disabled={!!busy}>Download JPEG</button>
-          </div>
-
-          <div className="toolRow" style={{ marginTop: 10 }}>
-            <button className="btn good" onClick={() => void renderPreview()} disabled={!!busy}>Refresh preview</button>
-          </div>
-
-          <div className="small mono" style={{ marginTop: 8 }}>
-            {outPx.w} × {outPx.h}px at {photo.dpi} DPI
-          </div>
-        </div>
-
-        <div className="previewBox" style={{ marginTop: 12 }}>
-          <CornerTicks />
-          <canvas ref={previewRef} className="previewCanvas" />
-        </div>
-
-        <div className="card" style={{ marginTop: 12 }}>
-          <div className="sectionTitle">Print sheet</div>
-
-          <div className="grid3">
-            <div>
-              <label>Paper</label>
-              <select value={sheet.paper} onChange={(e) => setSheet({ paper: e.target.value as any })}>
-                <option value="A4">A4</option>
-                <option value="A3">A3</option>
-                <option value="P4x6">4x6 inch</option>
-                <option value="CUSTOM">Custom</option>
-              </select>
+          <div className="panelBody">
+            <div className="previewBox">
+              <CornerTicks />
+              <canvas ref={previewRef} className="previewCanvas" />
             </div>
 
-            <div>
-              <label>Sheet DPI</label>
-              <input
-                className="input"
-                type="number"
-                value={sheet.dpi}
-                min={72}
-                max={600}
-                onChange={(e) => setSheet({ dpi: Number(e.target.value) })}
-              />
+            <div className="row wrap" style={{ marginTop: 12 }}>
+              <button className="btn primary" onClick={() => void downloadSingle("png")} disabled={!!busy}>
+                Download PNG
+              </button>
+              <button className="btn primary" onClick={() => void downloadSingle("jpeg")} disabled={!!busy}>
+                Download JPEG
+              </button>
             </div>
 
-            <div>
-              <label>Requested Count</label>
-              <input
-                className="input"
-                type="number"
-                value={sheet.requestedCount}
-                min={1}
-                onChange={(e) => setSheet({ requestedCount: Number(e.target.value) })}
-              />
-              <div className="small">Max fit (last render): {maxCount || "unknown"}</div>
-            </div>
-
-            {sheet.paper === "CUSTOM" && (
-              <>
-                <div>
-                  <label>Custom Width</label>
-                  <input
-                    className="input"
-                    type="number"
-                    value={sheet.customWidth ?? 210}
-                    onChange={(e) => setSheet({ customWidth: Number(e.target.value) })}
-                  />
-                </div>
-                <div>
-                  <label>Custom Height</label>
-                  <input
-                    className="input"
-                    type="number"
-                    value={sheet.customHeight ?? 297}
-                    onChange={(e) => setSheet({ customHeight: Number(e.target.value) })}
-                  />
-                </div>
-                <div>
-                  <label>Unit</label>
-                  <select value={sheet.customUnit ?? "mm"} onChange={(e) => setSheet({ customUnit: e.target.value as any })}>
-                    <option value="mm">mm</option>
-                    <option value="cm">cm</option>
-                    <option value="in">inch</option>
-                    <option value="px">px</option>
-                  </select>
-                </div>
-              </>
-            )}
-
-            <div>
-              <label>Margin (mm)</label>
-              <input
-                className="input"
-                type="number"
-                value={sheet.marginMm}
-                min={0}
-                max={20}
-                onChange={(e) => setSheet({ marginMm: Number(e.target.value) })}
-              />
-            </div>
-
-            <div>
-              <label>Spacing (mm)</label>
-              <input
-                className="input"
-                type="number"
-                value={sheet.spacingMm}
-                min={0}
-                max={10}
-                onChange={(e) => setSheet({ spacingMm: Number(e.target.value) })}
-              />
-            </div>
-
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={sheet.cutLines}
-                  onChange={(e) => setSheet({ cutLines: e.target.checked })}
-                  style={{ marginRight: 8 }}
-                />
-                Cut lines
-              </label>
+            <div className="small" style={{ marginTop: 8 }}>
+              Use this for online applications that ask you to upload one photo.
             </div>
           </div>
+        </details>
 
-          {/* changed: row -> row wrap */}
-          <div className="row wrap" style={{ marginTop: 10 }}>
-            <button className="btn primary" onClick={() => void downloadSheet("png")} disabled={!!busy}>Download Sheet PNG</button>
-            <button className="btn primary" onClick={() => void downloadSheet("jpeg")} disabled={!!busy}>Download Sheet JPEG</button>
+        <details className="panel">
+          <summary className="panelHead">
+            <span className="panelTitle">Print sheet</span>
+            <span className="panelMeta mono">
+              {layout.count} photos · {paperName}
+            </span>
+          </summary>
+
+          <div className="panelBody">
+            <div className="row wrap" style={{ alignItems: "flex-end" }}>
+              <div style={{ flex: "0 1 200px" }}>
+                <label htmlFor="paper">Paper</label>
+                <select
+                  id="paper"
+                  value={sheet.paper}
+                  onChange={(e) => setSheet({ paper: e.target.value as any })}
+                >
+                  <option value="A4">A4</option>
+                  <option value="A3">A3</option>
+                  <option value="P4x6">4 × 6 inch</option>
+                  <option value="CUSTOM">Custom</option>
+                </select>
+              </div>
+
+              {sheet.paper === "CUSTOM" && (
+                <>
+                  <div style={{ flex: "0 1 130px" }}>
+                    <label htmlFor="cw">Width</label>
+                    <input
+                      id="cw"
+                      className="input"
+                      type="number"
+                      value={sheet.customWidth ?? 210}
+                      onChange={(e) => setSheet({ customWidth: Number(e.target.value) })}
+                    />
+                  </div>
+                  <div style={{ flex: "0 1 130px" }}>
+                    <label htmlFor="ch">Height</label>
+                    <input
+                      id="ch"
+                      className="input"
+                      type="number"
+                      value={sheet.customHeight ?? 297}
+                      onChange={(e) => setSheet({ customHeight: Number(e.target.value) })}
+                    />
+                  </div>
+                  <div style={{ flex: "0 1 110px" }}>
+                    <label htmlFor="cu">Unit</label>
+                    <select
+                      id="cu"
+                      value={sheet.customUnit ?? "mm"}
+                      onChange={(e) => setSheet({ customUnit: e.target.value as any })}
+                    >
+                      <option value="mm">mm</option>
+                      <option value="cm">cm</option>
+                      <option value="in">inch</option>
+                    </select>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="previewBox sheetPreview" style={{ marginTop: 12 }}>
+              <canvas ref={sheetRef} className="previewCanvas" />
+            </div>
+
+            <div className="row wrap" style={{ marginTop: 12 }}>
+              <button className="btn primary" onClick={() => void downloadSheet("png")} disabled={!!busy}>
+                Download sheet PNG
+              </button>
+              <button className="btn primary" onClick={() => void downloadSheet("jpeg")} disabled={!!busy}>
+                Download sheet JPEG
+              </button>
+            </div>
+
+            <div className="small" style={{ marginTop: 8 }}>
+              {layout.count > 0 ? (
+                <>
+                  {layout.count} photos ({layout.cols} × {layout.rows}) at {photo.dpi} DPI, with cut
+                  lines down the middle of each gap. Print at 100% — no “fit to page” — or the
+                  photos come out the wrong size.
+                </>
+              ) : (
+                <>This photo is larger than the chosen paper. Pick a bigger sheet.</>
+              )}
+            </div>
           </div>
-        </div>
+        </details>
 
-        <div className="row wrap" style={{ marginTop: 10 }}>
+        <div className="actionRow" style={{ marginTop: 12 }}>
           <button className="btn" onClick={() => setStep(3)}>Back</button>
           <button className="btn danger" onClick={() => setStep(1)}>Start over</button>
         </div>

@@ -14,7 +14,6 @@ export function encodeStateToUrl(state: ShareState) {
   if (state.photo.dpi != null) url.searchParams.set("dpi", String(state.photo.dpi));
 
   if (state.sheet.paper) url.searchParams.set("paper", state.sheet.paper);
-  if (state.sheet.dpi != null) url.searchParams.set("pdpi", String(state.sheet.dpi));
 
   window.history.replaceState({}, "", url.toString());
 }
@@ -28,7 +27,6 @@ export function decodeStateFromUrl(): ShareState | null {
   const dpi = url.searchParams.get("dpi");
 
   const paper = url.searchParams.get("paper") || undefined;
-  const pdpi = url.searchParams.get("pdpi");
 
   const photo: Partial<PhotoSpec> = {};
   if (preset) (photo as any).presetId = preset;
@@ -39,7 +37,6 @@ export function decodeStateFromUrl(): ShareState | null {
 
   const sheet: Partial<SheetSpec> = {};
   if (paper) (sheet as any).paper = paper;
-  if (pdpi) sheet.dpi = Number(pdpi);
 
   const hasAny = Object.keys(photo).length > 0 || Object.keys(sheet).length > 0;
   return hasAny ? { photo, sheet } : null;

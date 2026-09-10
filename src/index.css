@@ -507,6 +507,61 @@ input[type="color"] {
 }
 .bgCardFooter { padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); }
 
+/* ---------------- Collapsible panels (download step) ----------------
+
+   Built on details/summary so keyboard access, Enter/Space and find-in-page all work
+   without any state of our own. */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.panel[open] { border-color: var(--line-strong); }
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.panelHead:hover { background: rgba(30, 43, 68, 0.035); }
+.panel[open] .panelHead { border-bottom: 1px solid var(--line); border-radius: 6px 6px 0 0; }
+
+/* Disclosure caret, drawn rather than relying on the platform marker. */
+.panelHead::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(-45deg);
+  transition: transform 120ms ease;
+}
+.panel[open] .panelHead::before { transform: rotate(45deg); }
+
+.panelTitle { font-weight: 700; font-size: 15px; }
+.panelMeta { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+
+.panelBody { padding: 16px; }
+
+/* Keep a preview to a glanceable size — at full height it pushed the second panel,
+   and the download buttons, off the screen. */
+.panelBody .previewCanvas {
+  max-height: 42vh;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* The sheet is mostly white, so it needs an edge to read as a sheet of paper. */
+.sheetPreview { background: var(--paper); padding: 10px; }
+.sheetPreview .previewCanvas { max-height: 62vh; width: auto; max-width: 100%; margin: 0 auto; border: 1px solid var(--line-strong); }
+
 /* details/summary styling used in StepSize */
 details > summary { list-style: none; cursor: pointer; user-select: none; }
 details > summary::-webkit-details-marker { display: none; }
@@ -609,6 +664,10 @@ details > summary::-webkit-details-marker { display: none; }
   .topbar { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 8px; }
   .brand { font-size: 15.5px; }
   .trustbadge { font-size: 12px; }
+  /* Title and its summary won't sit on one line at this width — stack them. */
+  .panelHead { flex-wrap: wrap; }
+  .panelMeta { margin-left: 0; flex-basis: 100%; padding-left: 19px; }
+
   .topbarRight { width: 100%; justify-content: space-between; gap: 10px; }
   .starLink { padding: 6px 11px; font-size: 12.5px; }
   .footer { padding: 16px 14px 12px; }

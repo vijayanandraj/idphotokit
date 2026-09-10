@@ -72,12 +72,7 @@ const defaultBg: BackgroundSpec = {
 };
 
 const defaultSheet: SheetSpec = {
-  paper: "A4",
-  dpi: 300,
-  marginMm: 5,
-  spacingMm: 2,
-  requestedCount: 8,
-  cutLines: false
+  paper: "A4"
 };
 
 export const useAppStore = create<AppState>((set, get) => ({

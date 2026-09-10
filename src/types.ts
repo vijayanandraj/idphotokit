@@ -38,16 +38,17 @@ export type BackgroundSpec = {
 
 export type PaperId = "A4" | "A3" | "P4x6" | "CUSTOM";
 
+/**
+ * Which paper to print on — and nothing else.
+ *
+ * Margin, gap, photo count, cut lines and DPI are all derived in utils/sheet.ts: each has
+ * one correct answer, and exposing them as inputs mostly produced unusable sheets.
+ */
 export type SheetSpec = {
   paper: PaperId;
-  dpi: number;
   customWidth?: number;
   customHeight?: number;
   customUnit?: Unit;
-  marginMm: number;
-  spacingMm: number;
-  requestedCount: number;
-  cutLines: boolean;
 };
 
 export type WizardStep = 1 | 2 | 3 | 4;
