@@ -139,3 +139,27 @@ npm install
       B-->D;
       C-->D;
 ```
+
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE). Use it, fork it, ship it, charge for it; just keep the
+copyright notice.
+
+That covers the code in this repository. The things it depends on carry their own terms,
+and two are worth knowing about before you build a product on this:
+
+- **MODNet** (`public/models/modnet.onnx`) — the matting network. The MODNet source is
+  Apache-2.0, but the officially published pretrained weights are released under
+  CC BY-NC-SA 4.0, which is **non-commercial**. If you intend to use this commercially,
+  confirm the provenance of the weights you are shipping and retrain or substitute if
+  needed.
+- **MediaPipe Tasks Vision** — Apache-2.0.
+- **ONNX Runtime Web**, **React**, **Vite**, **Zustand**, **react-easy-crop** — MIT or
+  Apache-2.0.
+
+The country specifications in `src/utils/presets.ts` are transcriptions of published
+government requirements. They are provided as a convenience and are not legal advice —
+rules change, and the authority's own guidance is always the authority.
