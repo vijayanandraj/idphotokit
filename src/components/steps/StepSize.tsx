@@ -1,8 +1,10 @@
 import { useMemo } from "react";
+import type { Unit } from "../../types";
 import { useAppStore } from "../../state/store";
 import { backgroundLabel, backgroundsFor, findPreset, formatSize, headTargetFor, PRESETS } from "../../utils/presets";
 import { sizeToPx } from "../../utils/units";
 import FilePicker from "../ui/FilePicker";
+import PrivacyNotice from "../ui/PrivacyNotice";
 import CountryPicker from "../ui/CountryPicker";
 import PhotoTips from "../ui/PhotoTips";
 
@@ -26,6 +28,8 @@ export default function StepSize() {
         </p>
 
         <FilePicker onPick={f => void setImageFile(f)} />
+
+        <PrivacyNotice />
       </section>
 
       <PhotoTips />
@@ -121,7 +125,7 @@ export default function StepSize() {
                 id="unit"
                 value={photo.unit}
                 onChange={e => {
-                  setPhoto({ unit: e.target.value as any, presetId: undefined });
+                  setPhoto({ unit: e.target.value as Unit, presetId: undefined });
                   syncToUrl();
                 }}
               >
