@@ -14,6 +14,16 @@
   --gold: #e3b341;
   --good: #3f7a5d;
   --good-tint: rgba(63, 122, 93, 0.1);
+  --warn: #8a6410;
+  --warn-tint: rgba(138, 100, 16, 0.1);
+
+  /* Neutral (R=G=B) on purpose. --paper is very slightly green, and a tinted surround
+     shifts how the eye reads the white background a passport photo has to have. Used
+     only behind the photo itself, never for the page. */
+  --surround: #e6e6e6;
+  /* Crop marks. Neutral like a real print layout's, and deliberately NOT --redline:
+     red is reserved for a failed check, a prohibition, or a destructive button. */
+  --tick: rgba(20, 23, 28, 0.42);
 }
 
 * { box-sizing: border-box; }
@@ -80,11 +90,16 @@ a { color: var(--navy); text-decoration-color: var(--line-strong); }
 }
 .brand .mark { color: var(--redline); font-family: "IBM Plex Mono", monospace; font-weight: 600; }
 .trustbadge {
-  color: rgba(255, 255, 255, 0.72);
+  color: #ffffff;
   font-size: 12.5px;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
+  padding: 5px 11px;
+  border: 1px solid rgba(127, 215, 168, 0.45);
+  border-radius: 999px;
+  background: rgba(127, 215, 168, 0.12);
 }
 .trustbadge .dot { width: 6px; height: 6px; border-radius: 50%; background: #7fd7a8; flex: none; }
 
@@ -222,14 +237,14 @@ input[type="color"] {
   font-weight: 700;
   max-width: 19ch;
 }
-/* The rule under the headline echoes the red registration marks on the previews. */
+/* The rule under the headline echoes the registration marks on the previews. */
 .heroTitle::after {
   content: "";
   display: block;
   width: 62px;
   height: 3px;
   margin-top: 16px;
-  background: var(--redline);
+  background: var(--brass);
 }
 
 .heroSub {
@@ -285,7 +300,7 @@ input[type="color"] {
 .countryRow:hover { background: rgba(30, 43, 68, 0.05); }
 .countryRow.selected {
   background: var(--navy-tint);
-  border-left-color: var(--redline);
+  border-left-color: var(--navy);
   font-weight: 600;
 }
 
@@ -321,7 +336,7 @@ input[type="color"] {
   align-items: flex-end;
   gap: 2px;
   padding: 8px 12px;
-  border-left: 3px solid var(--redline);
+  border-left: 3px solid var(--brass);
   background: var(--paper);
   border-radius: 0 4px 4px 0;
   flex: none;
@@ -407,16 +422,16 @@ input[type="color"] {
 
 .corner-ticks { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .corner-ticks span { position: absolute; width: 11px; height: 11px; }
-.corner-ticks .tl { top: 6px; left: 6px; border-top: 1.5px solid var(--redline); border-left: 1.5px solid var(--redline); }
-.corner-ticks .tr { top: 6px; right: 6px; border-top: 1.5px solid var(--redline); border-right: 1.5px solid var(--redline); }
-.corner-ticks .bl { bottom: 6px; left: 6px; border-bottom: 1.5px solid var(--redline); border-left: 1.5px solid var(--redline); }
-.corner-ticks .br { bottom: 6px; right: 6px; border-bottom: 1.5px solid var(--redline); border-right: 1.5px solid var(--redline); }
+.corner-ticks .tl { top: 6px; left: 6px; border-top: 1.5px solid var(--tick); border-left: 1.5px solid var(--tick); }
+.corner-ticks .tr { top: 6px; right: 6px; border-top: 1.5px solid var(--tick); border-right: 1.5px solid var(--tick); }
+.corner-ticks .bl { bottom: 6px; left: 6px; border-bottom: 1.5px solid var(--tick); border-left: 1.5px solid var(--tick); }
+.corner-ticks .br { bottom: 6px; right: 6px; border-bottom: 1.5px solid var(--tick); border-right: 1.5px solid var(--tick); }
 
 .previewBox {
   border: 1px solid var(--line);
   border-radius: 6px;
   overflow: hidden;
-  background: var(--paper);
+  background: var(--surround);
   min-height: 160px;
   display: flex;
   align-items: center;
@@ -430,7 +445,7 @@ input[type="color"] {
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: var(--paper);
+  background: var(--surround);
 }
 
 /* ---------------- Ruler flourish ---------------- */
@@ -499,7 +514,9 @@ input[type="color"] {
   font-size: 11.5px; font-weight: 600; padding: 4px 9px; border-radius: 999px;
   background: var(--navy); color: #fff;
 }
-.bgCardBody { padding: 12px; display: flex; align-items: center; justify-content: center; flex: 1; background: var(--paper); }
+/* The side-by-side on this step is where the background colour is actually judged, so
+   it gets the neutral ground rather than the page's slightly green paper. */
+.bgCardBody { padding: 12px; display: flex; align-items: center; justify-content: center; flex: 1; background: var(--surround); }
 .bgCanvas {
   display: block; max-width: 100%; max-height: 340px; width: auto; height: auto;
   margin: 0 auto; border-radius: 4px; border: 1px solid var(--line);
@@ -716,4 +733,145 @@ details > summary::-webkit-details-marker { display: none; }
   .starLink { padding: 6px 11px; font-size: 12.5px; }
   .footer { padding: 16px 14px 12px; }
   .footerRow { flex-direction: column; gap: 8px; }
+}
+
+/* ---------------------------------------------------------------- privacy notice
+   Sits directly under the file picker: the claim belongs at the moment someone is
+   deciding whether to hand over a photo of their face, not in the page furniture. */
+.privacy {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 13px 15px;
+  border: 1px solid rgba(63, 122, 93, 0.42);
+  border-left: 3px solid var(--good);
+  border-radius: 6px;
+  background: var(--good-tint);
+}
+.privacyMark { font-size: 17px; line-height: 1.35; flex: none; }
+.privacyBody { min-width: 0; }
+.privacyTitle {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #2b5a43;
+}
+.privacyText { margin: 4px 0 0; font-size: 13px; line-height: 1.55; color: var(--ink); }
+
+.privacyProof { margin-top: 8px; }
+.privacyProof > summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #2b5a43;
+  text-decoration: underline;
+  text-decoration-color: rgba(63, 122, 93, 0.4);
+  text-underline-offset: 2px;
+}
+.privacyProof > summary:hover { text-decoration-color: var(--good); }
+.privacyProof ul { margin: 8px 0 0; padding-left: 18px; }
+.privacyProof li { font-size: 12.5px; line-height: 1.6; color: var(--muted); margin-bottom: 5px; }
+.privacyProof li strong { color: var(--ink); }
+
+/* ------------------------------------------------------------ compliance report
+   The app already framed to each country's rules and never said so. This is that
+   work made visible, which is the last thing between a user and a paid print. */
+.checkMark {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+.checkMark.pass { background: var(--good); }
+.checkMark.warn { background: var(--warn); }
+.checkMark.fail { background: var(--redline); }
+.checkMark.unknown { background: var(--muted); }
+
+.panel.check-pass { border-color: rgba(63, 122, 93, 0.45); }
+.panel.check-warn { border-color: rgba(138, 100, 16, 0.45); }
+.panel.check-fail { border-color: rgba(161, 63, 59, 0.45); }
+
+.verdict { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.verdict.pass { color: var(--good); }
+.verdict.warn { color: var(--warn); }
+.verdict.fail { color: var(--redline); }
+.verdict.unknown { color: var(--muted); }
+
+.checkList { list-style: none; margin: 10px 0 0; padding: 0; }
+.checkRow {
+  display: grid;
+  grid-template-columns: 17px minmax(0, 1fr) auto;
+  gap: 3px 10px;
+  align-items: baseline;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.checkRow:first-child { border-top: 0; padding-top: 2px; }
+.checkLabel { font-weight: 600; font-size: 13.5px; }
+.checkValue { font-size: 12.5px; text-align: right; white-space: nowrap; }
+.checkRow.fail .checkValue { color: var(--redline); }
+.checkRow.warn .checkValue { color: var(--warn); }
+.checkReq { grid-column: 2 / -1; font-size: 12px; color: var(--muted); }
+.checkAdvice {
+  grid-column: 2 / -1;
+  margin-top: 4px;
+  padding: 7px 9px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  background: var(--navy-tint);
+}
+.checkRow.warn .checkAdvice { background: var(--warn-tint); }
+.checkRow.fail .checkAdvice { background: var(--redline-tint); }
+
+@media (max-width: 560px) {
+  .privacy { padding: 12px; gap: 10px; }
+  /* The measured value can't share a line with the label at this width. */
+  .checkRow { grid-template-columns: 17px minmax(0, 1fr); }
+  .checkValue { grid-column: 2 / -1; text-align: left; white-space: normal; }
+}
+
+/* ------------------------------------------------------------ country reference
+   The static section the prerenderer writes below the app on /passport-photo/<country>.
+   It is the same spec data the tool runs on, set out for a reader — a real page about a
+   real question, which is the only kind worth ranking. */
+.countryDoc {
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+  padding: 30px 0 38px;
+}
+.countryDocInner { width: min(760px, 92vw); margin: 0 auto; }
+.countryDoc h2 { font-size: 20px; margin: 0 0 12px; letter-spacing: -0.01em; }
+.countryDoc h3 { font-size: 15px; margin: 26px 0 8px; }
+.countryDoc p { font-size: 14px; line-height: 1.65; color: var(--ink); margin: 0 0 12px; }
+.countryDoc ol, .countryDoc ul { font-size: 14px; line-height: 1.7; padding-left: 20px; margin: 0; }
+
+.specTable { width: 100%; border-collapse: collapse; margin: 16px 0 4px; font-size: 13.5px; }
+.specTable caption {
+  text-align: left;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding-bottom: 7px;
+}
+.specTable th, .specTable td { text-align: left; padding: 9px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+.specTable th { font-weight: 600; width: 40%; background: var(--paper); }
+
+.countryLinks { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.countryLinks li { font-size: 13.5px; }
+.countryDocNote { font-size: 12.5px; color: var(--muted); margin-top: 24px; }
+
+@media (max-width: 560px) {
+  .countryDoc { padding: 22px 0 28px; }
+  .countryDoc h2 { font-size: 18px; }
+  .specTable th { width: 45%; }
 }

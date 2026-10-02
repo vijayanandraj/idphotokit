@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { PaperId, Unit } from "../../types";
 import { useAppStore } from "../../state/store";
 import { sizeToPx } from "../../utils/units";
 import { getCroppedCanvas } from "../../utils/cropper";
@@ -7,6 +8,7 @@ import { personMatte } from "../../utils/personMatte";
 import { compositeWithMask } from "../../utils/background";
 import { planSheet, renderSheet } from "../../utils/sheet";
 import CornerTicks from "../ui/CornerTicks";
+import ComplianceReport from "../ui/ComplianceReport";
 import { GitHubStarCard } from "../ui/GitHubStar";
 
 function downloadBlob(blob: Blob, filename: string) {
@@ -172,6 +174,8 @@ export default function StepDownload() {
   return (
     <div className="row">
       <div className="col grow">
+        <ComplianceReport />
+
         <details className="panel" open>
           <summary className="panelHead">
             <span className="panelTitle">Single photo</span>
@@ -216,7 +220,7 @@ export default function StepDownload() {
                 <select
                   id="paper"
                   value={sheet.paper}
-                  onChange={(e) => setSheet({ paper: e.target.value as any })}
+                  onChange={(e) => setSheet({ paper: e.target.value as PaperId })}
                 >
                   <option value="P4x6">4 × 6 inch</option>
                   <option value="A4">A4</option>
@@ -252,7 +256,7 @@ export default function StepDownload() {
                     <select
                       id="cu"
                       value={sheet.customUnit ?? "mm"}
-                      onChange={(e) => setSheet({ customUnit: e.target.value as any })}
+                      onChange={(e) => setSheet({ customUnit: e.target.value as Unit })}
                     >
                       <option value="mm">mm</option>
                       <option value="cm">cm</option>
