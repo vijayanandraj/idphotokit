@@ -1,5 +1,5 @@
 import Cropper, { getInitialCropFromCroppedAreaPixels } from "react-easy-crop";
-import type { MediaSize, Size } from "react-easy-crop";
+import type { Area, MediaSize, Size } from "react-easy-crop";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAppStore } from "../../state/store";
 import Slider from "../ui/Slider";
@@ -41,7 +41,7 @@ export default function StepCrop() {
   const [mediaSize, setMediaSize] = useState<MediaSize | null>(null);
   const [cropSize, setCropSize] = useState<Size | null>(null);
 
-  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
+  const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, [setCroppedAreaPixels]);
 

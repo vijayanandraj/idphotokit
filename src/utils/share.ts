@@ -1,4 +1,4 @@
-import type { PhotoSpec, SheetSpec } from "../types";
+import type { PaperId, PhotoSpec, SheetSpec, Unit } from "../types";
 
 type ShareState = {
   photo: Partial<PhotoSpec>;
@@ -18,25 +18,45 @@ export function encodeStateToUrl(state: ShareState) {
   window.history.replaceState({}, "", url.toString());
 }
 
-export function decodeStateFromUrl(): ShareState | null {
-  const url = new URL(window.location.href);
-  const preset = url.searchParams.get("preset") || undefined;
-  const w = url.searchParams.get("w");
-  const h = url.searchParams.get("h");
-  const unit = url.searchParams.get("unit") || undefined;
-  const dpi = url.searchParams.get("dpi");
+const UNITS: readonly string[] = ["mm", "cm", "in", "px"];
+const PAPERS: readonly string[] = ["A4", "A3", "P4x6", "CUSTOM"];
 
-  const paper = url.searchParams.get("paper") || undefined;
+// A link is untrusted input, so anything we don't recognise is dropped rather than trusted.
+// An unknown unit used to reach sizeToPx and fall through to inches, which quietly turned a
+// 35x45mm photo into a 35x45 inch one — a canvas a hundred times too big.
+function isUnit(v: string): v is Unit {
+  return UNITS.includes(v);
+}
+
+function isPaper(v: string): v is PaperId {
+  return PAPERS.includes(v);
+}
+
+/** A measurement we can actually use: "abc" and "-1" both become undefined, not NaN. */
+function positive(v: string | null): number | undefined {
+  if (!v) return undefined;
+  const n = Number(v);
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
+export function decodeStateFromUrl(): ShareState | null {
+  const q = new URL(window.location.href).searchParams;
 
   const photo: Partial<PhotoSpec> = {};
-  if (preset) (photo as any).presetId = preset;
-  if (w) photo.width = Number(w);
-  if (h) photo.height = Number(h);
-  if (unit) (photo as any).unit = unit;
-  if (dpi) photo.dpi = Number(dpi);
+  const preset = q.get("preset");
+  if (preset) photo.presetId = preset;
+  const w = positive(q.get("w"));
+  if (w != null) photo.width = w;
+  const h = positive(q.get("h"));
+  if (h != null) photo.height = h;
+  const unit = q.get("unit");
+  if (unit && isUnit(unit)) photo.unit = unit;
+  const dpi = positive(q.get("dpi"));
+  if (dpi != null) photo.dpi = dpi;
 
   const sheet: Partial<SheetSpec> = {};
-  if (paper) (sheet as any).paper = paper;
+  const paper = q.get("paper");
+  if (paper && isPaper(paper)) sheet.paper = paper;
 
   const hasAny = Object.keys(photo).length > 0 || Object.keys(sheet).length > 0;
   return hasAny ? { photo, sheet } : null;
