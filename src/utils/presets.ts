@@ -253,6 +253,25 @@ export function backgroundLabel(preset?: Preset): string {
     .join(" or ");
 }
 
+/**
+ * URL slug for a country's own page, e.g. "united-states", "india-oci-visa".
+ *
+ * Shared by the app's router and the build-time prerenderer, so a page can never be
+ * generated at a path the app doesn't recognise.
+ */
+export function slugFor(p: Preset): string {
+  return p.name
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")   // Türkiye -> Turkiye
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function findPresetBySlug(slug: string): Preset | undefined {
+  return PRESETS.find(p => slugFor(p) === slug);
+}
+
 export function presetCode(p: Preset): string {
   return p.code ?? p.id.slice(0, 3);
 }

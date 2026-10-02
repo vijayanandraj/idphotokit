@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { Adjustments, BackgroundSpec, CropState, PhotoSpec, SheetSpec, WizardStep } from "../types";
 import { decodeStateFromUrl, encodeStateToUrl } from "../utils/share";
 import { defaultBackgroundColor, findPreset } from "../utils/presets";
+import { presetFromPath } from "../utils/route";
 import { prefetchModnet } from "../utils/modnet";
 import { clearMatteCache } from "../utils/personMatte";
 
@@ -156,10 +157,25 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   hydrateFromUrl: () => {
+    // A country page (/passport-photo/india) states its country in the path. Query
+    // parameters come from a shared link, so they win over the page's own default.
+    const fromPath = presetFromPath();
     const decoded = decodeStateFromUrl();
-    if (!decoded) return;
+    if (!fromPath && !decoded) return;
+
     const st = get();
-    const photo = { ...st.photo, ...decoded.photo };
+    const photo = {
+      ...st.photo,
+      ...(fromPath
+        ? {
+            presetId: fromPath.id,
+            width: fromPath.width,
+            height: fromPath.height,
+            unit: fromPath.unit
+          }
+        : {}),
+      ...decoded?.photo
+    };
 
     // A shared link carries a country, so it has to bring that country's background with it.
     // This path bypasses setPhoto, so the default has to be applied here too.
@@ -167,7 +183,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     set({
       photo,
-      sheet: { ...st.sheet, ...decoded.sheet },
+      sheet: { ...st.sheet, ...decoded?.sheet },
       bg: preset ? { ...st.bg, color: defaultBackgroundColor(preset) } : st.bg
     });
   }

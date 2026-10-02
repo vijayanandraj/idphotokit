@@ -1,0 +1,213 @@
+<!doctype html>
+<!--
+  Draws public/og.png — the 1200x630 card that WhatsApp, Slack, Twitter, Reddit and iMessage
+  show when someone shares a link. Without it, every share your users make renders as a bare
+  grey URL, which is a quiet tax on the only distribution a tool like this has.
+
+  Open this file in a browser and it downloads og.png. Kept as a script rather than a binary
+  so the card can be re-cut when the wording changes.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>og.png generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      body { margin: 0; background: #22262c; display: grid; place-items: center; min-height: 100vh; font-family: system-ui; }
+      canvas { width: 600px; height: 315px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+      p { color: #cfd4da; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <canvas id="c" width="1200" height="630"></canvas>
+    <p><button id="save" type="button">Download og.png</button></p>
+    <p id="status">drawing…</p>
+
+    <script>
+      const NAVY = "#1e2b44";
+      const PAPER = "#eef0eb";
+      const BRASS = "#9c8148";
+      const GOOD = "#7fd7a8";
+      const INK = "#14171c";
+      const MUTED = "#5b6470";
+
+      function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+
+      /** Corner ticks, the same crop marks the app draws around a preview. */
+      function ticks(ctx, x, y, w, h, len, color) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        const corners = [
+          [x, y, 1, 1], [x + w, y, -1, 1],
+          [x, y + h, 1, -1], [x + w, y + h, -1, -1]
+        ];
+        for (const [cx, cy, dx, dy] of corners) {
+          ctx.beginPath();
+          ctx.moveTo(cx + dx * len, cy);
+          ctx.lineTo(cx, cy);
+          ctx.lineTo(cx, cy + dy * len);
+          ctx.stroke();
+        }
+      }
+
+      function draw() {
+        const ctx = document.getElementById("c").getContext("2d");
+
+        // Ground
+        ctx.fillStyle = NAVY;
+        ctx.fillRect(0, 0, 1200, 630);
+
+        // Brass hairline top and bottom, as on the app's document chrome
+        ctx.fillStyle = BRASS;
+        ctx.fillRect(0, 0, 1200, 4);
+        ctx.fillRect(0, 626, 1200, 4);
+
+        // ---- left column: the words
+        ctx.fillStyle = PAPER;
+        ctx.font = "700 62px 'IBM Plex Sans', system-ui, sans-serif";
+        ctx.fillText("Passport photos", 72, 196);
+        ctx.fillText("that pass.", 72, 266);
+
+        ctx.fillStyle = "rgba(238,240,235,0.78)";
+        ctx.font = "400 25px 'IBM Plex Sans', system-ui, sans-serif";
+        ctx.fillText("Framed to your country's head-height rule,", 72, 326);
+        ctx.fillText("background removed, printable sheet.", 72, 362);
+
+        // Privacy pill — the one claim worth putting on the card
+        const pillW = 430, pillH = 46, pillY = 410;
+        ctx.fillStyle = "rgba(127,215,168,0.14)";
+        roundRect(ctx, 72, pillY, pillW, pillH, 23);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(127,215,168,0.5)";
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, 72, pillY, pillW, pillH, 23);
+        ctx.stroke();
+
+        ctx.fillStyle = GOOD;
+        ctx.beginPath();
+        ctx.arc(102, pillY + pillH / 2, 5.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "600 19px 'IBM Plex Sans', system-ui, sans-serif";
+        ctx.fillText("Your photo never leaves your browser", 120, pillY + 30);
+
+        ctx.fillStyle = "rgba(238,240,235,0.6)";
+        ctx.font = "500 18px 'IBM Plex Mono', ui-monospace, monospace";
+        ctx.fillText("53 countries  ·  no sign-in  ·  no watermark  ·  free", 72, 512);
+
+        // ---- right column: a photo in its frame, with the head-height rule drawn on it
+        const px = 760, py = 112, pw = 330, ph = 424;
+
+        ctx.fillStyle = PAPER;
+        roundRect(ctx, px - 14, py - 14, pw + 28, ph + 28, 8);
+        ctx.fill();
+
+        // The photo itself: plain pale background with a simple figure, so the card reads
+        // as a passport photo without shipping a real person's face.
+        ctx.fillStyle = "#dfe6ee";
+        ctx.fillRect(px, py, pw, ph);
+
+        // Clip to the photo, or the shoulders spill onto the mat and past the card edge.
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(px, py, pw, ph);
+        ctx.clip();
+
+        const cx = px + pw / 2;
+        ctx.fillStyle = "#b9c6d4";
+        // shoulders
+        ctx.beginPath();
+        ctx.ellipse(cx, py + ph + 30, 150, 110, 0, Math.PI, Math.PI * 2);
+        ctx.fill();
+        // head
+        ctx.beginPath();
+        ctx.ellipse(cx, py + 196, 84, 104, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+
+        // The measurement that makes the tool different
+        const crown = py + 92, chin = py + 300;
+        ctx.strokeStyle = "#a13f3b";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([7, 5]);
+        [crown, chin].forEach(y => {
+          ctx.beginPath();
+          ctx.moveTo(px, y);
+          ctx.lineTo(px + pw, y);
+          ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        ctx.beginPath();
+        ctx.moveTo(px + 28, crown);
+        ctx.lineTo(px + 28, chin);
+        ctx.stroke();
+        [crown, chin].forEach(y => {
+          ctx.beginPath();
+          ctx.moveTo(px + 20, y);
+          ctx.lineTo(px + 36, y);
+          ctx.stroke();
+        });
+
+        ctx.save();
+        ctx.fillStyle = "#a13f3b";
+        ctx.font = "600 17px 'IBM Plex Mono', ui-monospace, monospace";
+        ctx.translate(px + 60, (crown + chin) / 2);
+        ctx.textAlign = "center";
+        ctx.fillText("34 mm", 0, 0);
+        ctx.restore();
+
+        ticks(ctx, px, py, pw, ph, 26, "rgba(20,23,28,0.35)");
+
+        // A pass stamp, which is what the new requirements check actually reports
+        ctx.save();
+        ctx.translate(px + pw - 74, py + ph - 66);
+        ctx.rotate(-0.12);
+        ctx.fillStyle = "rgba(63,122,93,0.92)";
+        roundRect(ctx, -62, -22, 124, 44, 22);
+        ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "700 20px 'IBM Plex Sans', system-ui, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("✓ PASS", 0, 7);
+        ctx.restore();
+
+        // ---- the machine-readable strip, as in the app's footer
+        ctx.fillStyle = "rgba(238,240,235,0.22)";
+        ctx.font = "500 21px 'IBM Plex Mono', ui-monospace, monospace";
+        ctx.fillText("P<UTOPASSPORT<PHOTO<MAKER<<FREE<<NO<SIGN<IN<<<<<<<<<<<<<<", 72, 582);
+
+        return ctx.canvas;
+      }
+
+      function save(canvas) {
+        canvas.toBlob(blob => {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "og.png";
+          a.click();
+          document.getElementById("status").textContent =
+            `og.png saved (${Math.round(blob.size / 1024)} KB) — move it to public/og.png`;
+        }, "image/png");
+      }
+
+      // Wait for the webfonts so the card isn't drawn in a fallback face. The save is behind
+      // a button because browsers block repeat downloads a page starts on its own.
+      document.fonts.ready.then(() => {
+        const canvas = draw();
+        document.getElementById("status").textContent = "ready — press the button to save";
+        document.getElementById("save").addEventListener("click", () => save(canvas));
+      });
+    </script>
+  </body>
+</html>

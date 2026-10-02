@@ -15,10 +15,12 @@ What it does:
   - Single photo (PNG / JPEG)
   - Print sheet (A4 / A3 / 4x6 / Custom) with auto-pack + cut lines
 
-Deployed example (your Vercel URL):
-- Add your URL here
+**Try it: https://passport-maker-ten.vercel.app/**
 
-https://passport-maker-ten.vercel.app/
+Every country also has its own page, e.g.
+[/passport-photo/india](https://passport-maker-ten.vercel.app/passport-photo/india) or
+[/passport-photo/united-states](https://passport-maker-ten.vercel.app/passport-photo/united-states),
+which opens the tool preset to that country and sets out its published requirements.
 
 ---
 
@@ -100,6 +102,12 @@ Notes:
   the UI says so
 
 ### Step 4: Download
+- **Requirements check** — the finished photo is measured against the selected country and
+  the result is shown before you print: head height in mm against the published range,
+  space above the crown, horizontal centring, eye line, print size, background colour, and
+  whether the crop is being upscaled. The app was already framing to each country's rule
+  and never saying so, which left you to guess at the moment you were about to pay for
+  prints. Geometry only — expression, glasses and lighting are judged by a person.
 - Single image export (PNG/JPEG)
 - Print sheet export (PNG/JPEG):
   - A4, A3, 4x6 inch, Custom
@@ -130,15 +138,33 @@ If you want “offline / self-hosted models” later, see the notes in the “Me
 ### Install
 ```bash
 npm install
+npm run dev
 ```
 
-```mermaid
-  graph TD;
-      A-->B;
-      A-->C;
-      B-->D;
-      C-->D;
+### Build
+
+```bash
+npm run build
 ```
+
+`build` runs `vite build` and then `scripts/prerender.mjs`, which writes one static page per
+country under `dist/passport-photo/<slug>/` plus `dist/sitemap.xml`. Each page carries its
+own title, description, canonical URL, JSON-LD and a visible requirements table, generated
+from `src/utils/presets.ts` — a query parameter on a single client-rendered page cannot be
+indexed as 53 separate pages, and the per-country specs are the most searched-for thing
+here. Set `SITE_URL` to override the absolute URLs:
+
+```bash
+SITE_URL=https://your-domain.example npm run build
+```
+
+### The link-preview image
+
+`public/og.png` is the 1200×630 card that WhatsApp, Slack, Twitter, Reddit and iMessage show
+when someone shares a link; without it a shared link renders as a bare grey URL. To
+regenerate it, open `scripts/og-card.html` in a browser, press **Download og.png**, and move
+the file to `public/og.png`. The card is drawn in canvas rather than kept as a binary, so it
+can be re-cut when the wording changes.
 
 
 ---
