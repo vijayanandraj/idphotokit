@@ -6,7 +6,7 @@ import StepBackground from "./steps/StepBackground";
 import StepDownload from "./steps/StepDownload";
 
 const STEPS: Array<{ id: 1 | 2 | 3 | 4; label: string }> = [
-  { id: 1, label: "Size" },
+  { id: 1, label: "Document" },
   { id: 2, label: "Crop" },
   { id: 3, label: "Background" },
   { id: 4, label: "Download" }

@@ -1,0 +1,4 @@
+# Cloudflare Pages. Country pages moved from /passport-photo/<country> to /photo/<country>
+# when documents got pages of their own (vercel.json carries the same rule).
+/passport-photo/india-oci-visa  /photo/india/oci-card  301
+/passport-photo/:slug  /photo/:slug  301

@@ -5,8 +5,10 @@ type ShareState = {
   sheet: Partial<SheetSpec>;
 };
 
-export function encodeStateToUrl(state: ShareState) {
+/** `path` moves a document page to another document's page, e.g. /photo/india -> /photo/india/oci-card. */
+export function encodeStateToUrl(state: ShareState, path?: string) {
   const url = new URL(window.location.href);
+  if (path) url.pathname = path;
   if (state.photo.presetId) url.searchParams.set("preset", state.photo.presetId);
   if (state.photo.width != null) url.searchParams.set("w", String(state.photo.width));
   if (state.photo.height != null) url.searchParams.set("h", String(state.photo.height));

@@ -7,9 +7,12 @@ import { applyAdjustmentsToImageData } from "../../utils/image";
 import { personMatte } from "../../utils/personMatte";
 import { compositeWithMask } from "../../utils/background";
 import { planSheet, renderSheet } from "../../utils/sheet";
-import CornerTicks from "../ui/CornerTicks";
 import ComplianceReport from "../ui/ComplianceReport";
+import MeasuredPreview from "../ui/MeasuredPreview";
 import { GitHubStarCard } from "../ui/GitHubStar";
+import { useComplianceReport } from "../../state/useComplianceReport";
+import { encodeJpegWithin, formatBytes } from "../../utils/encode";
+import { documentsFor, formatFileKB, formatSize, presetTitle, slugsFor, type Preset } from "../../utils/presets";
 
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
@@ -51,6 +54,28 @@ export default function StepDownload() {
   const setSheet = useAppStore(s => s.setSheet);
 
   const [busy, setBusy] = useState<string | null>(null);
+  const [showMarks, setShowMarks] = useState(true);
+  /** What the last size-limited download came to, so the user can see it fits. */
+  const [lastEncoded, setEncoded] = useState<{ bytes: number; fits: boolean; for?: string } | null>(null);
+  const encoded = lastEncoded?.for === photo.presetId ? lastEncoded : null;
+
+  const { report, preset, measuring } = useComplianceReport();
+  const fileKB = preset?.fileKB;
+  const filePrefix = preset ? slugsFor(preset).join("_") : "photo";
+
+  const setPhoto = useAppStore(s => s.setPhoto);
+  const syncToUrl = useAppStore(s => s.syncToUrl);
+  /** The same country's documents that can be printed, offered from an upload-only one. */
+  const printable = useMemo(
+    () => (preset?.digitalOnly ? documentsFor(preset.country).filter(p => !p.digitalOnly) : []),
+    [preset]
+  );
+  /** A different size needs a new crop, so switching goes back to step 2, which re-frames. */
+  const switchTo = (p: Preset) => {
+    setPhoto({ presetId: p.id });
+    syncToUrl();
+    setStep(2);
+  };
 
   const previewRef = useRef<HTMLCanvasElement | null>(null);
   const sheetRef = useRef<HTMLCanvasElement | null>(null);
@@ -139,9 +164,18 @@ export default function StepDownload() {
     setBusy("Building photo…");
     try {
       const tile = await buildFinalTile();
+      const name = `${filePrefix}_${outPx.w}x${outPx.h}`;
+
+      if (fmt === "jpeg" && fileKB) {
+        const result = await encodeJpegWithin(tile, fileKB);
+        setEncoded({ bytes: result.blob.size, fits: result.fits, for: photo.presetId });
+        downloadBlob(result.blob, `${name}.jpg`);
+        return;
+      }
+
       const mime = fmt === "png" ? "image/png" : "image/jpeg";
       const blob = await canvasToBlob(tile, mime, 0.92);
-      downloadBlob(blob, `passport_${outPx.w}x${outPx.h}_${photo.dpi}dpi.${fmt}`);
+      downloadBlob(blob, photo.unit === "px" ? `${name}.${fmt}` : `${name}_${photo.dpi}dpi.${fmt}`);
     } finally {
       setBusy(null);
     }
@@ -174,38 +208,98 @@ export default function StepDownload() {
   return (
     <div className="row">
       <div className="col grow">
-        <ComplianceReport />
+        <ComplianceReport report={report} preset={preset} measuring={measuring} />
 
         <details className="panel" open>
           <summary className="panelHead">
-            <span className="panelTitle">Single photo</span>
+            <span className="panelTitle">{preset?.digitalOnly ? "Upload photo" : "Single photo"}</span>
             <span className="panelMeta mono">
-              {outPx.w} × {outPx.h}px · {photo.dpi} DPI
+              {outPx.w} × {outPx.h}px · {fileKB ? formatFileKB(fileKB) : `${photo.dpi} DPI`}
             </span>
           </summary>
 
           <div className="panelBody">
-            <div className="previewBox">
-              <CornerTicks />
-              <canvas ref={previewRef} className="previewCanvas" />
+            <div className="previewBox measuredBox">
+              <MeasuredPreview
+                canvasRef={previewRef}
+                photo={photo}
+                preset={preset}
+                report={report}
+                show={showMarks}
+              />
             </div>
 
+            <label className="checkToggle">
+              <input type="checkbox" checked={showMarks} onChange={e => setShowMarks(e.target.checked)} />
+              Show measurements
+              <span className="small"> — on screen only, never in the download</span>
+            </label>
+
             <div className="row wrap" style={{ marginTop: 12 }}>
-              <button className="btn primary" onClick={() => void downloadSingle("png")} disabled={!!busy}>
-                Download PNG
-              </button>
-              <button className="btn primary" onClick={() => void downloadSingle("jpeg")} disabled={!!busy}>
-                Download JPEG
-              </button>
+              {fileKB ? (
+                <button className="btn primary" onClick={() => void downloadSingle("jpeg")} disabled={!!busy}>
+                  Download JPEG ({formatFileKB(fileKB)})
+                </button>
+              ) : (
+                <>
+                  <button className="btn primary" onClick={() => void downloadSingle("png")} disabled={!!busy}>
+                    Download PNG
+                  </button>
+                  <button className="btn primary" onClick={() => void downloadSingle("jpeg")} disabled={!!busy}>
+                    Download JPEG
+                  </button>
+                </>
+              )}
             </div>
 
             <div className="small" style={{ marginTop: 8 }}>
-              Use this for online applications that ask you to upload one photo.
+              {fileKB ? (
+                encoded ? (
+                  encoded.fits ? (
+                    <>Saved at {formatBytes(encoded.bytes)}, within the {formatFileKB(fileKB)} the form accepts.</>
+                  ) : (
+                    <span style={{ color: "var(--redline)" }}>
+                      Came out at {formatBytes(encoded.bytes)}, outside the {formatFileKB(fileKB)} the
+                      form accepts. A plainer background usually compresses smaller.
+                    </span>
+                  )
+                ) : (
+                  <>Compressed to fit the {formatFileKB(fileKB)} limit the upload form sets.</>
+                )
+              ) : (
+                <>Use this for online applications that ask you to upload one photo.</>
+              )}
             </div>
           </div>
         </details>
 
-        <details className="panel">
+        {/* An upload-only document has no paper size, so there is nothing to print — but the
+            panel stays, saying so, rather than vanishing and reading as a bug. */}
+        {preset?.digitalOnly && (
+          <details className="panel">
+            <summary className="panelHead">
+              <span className="panelTitle">Print sheet</span>
+              <span className="panelMeta mono">upload only</span>
+            </summary>
+            <div className="panelBody">
+              <div className="small">
+                {presetTitle(preset)} is submitted as a file, so it has no print size.
+                {printable.length > 0 ? " For printed photos, switch to:" : ""}
+              </div>
+              {printable.length > 0 && (
+                <div className="row wrap" style={{ marginTop: 10 }}>
+                  {printable.map(p => (
+                    <button key={p.id} className="btn" onClick={() => switchTo(p)}>
+                      {p.doc} · {formatSize(p)}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </details>
+        )}
+
+        {!preset?.digitalOnly && <details className="panel">
           <summary className="panelHead">
             <span className="panelTitle">Print sheet</span>
             <span className="panelMeta mono">
@@ -292,7 +386,7 @@ export default function StepDownload() {
               )}
             </div>
           </div>
-        </details>
+        </details>}
 
         <div className="actionRow" style={{ marginTop: 12 }}>
           <button className="btn" onClick={() => setStep(3)}>Back</button>

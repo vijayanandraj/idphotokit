@@ -103,7 +103,14 @@ export default function StepCrop() {
         return false;
       }
 
-      const frame = computeFrame(metrics, aspect, imageBitmap.width, imageBitmap.height, headTarget);
+      const frame = computeFrame(
+        metrics,
+        aspect,
+        imageBitmap.width,
+        imageBitmap.height,
+        headTarget,
+        { crownGap: preset?.crownGap, eyeLine: preset?.eyeLine }
+      );
       const { crop: point, zoom } = getInitialCropFromCroppedAreaPixels(
         frame,
         mediaSize,
@@ -121,7 +128,7 @@ export default function StepCrop() {
     } finally {
       if (!silent) setBusy(null);
     }
-  }, [imageBitmap, mediaSize, cropSize, aspect, headTarget, crop.rotation, setCrop]);
+  }, [imageBitmap, mediaSize, cropSize, aspect, headTarget, preset, crop.rotation, setCrop]);
 
   // Frame automatically the first time a photo reaches this step, and again whenever the
   // chosen country changes, since each country frames the head differently. Manual

@@ -87,6 +87,8 @@ a { color: var(--navy); text-decoration-color: var(--line-strong); }
   font-weight: 700;
   font-size: 17px;
   letter-spacing: -0.01em;
+  color: inherit;
+  text-decoration: none;
 }
 .brand .mark { color: var(--redline); font-family: "IBM Plex Mono", monospace; font-weight: 600; }
 .trustbadge {
@@ -235,7 +237,7 @@ input[type="color"] {
   line-height: 1.12;
   letter-spacing: -0.022em;
   font-weight: 700;
-  max-width: 19ch;
+  max-width: 24ch;
 }
 /* The rule under the headline echoes the registration marks on the previews. */
 .heroTitle::after {
@@ -254,6 +256,59 @@ input[type="color"] {
   line-height: 1.55;
   color: var(--muted);
 }
+
+.heroSub:last-child { margin-bottom: 0; }
+
+/* The headline's second beat — "Nothing is uploaded." — in the app's pass green: the same
+   colour that marks a check as safe. */
+.heroPromise { display: block; color: var(--good); }
+
+/* The document types, set like the small caps printed across the top of a data page. */
+.heroEyebrow {
+  margin-bottom: 14px;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+/* Figures at a glance, styled as the spec card's head-height figure: brass rule, paper ground.
+   The value reads first; the label (the <dt>) sits under it. */
+.heroTiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 0;
+  max-width: 720px;
+}
+.heroTile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--brass);
+  background: var(--paper);
+  border-radius: 0 4px 4px 0;
+  min-width: 0;
+}
+.heroTile dd { order: -1; margin: 0; font-size: 19px; font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
+.heroTile dt { font-size: 12px; color: var(--muted); }
+
+/* "1 What is the photo for?" / "2 Add your photo" — the order step 1 is meant to be read in. */
+.stepTag {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 11.5px;
+  vertical-align: 1px;
+}
+.uploadCard .privacy { margin-top: 12px; }
+.browseToggle { border-style: dashed; color: var(--navy); }
 
 /* ---------------- Country picker ---------------- */
 
@@ -371,6 +426,43 @@ input[type="color"] {
 }
 
 .disclaimer { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+
+/* A country's documents. Each pill carries its size, since that is usually what tells
+   "PAN card" from "PAN card (upload)". */
+.docTabsLabel {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+  color: var(--ink);
+}
+.docTabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.docTabs .pill { display: inline-flex; align-items: baseline; gap: 8px; }
+.docTabSize { font-size: 11.5px; color: var(--muted); }
+.docTabs .pill.active .docTabSize { color: var(--navy); }
+.docName { color: var(--muted); font-weight: 400; }
+
+/* The selected document's requirements, field by field. */
+.specGrid {
+  width: 100%;
+  margin-top: 14px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.specGrid th, .specGrid td {
+  text-align: left;
+  vertical-align: baseline;
+  padding: 7px 0;
+  border-top: 1px solid var(--line);
+}
+.specGrid th { width: 38%; padding-right: 12px; font-weight: 500; color: var(--muted); }
+.specGrid .muted { color: var(--muted); }
+.specNote { margin-top: 10px; }
+
+@media (max-width: 520px) {
+  .specGrid th, .specGrid td { display: block; width: auto; border: 0; padding: 0; }
+  .specGrid tr { display: block; padding: 7px 0; border-top: 1px solid var(--line); }
+}
 
 /* ---------------- GitHub star card ---------------- */
 
@@ -573,6 +665,33 @@ input[type="color"] {
   width: auto;
   max-width: 100%;
   margin: 0 auto;
+}
+
+/* The finished photo with its dimension markings (MeasuredPreview). The box sizes itself
+   from its aspect ratio; the height cap keeps it glanceable like the other previews. */
+.measuredBox { background: var(--panel); padding: 12px; }
+.measured {
+  position: relative;
+  /* --ar is width/height, set by the component, so capping the height caps the width. */
+  width: min(100%, 520px, calc(52vh * var(--ar, 1)));
+  margin: 0 auto;
+}
+.measured .measuredCanvas {
+  position: absolute;
+  display: block;
+  max-height: none;
+  margin: 0;
+  background: var(--surround);
+}
+.measuredMarks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+.checkToggle {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13.5px;
+  cursor: pointer;
 }
 
 /* The sheet is mostly white, so it needs an edge to read as a sheet of paper. */
@@ -840,7 +959,7 @@ details > summary::-webkit-details-marker { display: none; }
 }
 
 /* ------------------------------------------------------------ country reference
-   The static section the prerenderer writes below the app on /passport-photo/<country>.
+   The static section the prerenderer writes below the app on each /photo/... document page.
    It is the same spec data the tool runs on, set out for a reader — a real page about a
    real question, which is the only kind worth ranking. */
 .countryDoc {
@@ -865,6 +984,17 @@ details > summary::-webkit-details-marker { display: none; }
 }
 .specTable th, .specTable td { text-align: left; padding: 9px 12px; border-top: 1px solid var(--line); vertical-align: top; }
 .specTable th { font-weight: 600; width: 40%; background: var(--paper); }
+
+/* Diagram beside the table on a wide screen, above it on a narrow one. */
+.specLayout { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 22px; align-items: start; margin: 16px 0 4px; }
+.specLayout .specTable { margin: 0; }
+.specDiagram { margin: 0; }
+.specDiagram svg { display: block; width: 100%; height: auto; }
+.specDiagram figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+@media (max-width: 680px) {
+  .specLayout { grid-template-columns: minmax(0, 1fr); }
+  .specDiagram { max-width: 320px; }
+}
 
 .countryLinks { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
 .countryLinks li { font-size: 13.5px; }

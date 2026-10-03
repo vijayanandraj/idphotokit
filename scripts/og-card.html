@@ -4,8 +4,14 @@
   show when someone shares a link. Without it, every share your users make renders as a bare
   grey URL, which is a quiet tax on the only distribution a tool like this has.
 
-  Open this file in a browser and it downloads og.png. Kept as a script rather than a binary
-  so the card can be re-cut when the wording changes.
+  Open this file in a browser and press the button to download og.png. Kept as a script
+  rather than a binary so the card can be re-cut when the wording changes. Opened as
+  og-card.html#raw it shows only the card at full size, for a headless screenshot:
+
+    chrome --headless --hide-scrollbars --window-size=1200,630 \
+           --screenshot=public/og.png "file:///…/scripts/og-card.html#raw"
+
+  The name and wording follow src/brand.ts — keep the two in step.
 -->
 <html lang="en">
   <head>
@@ -16,6 +22,10 @@
       body { margin: 0; background: #22262c; display: grid; place-items: center; min-height: 100vh; font-family: system-ui; }
       canvas { width: 600px; height: 315px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
       p { color: #cfd4da; font-size: 13px; }
+      /* #raw: the bare card at 1:1, for a headless screenshot. */
+      body.raw { display: block; min-height: 0; background: #1e2b44; overflow: hidden; }
+      body.raw canvas { width: 1200px; height: 630px; box-shadow: none; display: block; }
+      body.raw p { display: none; }
     </style>
   </head>
   <body>
@@ -71,18 +81,28 @@
         ctx.fillRect(0, 626, 1200, 4);
 
         // ---- left column: the words
+        // The name, as in the app's header: red mark, then the wordmark.
+        ctx.font = "600 22px 'IBM Plex Mono', ui-monospace, monospace";
+        ctx.fillStyle = "#c86a65";
+        ctx.fillText("[+]", 72, 104);
+        ctx.font = "700 24px 'IBM Plex Sans', system-ui, sans-serif";
+        ctx.fillStyle = PAPER;
+        ctx.fillText("ID Photo Kit", 122, 104);
+
         ctx.fillStyle = PAPER;
         ctx.font = "700 62px 'IBM Plex Sans', system-ui, sans-serif";
-        ctx.fillText("Passport photos", 72, 196);
-        ctx.fillText("that pass.", 72, 266);
+        ctx.fillText("ID photos,", 72, 196);
+        // The promise in the pass green, as on the page's headline.
+        ctx.fillStyle = GOOD;
+        ctx.fillText("privacy first.", 72, 266);
 
         ctx.fillStyle = "rgba(238,240,235,0.78)";
         ctx.font = "400 25px 'IBM Plex Sans', system-ui, sans-serif";
-        ctx.fillText("Framed to your country's head-height rule,", 72, 326);
-        ctx.fillText("background removed, printable sheet.", 72, 362);
+        ctx.fillText("Passport, visa, ID card, licence — framed", 72, 326);
+        ctx.fillText("and checked against each document's rule.", 72, 362);
 
         // Privacy pill — the one claim worth putting on the card
-        const pillW = 430, pillH = 46, pillY = 410;
+        const pillW = 500, pillH = 46, pillY = 410;
         ctx.fillStyle = "rgba(127,215,168,0.14)";
         roundRect(ctx, 72, pillY, pillW, pillH, 23);
         ctx.fill();
@@ -98,11 +118,11 @@
 
         ctx.fillStyle = "#ffffff";
         ctx.font = "600 19px 'IBM Plex Sans', system-ui, sans-serif";
-        ctx.fillText("Your photo never leaves your browser", 120, pillY + 30);
+        ctx.fillText("Nothing is uploaded — it runs in your browser", 120, pillY + 30);
 
         ctx.fillStyle = "rgba(238,240,235,0.6)";
         ctx.font = "500 18px 'IBM Plex Mono', ui-monospace, monospace";
-        ctx.fillText("53 countries  ·  no sign-in  ·  no watermark  ·  free", 72, 512);
+        ctx.fillText("65 documents  ·  52 countries  ·  no sign-in  ·  free", 72, 512);
 
         // ---- right column: a photo in its frame, with the head-height rule drawn on it
         const px = 760, py = 112, pw = 330, ph = 424;
@@ -112,7 +132,7 @@
         ctx.fill();
 
         // The photo itself: plain pale background with a simple figure, so the card reads
-        // as a passport photo without shipping a real person's face.
+        // as an ID photo without shipping a real person's face.
         ctx.fillStyle = "#dfe6ee";
         ctx.fillRect(px, py, pw, ph);
 
@@ -137,7 +157,7 @@
 
         // The measurement that makes the tool different
         const crown = py + 92, chin = py + 300;
-        ctx.strokeStyle = "#a13f3b";
+        ctx.strokeStyle = "#3f7a5d";
         ctx.lineWidth = 2;
         ctx.setLineDash([7, 5]);
         [crown, chin].forEach(y => {
@@ -160,7 +180,7 @@
         });
 
         ctx.save();
-        ctx.fillStyle = "#a13f3b";
+        ctx.fillStyle = "#3f7a5d";
         ctx.font = "600 17px 'IBM Plex Mono', ui-monospace, monospace";
         ctx.translate(px + 60, (crown + chin) / 2);
         ctx.textAlign = "center";
@@ -185,7 +205,7 @@
         // ---- the machine-readable strip, as in the app's footer
         ctx.fillStyle = "rgba(238,240,235,0.22)";
         ctx.font = "500 21px 'IBM Plex Mono', ui-monospace, monospace";
-        ctx.fillText("P<UTOPASSPORT<PHOTO<MAKER<<FREE<<NO<SIGN<IN<<<<<<<<<<<<<<", 72, 582);
+        ctx.fillText("I<UTOIDPHOTOKIT<<PASSPORT<VISA<ID<LICENCE<<FREE<<<<<<<", 72, 582);
 
         return ctx.canvas;
       }
@@ -203,6 +223,8 @@
 
       // Wait for the webfonts so the card isn't drawn in a fallback face. The save is behind
       // a button because browsers block repeat downloads a page starts on its own.
+      if (location.hash === "#raw") document.body.classList.add("raw");
+
       document.fonts.ready.then(() => {
         const canvas = draw();
         document.getElementById("status").textContent = "ready — press the button to save";

@@ -1,14 +1,20 @@
 import Wizard from "./components/Wizard";
 import { GitHubStarLink, REPO_URL } from "./components/ui/GitHubStar";
+import { BRAND } from "./brand";
+
+/** The footer strip, written as the machine-readable zone of an ID card ("I<" document code). */
+const MRZ = `I<UTO${BRAND.toUpperCase().replace(/\s+/g, "")}<<PASSPORT<VISA<ID<LICENCE<<FREE<<NO<UPLOAD<<<<<<<<`;
 
 export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <div className="brand">
+        {/* A link home: document pages are entry points from search, and the full catalogue
+            lives on the homepage. */}
+        <a className="brand" href="/">
           <span className="mark">[+]</span>
-          Passport Photo Maker
-        </div>
+          {BRAND}
+        </a>
 
         <div className="topbarRight">
           <span className="trustbadge">
@@ -32,9 +38,8 @@ export default function App() {
             Source on GitHub
           </a>
         </div>
-        {/* The machine-readable strip from a passport data page. */}
         <div className="mrz mono" aria-hidden="true">
-          P&lt;UTOPASSPORT&lt;PHOTO&lt;MAKER&lt;&lt;FREE&lt;&lt;NO&lt;SIGN&lt;IN&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+          {MRZ}
         </div>
       </footer>
     </div>

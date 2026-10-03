@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 
 type Props = {
   onPick: (file?: File) => void;
+  /** What the photo is for, e.g. "India driving licence", so the drop target names it. */
+  forWhat?: string;
 };
 
-export default function FilePicker({ onPick }: Props) {
+export default function FilePicker({ onPick, forWhat }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -58,7 +60,9 @@ export default function FilePicker({ onPick }: Props) {
       )}
 
       <div className="copy">
-        <div className="primaryText">{fileName ?? "Click to choose a photo, or drag one here"}</div>
+        <div className="primaryText">
+          {fileName ?? `Choose a photo${forWhat ? ` for your ${forWhat}` : ""}, or drag one here`}
+        </div>
         <div className="secondaryText">
           {fileName ? "Click to choose a different photo" : "Well-lit, facing the camera, plain background works best"}
         </div>

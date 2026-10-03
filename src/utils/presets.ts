@@ -1,23 +1,33 @@
 import type { Unit } from "../types";
+import SHEET from "../../specs/documents.csv";
 
 /**
- * Photo specifications by country.
+ * Photo specifications by country and document.
  *
- * Two things vary between countries, and both matter:
+ * The data lives in specs/documents.csv — a spreadsheet, so a new document or a corrected
+ * figure is a row edited in Excel, not a code change. It is read and checked at build time
+ * by scripts/specs.mjs; this file turns the rows into the presets the app runs on and
+ * holds the helpers around them.
  *
- *  - the print size (35x45mm across most of the world, but 2x2in in the US,
- *    50x70mm in Canada, 33x48mm in China, 26x32mm in Spain...)
+ * A country is not one specification. India alone asks for a 35x45mm print for a passport, a
+ * 51x51mm square for OCI, a 213px square under 30KB for a PAN card upload and a 420x525px one
+ * under 20KB for a driving licence. So every preset here is a *document*, and documents are
+ * grouped by country.
+ *
+ * What varies between documents, and all of it matters:
+ *
+ *  - the size: a print size (35x45mm, 2x2in, 50x70mm...) or, for upload-only documents, a
+ *    pixel size
  *  - how big the head has to be inside that frame, which is the part most tools ignore.
  *    Canada wants the face to fill under half the frame; Australia and Japan want three
- *    quarters. Cropping every country to the same proportions produces a photo that is the
+ *    quarters. Cropping every document to the same proportions produces a photo that is the
  *    right size and still gets rejected.
+ *  - where the head sits: the gap above the hair and the height of the eye line
+ *  - for uploads, the file size the form will accept
  *
  * `head` is the chin-to-crown height as a fraction of the photo height, taken from the
- * published requirement where there is a clear one. Where a country doesn't publish a
+ * published requirement where there is a clear one. Where a document doesn't publish a
  * figure, `head` is left out and a neutral ICAO-style default is used instead.
- *
- * Requirements do change — the app says as much next to the picker, and every value here
- * stays adjustable by hand.
  */
 
 export type Region = "Africa" | "Americas" | "Asia & Pacific" | "Europe" | "Middle East";
@@ -25,215 +35,82 @@ export type Region = "Africa" | "Americas" | "Asia & Pacific" | "Europe" | "Midd
 /**
  * A background an authority accepts.
  *
- * Held as an actual colour rather than prose, so choosing a country can *set* the
- * background instead of merely describing it. Where a country accepts more than one, the
- * first is applied and the rest are offered as one-click alternatives.
+ * Held as an actual colour rather than prose, so choosing a document can *set* the
+ * background instead of merely describing it. Where more than one is accepted, the first is
+ * applied and the rest are offered as one-click alternatives.
  */
 export type BackgroundOption = { label: string; color: string };
 
 const WHITE: BackgroundOption = { label: "White", color: "#ffffff" };
-const OFF_WHITE: BackgroundOption = { label: "Off-white", color: "#f7f7f7" };
-const LIGHT_GREY: BackgroundOption = { label: "Light grey", color: "#e4e4e4" };
-const CREAM: BackgroundOption = { label: "Cream", color: "#f1e9d8" };
-const LIGHT_BLUE: BackgroundOption = { label: "Light blue", color: "#ccddee" };
-const BLUE: BackgroundOption = { label: "Blue", color: "#4c74b2" };
-const RED: BackgroundOption = { label: "Red", color: "#c62828" };
 
-export type Preset = {
-  /** ISO 3166-1 alpha-3 where there is one; otherwise a short slug. */
+type Range = { min: number; max: number };
+
+/** One row of the sheet, as scripts/specs.mjs hands it over. */
+export type SheetRow = {
   id: string;
+  /** Country name, as a traveller would look for it. Rows are grouped by it. */
+  country: string;
+  region: Region;
+  /** What the document is: "Passport", "PAN card (upload)". */
+  doc: string;
   /** Three-letter badge shown in the picker. Defaults to the first three of `id`. */
   code?: string;
-  /** Country or document name, as a traveller would look for it. */
-  name: string;
-  region: Region;
   width: number;
   height: number;
+  /** "px" for documents that are only ever uploaded, never printed. */
   unit: Unit;
   /** Chin-to-crown height as a fraction of photo height. */
-  head?: { min: number; max: number };
+  head?: Range;
+  /** Space from the top of the photo to the top of the hair, as a fraction of photo height. */
+  crownGap?: number;
+  /** Eye line, measured up from the bottom edge, as a fraction of photo height. */
+  eyeLine?: Range;
   /** Accepted backgrounds, most standard first. The first one is applied automatically. */
-  backgrounds?: BackgroundOption[];
-  /** Anything else worth knowing before printing. */
+  backgrounds: BackgroundOption[];
+  /** File size the upload form accepts, in kilobytes. Downloads are compressed to fit. */
+  fileKB?: { min?: number; max: number };
+  /** Upload only: there is no print sheet, and the pixel size is the requirement. */
+  digitalOnly?: boolean;
+  /** Anything else worth knowing before printing or uploading. */
   note?: string;
+  /** The authority's own page for this requirement. */
+  source?: string;
   /** Shown in the "Common" row at the top of the picker. */
-  common?: boolean;
+  common: boolean;
 };
 
-/** Used when a country publishes no chin-to-crown figure. Mid-range for ICAO photos. */
-export const DEFAULT_HEAD = { min: 0.6, max: 0.7 };
+export type Preset = SheetRow & {
+  /** Country name — the same as `country`, named for the places that print it. */
+  name: string;
+  /** True for the first row listed for its country. */
+  primary: boolean;
+};
 
-export const PRESETS: Preset[] = [
-  // ---------------------------------------------------------------- Americas
-  {
-    id: "USA",
-    name: "United States",
-    region: "Americas",
-    width: 2,
-    height: 2,
-    unit: "in",
-    head: { min: 0.5, max: 0.69 },
-    backgrounds: [WHITE, OFF_WHITE],
-    note: "Also used for US visas, Green Card and the DV lottery.",
-    common: true
-  },
-  {
-    id: "CAN",
-    name: "Canada",
-    region: "Americas",
-    width: 50,
-    height: 70,
-    unit: "mm",
-    head: { min: 0.44, max: 0.51 },
-    backgrounds: [WHITE, LIGHT_GREY],
-    note: "The face must measure 31–36mm chin to crown, so the head sits smaller in frame than most countries.",
-    common: true
-  },
-  { id: "MEX", name: "Mexico", region: "Americas", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  {
-    id: "BRA",
-    name: "Brazil",
-    region: "Americas",
-    width: 50,
-    height: 70,
-    unit: "mm",
-    backgrounds: [WHITE]
-  },
-  { id: "ARG", name: "Argentina", region: "Americas", width: 40, height: 40, unit: "mm", backgrounds: [WHITE] },
-  { id: "CHL", name: "Chile", region: "Americas", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "COL", name: "Colombia", region: "Americas", width: 30, height: 40, unit: "mm", backgrounds: [WHITE, BLUE] },
-  { id: "PER", name: "Peru", region: "Americas", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
+/** Used when a document publishes no chin-to-crown figure. Mid-range for ICAO photos. */
+export const DEFAULT_HEAD: Range = { min: 0.6, max: 0.7 };
 
-  // ------------------------------------------------------------ Asia & Pacific
-  {
-    id: "IND",
-    name: "India",
-    region: "Asia & Pacific",
-    width: 35,
-    height: 45,
-    unit: "mm",
-    head: { min: 0.7, max: 0.8 },
-    backgrounds: [WHITE],
-    note: "The face should fill roughly 70–80% of the frame.",
-    common: true
-  },
-  {
-    id: "IND-OCI",
-    code: "OCI",
-    name: "India — OCI / visa",
-    region: "Asia & Pacific",
-    width: 51,
-    height: 51,
-    unit: "mm",
-    head: { min: 0.6, max: 0.7 },
-    backgrounds: [WHITE],
-    note: "Square 2x2in format, same as the US."
-  },
-  {
-    id: "CHN",
-    name: "China",
-    region: "Asia & Pacific",
-    width: 33,
-    height: 48,
-    unit: "mm",
-    head: { min: 0.58, max: 0.69 },
-    backgrounds: [WHITE],
-    common: true
-  },
-  {
-    id: "JPN",
-    name: "Japan",
-    region: "Asia & Pacific",
-    width: 35,
-    height: 45,
-    unit: "mm",
-    head: { min: 0.71, max: 0.8 },
-    backgrounds: [WHITE, LIGHT_GREY],
-    note: "Chin to crown must be 34mm ±2mm."
-  },
-  {
-    id: "AUS",
-    name: "Australia",
-    region: "Asia & Pacific",
-    width: 35,
-    height: 45,
-    unit: "mm",
-    head: { min: 0.71, max: 0.8 },
-    backgrounds: [WHITE, LIGHT_GREY],
-    note: "The face must measure 32–36mm chin to crown.",
-    common: true
-  },
-  { id: "NZL", name: "New Zealand", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", head: { min: 0.71, max: 0.8 }, backgrounds: [LIGHT_GREY, CREAM] },
-  { id: "KOR", name: "South Korea", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "SGP", name: "Singapore", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "MYS", name: "Malaysia", region: "Asia & Pacific", width: 35, height: 50, unit: "mm", backgrounds: [WHITE] },
-  { id: "IDN", name: "Indonesia", region: "Asia & Pacific", width: 40, height: 60, unit: "mm", backgrounds: [WHITE, RED] },
-  { id: "THA", name: "Thailand", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE, LIGHT_BLUE] },
-  { id: "VNM", name: "Vietnam", region: "Asia & Pacific", width: 40, height: 60, unit: "mm", backgrounds: [WHITE] },
-  { id: "PHL", name: "Philippines", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "PAK", name: "Pakistan", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "BGD", name: "Bangladesh", region: "Asia & Pacific", width: 45, height: 55, unit: "mm", backgrounds: [WHITE] },
-  { id: "LKA", name: "Sri Lanka", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "NPL", name: "Nepal", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "TWN", name: "Taiwan", region: "Asia & Pacific", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "HKG", name: "Hong Kong", region: "Asia & Pacific", width: 40, height: 50, unit: "mm", backgrounds: [WHITE] },
-
-  // ------------------------------------------------------------------- Europe
-  {
-    id: "SCHENGEN",
-    name: "Schengen area",
-    region: "Europe",
-    width: 35,
-    height: 45,
-    unit: "mm",
-    head: { min: 0.64, max: 0.76 },
-    backgrounds: [LIGHT_GREY, CREAM],
-    note: "The shared standard for Schengen visas and most EU passports.",
-    common: true
-  },
-  {
-    id: "GBR",
-    name: "United Kingdom",
-    region: "Europe",
-    width: 35,
-    height: 45,
-    unit: "mm",
-    head: { min: 0.64, max: 0.76 },
-    backgrounds: [LIGHT_GREY, CREAM],
-    note: "Chin to crown must be 29–34mm.",
-    common: true
-  },
-  { id: "DEU", name: "Germany", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.71, max: 0.8 }, backgrounds: [LIGHT_GREY], note: "The face must measure 32–36mm chin to crown." },
-  { id: "FRA", name: "France", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [LIGHT_GREY] },
-  { id: "ITA", name: "Italy", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [LIGHT_GREY] },
-  { id: "ESP", name: "Spain", region: "Europe", width: 26, height: 32, unit: "mm", backgrounds: [WHITE], note: "Spain uses an unusually small 26x32mm photo." },
-  { id: "NLD", name: "Netherlands", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [LIGHT_GREY] },
-  { id: "POL", name: "Poland", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [WHITE, LIGHT_GREY] },
-  { id: "PRT", name: "Portugal", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [LIGHT_GREY] },
-  { id: "IRL", name: "Ireland", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [LIGHT_GREY, CREAM] },
-  { id: "CHE", name: "Switzerland", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [LIGHT_GREY] },
-  { id: "SWE", name: "Sweden", region: "Europe", width: 35, height: 45, unit: "mm", head: { min: 0.64, max: 0.76 }, backgrounds: [LIGHT_GREY] },
-  { id: "GRC", name: "Greece", region: "Europe", width: 40, height: 60, unit: "mm", backgrounds: [WHITE] },
-  { id: "RUS", name: "Russia", region: "Europe", width: 35, height: 45, unit: "mm", backgrounds: [WHITE, LIGHT_GREY] },
-  { id: "UKR", name: "Ukraine", region: "Europe", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "TUR", name: "Türkiye", region: "Europe", width: 50, height: 60, unit: "mm", backgrounds: [WHITE] },
-
-  // -------------------------------------------------------------- Middle East
-  { id: "ARE", name: "United Arab Emirates", region: "Middle East", width: 43, height: 55, unit: "mm", backgrounds: [WHITE] },
-  { id: "SAU", name: "Saudi Arabia", region: "Middle East", width: 40, height: 60, unit: "mm", backgrounds: [WHITE] },
-  { id: "ISR", name: "Israel", region: "Middle East", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-
-  // ------------------------------------------------------------------- Africa
-  { id: "ZAF", name: "South Africa", region: "Africa", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "NGA", name: "Nigeria", region: "Africa", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "KEN", name: "Kenya", region: "Africa", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "GHA", name: "Ghana", region: "Africa", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "EGY", name: "Egypt", region: "Africa", width: 40, height: 60, unit: "mm", backgrounds: [WHITE] },
-  { id: "ETH", name: "Ethiopia", region: "Africa", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] },
-  { id: "MAR", name: "Morocco", region: "Africa", width: 35, height: 45, unit: "mm", backgrounds: [WHITE] }
-];
+export const PRESETS: Preset[] = SHEET.map((row, i) => ({
+  ...row,
+  name: row.country,
+  primary: SHEET.findIndex(o => o.country === row.country) === i
+}));
 
 export const REGIONS: Region[] = ["Americas", "Asia & Pacific", "Europe", "Middle East", "Africa"];
+
+/** Each country's primary document, in list order — one row per country in the picker. */
+export const PRIMARY_PRESETS: Preset[] = PRESETS.filter(p => p.primary);
+
+/** Every document for a country, primary first. */
+export function documentsFor(country: string): Preset[] {
+  return PRESETS.filter(p => p.country === country);
+}
+
+/** "India PAN card", "United States passport" — the document as a person would name it. */
+export function presetTitle(p: Preset): string {
+  // Keep acronyms ("PAN", "DV", "OCI") as written; lower-case only an ordinary leading word.
+  const doc = /^[A-Z][a-z]/.test(p.doc) ? p.doc[0].toLowerCase() + p.doc.slice(1) : p.doc;
+  return `${p.name} ${doc}`;
+}
 
 /** Accepted backgrounds for a preset, falling back to plain white. */
 export function backgroundsFor(preset?: Preset): BackgroundOption[] {
@@ -241,7 +118,7 @@ export function backgroundsFor(preset?: Preset): BackgroundOption[] {
   return list && list.length > 0 ? list : [WHITE];
 }
 
-/** The colour to apply when this country is chosen. */
+/** The colour to apply when this document is chosen. */
 export function defaultBackgroundColor(preset?: Preset): string {
   return backgroundsFor(preset)[0].color;
 }
@@ -253,14 +130,8 @@ export function backgroundLabel(preset?: Preset): string {
     .join(" or ");
 }
 
-/**
- * URL slug for a country's own page, e.g. "united-states", "india-oci-visa".
- *
- * Shared by the app's router and the build-time prerenderer, so a page can never be
- * generated at a path the app doesn't recognise.
- */
-export function slugFor(p: Preset): string {
-  return p.name
+function slugify(s: string): string {
+  return s
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")   // Türkiye -> Turkiye
     .toLowerCase()
@@ -268,8 +139,22 @@ export function slugFor(p: Preset): string {
     .replace(/^-+|-+$/g, "");
 }
 
-export function findPresetBySlug(slug: string): Preset | undefined {
-  return PRESETS.find(p => slugFor(p) === slug);
+/**
+ * URL path segments for a document's own page: ["india"] for a country's primary document,
+ * ["india", "pan-card-upload"] for the rest.
+ *
+ * Shared by the app's router and the build-time prerenderer, so a page can never be
+ * generated at a path the app doesn't recognise.
+ */
+export function slugsFor(p: Preset): string[] {
+  return p.primary ? [slugify(p.name)] : [slugify(p.name), slugify(p.doc)];
+}
+
+export function findPresetBySlugs(country: string, doc?: string): Preset | undefined {
+  return PRESETS.find(p => {
+    const [c, d] = slugsFor(p);
+    return c === country && d === doc;
+  });
 }
 
 export function presetCode(p: Preset): string {
@@ -293,11 +178,23 @@ export function formatSize(p: { width: number; height: number; unit: Unit }): st
   return `${w} × ${h} ${p.unit}`;
 }
 
-/** Case- and accent-insensitive match on country name or code. */
+/** "under 240 KB", "10 KB – 1 MB". */
+export function formatFileKB(kb: { min?: number; max: number }): string {
+  const f = (n: number) => (n >= 1024 ? `${+(n / 1024).toFixed(1)} MB` : `${n} KB`);
+  return kb.min ? `${f(kb.min)} – ${f(kb.max)}` : `under ${f(kb.max)}`;
+}
+
+/**
+ * Case- and accent-insensitive match on country, document, code or note.
+ *
+ * "pan" finds the PAN card, "green card" finds the US passport (whose note covers it),
+ * "india" finds every one of India's documents.
+ */
 export function searchPresets(query: string): Preset[] {
-  const q = query.trim().toLowerCase();
+  const fold = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const q = fold(query.trim());
   if (!q) return PRESETS;
-  return PRESETS.filter(
-    p => p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q)
+  return PRESETS.filter(p =>
+    [p.name, p.doc, p.id, p.note ?? ""].some(field => fold(field).includes(q))
   );
 }

@@ -28,6 +28,9 @@ function topMarginFor(headFraction: number): number {
   return (1 - headFraction) * 0.32;
 }
 
+/** Least space kept above the hair when the eye line decides the framing. */
+const MIN_CROWN_GAP = 0.03;
+
 /** The face box bottom sits a little above the chin, so extend it slightly. */
 const CHIN_FACTOR = 1.04;
 
@@ -177,8 +180,14 @@ export async function measureHead(bitmap: ImageBitmap, cacheKey = "autoframe"): 
 /**
  * Lay out the crop rectangle around a measured head, in source-image pixels.
  *
- * `headFraction` is the chin-to-crown height the destination country asks for, as a
+ * `headFraction` is the chin-to-crown height the destination document asks for, as a
  * fraction of the photo height — 0.48 for Canada, 0.75 for Australia, and so on.
+ *
+ * The vertical position follows the most specific rule the document publishes: the eye
+ * line (measured up from the bottom, as the US publishes it), then the space above the
+ * hair, then a gap derived from the head size. Placing by eye line alone could push the
+ * crown out of frame, so a sliver of space above the hair is always kept.
+ *
  * The result is clamped to the image, shrinking rather than sliding the head off-centre.
  */
 export function computeFrame(
@@ -186,7 +195,8 @@ export function computeFrame(
   aspect: number,
   imageW: number,
   imageH: number,
-  headFraction: number = DEFAULT_HEAD_HEIGHT_FRACTION
+  headFraction: number = DEFAULT_HEAD_HEIGHT_FRACTION,
+  placement: { crownGap?: number; eyeLine?: { min: number; max: number } } = {}
 ): Frame {
   const headHeight = Math.max(1, metrics.chinY - metrics.crownY);
   const target = Math.min(0.9, Math.max(0.3, headFraction));
@@ -205,7 +215,14 @@ export function computeFrame(
   }
 
   let x = metrics.centerX - width / 2;
-  let y = metrics.crownY - topMarginFor(target) * height;
+  let y = metrics.crownY - (placement.crownGap ?? topMarginFor(target)) * height;
+
+  const { eyeLine } = placement;
+  if (eyeLine && metrics.eyeY !== undefined) {
+    const eyeFromTop = 1 - (eyeLine.min + eyeLine.max) / 2;
+    const byEyes = metrics.eyeY - eyeFromTop * height;
+    y = Math.min(byEyes, metrics.crownY - MIN_CROWN_GAP * height);
+  }
 
   x = Math.max(0, Math.min(imageW - width, x));
   y = Math.max(0, Math.min(imageH - height, y));

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAppStore } from "../../state/store";
 import Slider from "../ui/Slider";
 import { sizeToPx } from "../../utils/units";
-import { backgroundLabel, backgroundsFor, findPreset } from "../../utils/presets";
+import { backgroundLabel, backgroundsFor, findPreset, presetTitle } from "../../utils/presets";
 import { getCroppedCanvas } from "../../utils/cropper";
 import { applyAdjustmentsToImageData } from "../../utils/image";
 import { personMatte } from "../../utils/personMatte";
@@ -29,7 +29,7 @@ export default function StepBackground() {
 
   const preset = useMemo(() => findPreset(photo.presetId), [photo.presetId]);
   const accepted = useMemo(() => backgroundsFor(preset), [preset]);
-  const presetName = preset?.name ?? "a custom size";
+  const presetName = preset ? presetTitle(preset) : "a custom size";
 
   const origRef = useRef<HTMLCanvasElement | null>(null);
   const remRef = useRef<HTMLCanvasElement | null>(null);

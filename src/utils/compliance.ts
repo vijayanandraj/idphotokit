@@ -1,6 +1,6 @@
 import type { BackgroundSpec, PhotoSpec } from "../types";
 import type { HeadMetrics } from "./autoframe";
-import { backgroundsFor, DEFAULT_HEAD, formatSize, type Preset } from "./presets";
+import { backgroundsFor, DEFAULT_HEAD, formatSize, presetTitle, type Preset } from "./presets";
 import { toInches } from "./units";
 
 /**
@@ -30,8 +30,21 @@ export type Check = {
   advice?: string;
 };
 
+/**
+ * Where the head landed, as fractions of the finished photo measured from its top-left
+ * corner. Drawn as the dimension markings on the preview; absent when the head could not be
+ * measured.
+ */
+export type Geometry = {
+  crown: number;
+  chin: number;
+  centerX: number;
+  eye?: number;
+};
+
 export type Report = {
   checks: Check[];
+  geometry?: Geometry;
   /** Worst status across the checks. */
   verdict: CheckStatus;
   passed: number;
@@ -64,6 +77,14 @@ function mm(value: number): string {
   return `${value.toFixed(1)} mm`;
 }
 
+/**
+ * A vertical distance given as a fraction of the photo height, in the photo's own terms:
+ * millimetres for a print, pixels for an upload-only document.
+ */
+function length(fraction: number, photo: PhotoSpec): string {
+  return photo.unit === "px" ? `${Math.round(fraction * photo.height)} px` : mm(fraction * heightMm(photo));
+}
+
 function pct(fraction: number): string {
   return `${Math.round(fraction * 100)}%`;
 }
@@ -85,11 +106,11 @@ function worst(checks: Check[]): CheckStatus {
 }
 
 function sizeCheck(photo: PhotoSpec, preset?: Preset): Check {
-  const value = `${formatSize(photo)} at ${photo.dpi} DPI`;
+  const value = photo.unit === "px" ? formatSize(photo) : `${formatSize(photo)} at ${photo.dpi} DPI`;
   if (!preset) {
     return {
       id: "size",
-      label: "Print size",
+      label: "Size",
       status: "unknown",
       value,
       advice: "Custom size — check it against the authority's own guidance."
@@ -103,11 +124,11 @@ function sizeCheck(photo: PhotoSpec, preset?: Preset): Check {
 
   return {
     id: "size",
-    label: "Print size",
+    label: "Size",
     status: matches ? "pass" : "warn",
     value,
-    requirement: `${formatSize(preset)} for ${preset.name}`,
-    advice: matches ? undefined : `You have changed the size away from the ${preset.name} preset.`
+    requirement: `${formatSize(preset)} for ${presetTitle(preset)}`,
+    advice: matches ? undefined : `You have changed the size away from the ${presetTitle(preset)} preset.`
   };
 }
 
@@ -115,10 +136,15 @@ function sizeCheck(photo: PhotoSpec, preset?: Preset): Check {
  * Catches the one defect that survives every other step: a crop smaller than the output,
  * which canvas will happily interpolate into a soft photo that a print counter rejects.
  */
-function resolutionCheck(crop: Rect | undefined, outPx: { w: number; h: number }, dpi: number): Check {
+function resolutionCheck(
+  crop: Rect | undefined,
+  outPx: { w: number; h: number },
+  dpi: number,
+  unit: PhotoSpec["unit"]
+): Check {
   const value = `${outPx.w} × ${outPx.h} px`;
 
-  if (dpi < 300) {
+  if (unit !== "px" && dpi < 300) {
     return {
       id: "resolution",
       label: "Resolution",
@@ -148,14 +174,16 @@ function resolutionCheck(crop: Rect | undefined, outPx: { w: number; h: number }
   };
 }
 
-function headChecks(input: ComplianceInput): Check[] {
+function headChecks(input: ComplianceInput): { checks: Check[]; geometry?: Geometry } {
   const { head, crop, photo, preset, rotation } = input;
 
-  const unavailable = (advice: string): Check[] => [
-    { id: "head", label: "Head height", status: "unknown", value: "Not measured", advice },
-    { id: "headroom", label: "Space above head", status: "unknown", value: "Not measured" },
-    { id: "centring", label: "Head centring", status: "unknown", value: "Not measured" }
-  ];
+  const unavailable = (advice: string): { checks: Check[] } => ({
+    checks: [
+      { id: "head", label: "Head height", status: "unknown", value: "Not measured", advice },
+      { id: "headroom", label: "Space above head", status: "unknown", value: "Not measured" },
+      { id: "centring", label: "Head centring", status: "unknown", value: "Not measured" }
+    ]
+  });
 
   if (!head || !crop) {
     return unavailable("No face was detected, so the framing could not be measured. Check it by eye.");
@@ -165,11 +193,9 @@ function headChecks(input: ComplianceInput): Check[] {
   }
 
   const range = preset?.head ?? DEFAULT_HEAD;
-  const photoMm = heightMm(photo);
 
   // Head height, chin to crown, as a fraction of the frame.
   const fraction = (head.chinY - head.crownY) / crop.height;
-  const headMm = fraction * photoMm;
   const slack = 0.02;
   const headStatus: CheckStatus =
     fraction >= range.min && fraction <= range.max
@@ -182,8 +208,8 @@ function headChecks(input: ComplianceInput): Check[] {
     id: "head",
     label: "Head height",
     status: headStatus,
-    value: `${mm(headMm)} (${pct(fraction)} of the frame)`,
-    requirement: `${mm(range.min * photoMm)}–${mm(range.max * photoMm)}${preset?.head ? "" : " (ICAO default)"}`,
+    value: `${length(fraction, photo)} (${pct(fraction)} of the frame)`,
+    requirement: `${length(range.min, photo)}–${length(range.max, photo)}${preset?.head ? "" : " (ICAO default)"}`,
     advice:
       headStatus === "pass"
         ? undefined
@@ -194,23 +220,9 @@ function headChecks(input: ComplianceInput): Check[] {
 
   // Space above the crown. Negative means the top of the head is outside the crop.
   const above = (head.crownY - crop.y) / crop.height;
-  const headroom: Check = {
-    id: "headroom",
-    label: "Space above head",
-    status: above < 0 ? "fail" : above < 0.02 ? "warn" : above > 0.25 ? "warn" : "pass",
-    value: above < 0 ? "Top of the head is cut off" : `${mm(above * photoMm)} (${pct(above)})`,
-    // Stated as the band actually enforced below. Authorities rarely publish a figure for
-    // this, so the check only catches a crown that is clipped or a face sitting far too low.
-    requirement: "a visible gap, up to a quarter of the frame",
-    advice:
-      above < 0
-        ? "The crown is outside the crop. Re-run Auto-frame on step 2, or pan down."
-        : above < 0.02
-          ? "The head almost touches the top edge. Most authorities want visible space above it."
-          : above > 0.25
-            ? "There is a lot of empty space above the head, which pushes the face low in frame."
-            : undefined
-  };
+  const headroom = preset?.crownGap !== undefined
+    ? publishedHeadroom(above, preset.crownGap, photo)
+    : genericHeadroom(above, photo);
 
   // Horizontal centring.
   const offset = (head.centerX - (crop.x + crop.width / 2)) / crop.width;
@@ -227,24 +239,89 @@ function headChecks(input: ComplianceInput): Check[] {
   };
 
   const checks = [headHeight, headroom, centring];
+  const eyeFromTop = head.eyeY === undefined ? undefined : (head.eyeY - crop.y) / crop.height;
 
-  // Eye line, only when the detector gave us keypoints. Reported as a guide: the tolerated
-  // band is wide and varies by country, so this flags an obviously wrong framing rather than
-  // a borderline one.
-  if (head.eyeY !== undefined) {
-    const eyeFromTop = (head.eyeY - crop.y) / crop.height;
-    const ok = eyeFromTop >= 0.25 && eyeFromTop <= 0.55;
-    checks.push({
-      id: "eyeline",
-      label: "Eye line",
-      status: ok ? "pass" : "warn",
-      value: `${pct(eyeFromTop)} down from the top`,
-      requirement: "upper half of the frame",
-      advice: ok ? undefined : "The eyes sit outside the usual band. Re-run Auto-frame on step 2."
-    });
-  }
+  // Eye line, only when the detector gave us keypoints.
+  if (eyeFromTop !== undefined) checks.push(eyeCheck(eyeFromTop, photo, preset));
 
-  return checks;
+  return {
+    checks,
+    geometry: {
+      crown: above,
+      chin: (head.chinY - crop.y) / crop.height,
+      centerX: (head.centerX - crop.x) / crop.width,
+      eye: eyeFromTop
+    }
+  };
+}
+
+/** Where a document publishes the gap above the hair, hold the photo to it. */
+function publishedHeadroom(above: number, target: number, photo: PhotoSpec): Check {
+  const off = above - target;
+  const status: CheckStatus =
+    above < 0 ? "fail" : Math.abs(off) <= 0.03 ? "pass" : Math.abs(off) <= 0.06 ? "warn" : "fail";
+  return {
+    id: "headroom",
+    label: "Space above head",
+    status,
+    value: above < 0 ? "Top of the head is cut off" : `${length(above, photo)} (${pct(above)})`,
+    requirement: `about ${length(target, photo)} (${pct(target)})`,
+    advice:
+      status === "pass"
+        ? undefined
+        : above < 0
+          ? "The crown is outside the crop. Re-run Auto-frame on step 2, or pan down."
+          : off > 0
+            ? "Too much space above the head. Re-run Auto-frame on step 2, or pan up."
+            : "Too little space above the head. Re-run Auto-frame on step 2, or pan down."
+  };
+}
+
+/**
+ * Where a document publishes no figure, only catch a crown that is clipped or a face sitting
+ * far too low. Authorities rarely publish one, so this is the usual case.
+ */
+function genericHeadroom(above: number, photo: PhotoSpec): Check {
+  return {
+    id: "headroom",
+    label: "Space above head",
+    status: above < 0 ? "fail" : above < 0.02 ? "warn" : above > 0.25 ? "warn" : "pass",
+    value: above < 0 ? "Top of the head is cut off" : `${length(above, photo)} (${pct(above)})`,
+    requirement: "a visible gap, up to a quarter of the frame",
+    advice:
+      above < 0
+        ? "The crown is outside the crop. Re-run Auto-frame on step 2, or pan down."
+        : above < 0.02
+          ? "The head almost touches the top edge. Most authorities want visible space above it."
+          : above > 0.25
+            ? "There is a lot of empty space above the head, which pushes the face low in frame."
+            : undefined
+  };
+}
+
+/**
+ * The eye line, measured up from the bottom edge as authorities publish it.
+ *
+ * Held to the published band where there is one (the US: 1⅛–1⅜in on a 2in photo).
+ * Otherwise reported as a guide: the tolerated band is wide and varies by country, so it
+ * flags an obviously wrong framing rather than a borderline one.
+ */
+function eyeCheck(eyeFromTop: number, photo: PhotoSpec, preset?: Preset): Check {
+  const fromBottom = 1 - eyeFromTop;
+  const band = preset?.eyeLine;
+  const ok = band
+    ? fromBottom >= band.min && fromBottom <= band.max
+    : eyeFromTop >= 0.25 && eyeFromTop <= 0.55;
+  return {
+    id: "eyeline",
+    label: "Eye line",
+    status: ok ? "pass" : band ? "fail" : "warn",
+    value: `${length(fromBottom, photo)} up from the bottom (${pct(fromBottom)})`,
+    requirement: band
+      ? `${length(band.min, photo)}–${length(band.max, photo)} up from the bottom`
+      : "upper half of the frame",
+    advice: ok ? undefined : "The eyes sit outside the band. Re-run Auto-frame on step 2, or pan."
+  };
 }
 
 function backgroundCheck(bg: BackgroundSpec, preset?: Preset): Check {
@@ -271,20 +348,22 @@ function backgroundCheck(bg: BackgroundSpec, preset?: Preset): Check {
     status: match ? "pass" : "warn",
     value: match ? match.label : `Custom (${bg.color})`,
     requirement: names,
-    advice: match ? undefined : `${preset?.name ?? "This document"} asks for ${names}.`
+    advice: match ? undefined : `${preset ? presetTitle(preset) : "This document"} asks for ${names}.`
   };
 }
 
 export function buildReport(input: ComplianceInput): Report {
+  const head = headChecks(input);
   const checks: Check[] = [
     sizeCheck(input.photo, input.preset),
-    resolutionCheck(input.crop, input.outPx, input.photo.dpi),
-    ...headChecks(input),
+    resolutionCheck(input.crop, input.outPx, input.photo.dpi, input.photo.unit),
+    ...head.checks,
     backgroundCheck(input.bg, input.preset)
   ];
 
   return {
     checks,
+    geometry: head.geometry,
     verdict: worst(checks),
     passed: checks.filter(c => c.status === "pass").length,
     total: checks.length

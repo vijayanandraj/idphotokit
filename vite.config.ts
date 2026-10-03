@@ -1,9 +1,29 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { readFile } from 'node:fs/promises'
+import { parseSpecs } from './scripts/specs.mjs'
+
+/**
+ * Turns specs/documents.csv into a JavaScript module when the app imports it.
+ *
+ * The sheet is checked as it is read: a bad row stops the build (or shows Vite's error
+ * overlay in dev) with the row and column named, instead of shipping a wrong spec.
+ */
+function specsSheet(): Plugin {
+  return {
+    name: 'specs-sheet',
+    async load(id) {
+      if (!id.endsWith('.csv')) return null
+      this.addWatchFile(id)
+      const rows = parseSpecs(await readFile(id, 'utf8'), 'specs/documents.csv')
+      return `export default ${JSON.stringify(rows)};`
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [specsSheet(), react()],
 
   optimizeDeps: {
     // onnxruntime-web locates its .wasm relative to its own module URL. Vite's dev-time

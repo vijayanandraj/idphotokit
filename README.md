@@ -1,13 +1,16 @@
-# Passport Photo Builder (Browser-only)
+# ID Photo Kit
 
-A simple, privacy-friendly passport photo maker that runs entirely in the browser.
+ID photos, made to spec — for passports, visas, ID and residence cards, driving licences,
+tax cards and the DV lottery. Free, private, and entirely in the browser.
 
 If it's useful to you, a ⭐ on the repo helps other people find it.
 
 What it does:
 - Upload an image (no server upload)
-- Pick your country from 50+ presets — each sets both the print size and the head height
-  that country requires — or enter a custom size + DPI
+- Pick the document from 65 across 52 countries — each sets the size, the head height, and
+  where published the space above the head, the eye line and the upload file-size limit —
+  or enter a custom size + DPI
+- Check the result against that document's rule, with the measurements drawn on the preview
 - Crop with manual controls + automatic head framing
 - Optional Auto Enhance (brightness/contrast/saturation baseline)
 - Background removal (multiclass selfie segmentation, hair-aware) + choose background color
@@ -17,10 +20,13 @@ What it does:
 
 **Try it: https://passport-maker-ten.vercel.app/**
 
-Every country also has its own page, e.g.
-[/passport-photo/india](https://passport-maker-ten.vercel.app/passport-photo/india) or
-[/passport-photo/united-states](https://passport-maker-ten.vercel.app/passport-photo/united-states),
-which opens the tool preset to that country and sets out its published requirements.
+Every document has its own page: a country's primary document at `/photo/<country>` and the
+rest at `/photo/<country>/<document>`, e.g.
+[/photo/india](https://passport-maker-ten.vercel.app/photo/india),
+[/photo/india/pan-card-upload](https://passport-maker-ten.vercel.app/photo/india/pan-card-upload) or
+[/photo/united-states/dv-lottery](https://passport-maker-ten.vercel.app/photo/united-states/dv-lottery).
+Each opens the tool preset to that document and sets out its published requirements with a
+diagram. The old `/passport-photo/<country>` paths redirect here.
 
 ---
 
@@ -45,7 +51,7 @@ about 16MB, then cached by the browser. Nothing is downloaded for the crop-only 
 ## Features
 
 ### Step 1: Upload + Size
-- 50+ countries and documents, searchable and grouped by region (`utils/presets.ts`)
+- 65 documents across 52 countries, searchable and grouped by region. They live in a spreadsheet, [`specs/documents.csv`](specs/documents.csv) — add or correct one without touching code; see [`specs/README.md`](specs/README.md)
 - Each preset carries two things, not one:
   - the **print size** (35×45mm across most of the world, 2×2in in the US, 50×70mm in
     Canada, 33×48mm in China, 26×32mm in Spain)
@@ -148,10 +154,10 @@ npm run build
 ```
 
 `build` runs `vite build` and then `scripts/prerender.mjs`, which writes one static page per
-country under `dist/passport-photo/<slug>/` plus `dist/sitemap.xml`. Each page carries its
+document under `dist/photo/` plus `dist/sitemap.xml`. Each page carries its
 own title, description, canonical URL, JSON-LD and a visible requirements table, generated
-from `src/utils/presets.ts` — a query parameter on a single client-rendered page cannot be
-indexed as 53 separate pages, and the per-country specs are the most searched-for thing
+from `specs/documents.csv` — a query parameter on a single client-rendered page cannot be
+indexed as separate pages, and the per-document specs are the most searched-for thing
 here. Set `SITE_URL` to override the absolute URLs:
 
 ```bash
@@ -186,6 +192,6 @@ and two are worth knowing about before you build a product on this:
 - **ONNX Runtime Web**, **React**, **Vite**, **Zustand**, **react-easy-crop** — MIT or
   Apache-2.0.
 
-The country specifications in `src/utils/presets.ts` are transcriptions of published
+The specifications in `specs/documents.csv` are transcriptions of published
 government requirements. They are provided as a convenience and are not legal advice —
 rules change, and the authority's own guidance is always the authority.

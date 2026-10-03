@@ -3,16 +3,41 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/((?!passport-photo/).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!photo/).*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {
       "source": "/models/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/passport-photo/india-oci-visa",
+      "destination": "/photo/india/oci-card",
+      "permanent": true
+    },
+    {
+      "source": "/passport-photo/:slug",
+      "destination": "/photo/:slug",
+      "permanent": true
     }
   ]
 }

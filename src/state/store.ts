@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { Adjustments, BackgroundSpec, CropState, PhotoSpec, SheetSpec, WizardStep } from "../types";
 import { decodeStateFromUrl, encodeStateToUrl } from "../utils/share";
 import { defaultBackgroundColor, findPreset } from "../utils/presets";
-import { presetFromPath } from "../utils/route";
+import { pathForPreset, presetFromPath } from "../utils/route";
 import { prefetchModnet } from "../utils/modnet";
 import { clearMatteCache } from "../utils/personMatte";
 
@@ -150,14 +150,21 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   syncToUrl: () => {
     const st = get();
-    encodeStateToUrl({
-      photo: st.photo,
-      sheet: st.sheet
-    });
+    // On a document's own page, choosing another document moves to that one's page, so the
+    // address bar names what is actually being made. The homepage stays the homepage.
+    const preset = findPreset(st.photo.presetId);
+    const onDocPage = !!presetFromPath();
+    encodeStateToUrl(
+      {
+        photo: st.photo,
+        sheet: st.sheet
+      },
+      onDocPage && preset ? pathForPreset(preset) : undefined
+    );
   },
 
   hydrateFromUrl: () => {
-    // A country page (/passport-photo/india) states its country in the path. Query
+    // A document page (/photo/india/pan-card) states its document in the path. Query
     // parameters come from a shared link, so they win over the page's own default.
     const fromPath = presetFromPath();
     const decoded = decodeStateFromUrl();

@@ -1,9 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
 import { useAppStore } from "../../state/store";
-import { measureHead, type HeadMetrics } from "../../utils/autoframe";
-import { buildReport, type CheckStatus } from "../../utils/compliance";
-import { findPreset } from "../../utils/presets";
-import { sizeToPx } from "../../utils/units";
+import type { CheckStatus, Report } from "../../utils/compliance";
+import { presetTitle, type Preset } from "../../utils/presets";
 
 const GLYPH: Record<CheckStatus, string> = {
   pass: "✓",
@@ -19,52 +16,10 @@ const VERDICT_TEXT: Record<CheckStatus, string> = {
   unknown: "Partly checked"
 };
 
-export default function ComplianceReport() {
-  const photo = useAppStore(s => s.photo);
-  const crop = useAppStore(s => s.crop);
-  const croppedAreaPixels = useAppStore(s => s.croppedAreaPixels);
-  const bg = useAppStore(s => s.bg);
-  const imageBitmap = useAppStore(s => s.imageBitmap);
-  const imageUrl = useAppStore(s => s.imageUrl);
+type Props = { report: Report; preset?: Preset; measuring: boolean };
+
+export default function ComplianceReport({ report, preset, measuring }: Props) {
   const setStep = useAppStore(s => s.setStep);
-
-  // measureHead caches its matte, so this is cheap on anything but the first call. The
-  // result is stored with the photo it was measured from, so a new photo reads as "not
-  // measured yet" without having to clear the old value first — which would mean writing
-  // state synchronously inside the effect.
-  const [measured, setMeasured] = useState<{ key?: string; metrics: HeadMetrics | null }>();
-
-  useEffect(() => {
-    if (!imageBitmap) return;
-    let live = true;
-    const key = imageUrl;
-    measureHead(imageBitmap)
-      .then(metrics => { if (live) setMeasured({ key, metrics }); })
-      .catch(() => { if (live) setMeasured({ key, metrics: null }); });
-    return () => { live = false; };
-  }, [imageBitmap, imageUrl]);
-
-  const fresh = !!measured && measured.key === imageUrl;
-  const head = fresh ? measured.metrics : undefined;
-
-  const preset = useMemo(() => findPreset(photo.presetId), [photo.presetId]);
-  const outPx = useMemo(() => sizeToPx(photo.width, photo.height, photo.unit, photo.dpi), [photo]);
-
-  const report = useMemo(
-    () =>
-      buildReport({
-        photo,
-        preset,
-        bg,
-        crop: croppedAreaPixels,
-        rotation: crop.rotation,
-        head,
-        outPx
-      }),
-    [photo, preset, bg, croppedAreaPixels, crop.rotation, head, outPx]
-  );
-
-  const measuring = !!imageBitmap && !fresh;
 
   return (
     <details className={`panel check-${report.verdict}`} open>
@@ -73,7 +28,7 @@ export default function ComplianceReport() {
           {GLYPH[report.verdict]}
         </span>
         <span className="panelTitle">
-          {preset ? `${preset.name} requirements` : "Requirements"}
+          {preset ? `${presetTitle(preset)} requirements` : "Requirements"}
         </span>
         <span className="panelMeta mono">
           {measuring ? "measuring…" : `${report.passed}/${report.total} checks pass`}
