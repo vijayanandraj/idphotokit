@@ -19,13 +19,13 @@ What it does:
   - Single photo (PNG / JPEG)
   - Print sheet (A4 / A3 / 4x6 / Custom) with auto-pack + cut lines
 
-**Try it: https://passport-maker-ten.vercel.app/**
+**Try it: https://idphotokit-ashy.vercel.app/**
 
 Every document has its own page: a country's primary document at `/photo/<country>` and the
 rest at `/photo/<country>/<document>`, e.g.
-[/photo/india](https://passport-maker-ten.vercel.app/photo/india),
-[/photo/india/pan-card-online](https://passport-maker-ten.vercel.app/photo/india/pan-card-online) or
-[/photo/united-states/dv-lottery](https://passport-maker-ten.vercel.app/photo/united-states/dv-lottery).
+[/photo/india](https://idphotokit-ashy.vercel.app/photo/india),
+[/photo/india/pan-card-online](https://idphotokit-ashy.vercel.app/photo/india/pan-card-online) or
+[/photo/united-states/dv-lottery](https://idphotokit-ashy.vercel.app/photo/united-states/dv-lottery).
 Each opens the tool preset to that document and sets out its published requirements with a
 diagram. The old `/passport-photo/<country>` paths redirect here.
 

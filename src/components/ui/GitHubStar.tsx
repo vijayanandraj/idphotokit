@@ -1,4 +1,4 @@
-export const REPO_URL = "https://github.com/vijayanandraj/passport-maker";
+export const REPO_URL = "https://github.com/vijayanandraj/idphotokit";
 
 function StarIcon({ size = 15 }: { size?: number }) {
   return (
