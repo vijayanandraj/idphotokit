@@ -63,6 +63,22 @@ export default function App() {
             Source on GitHub
           </a>
         </div>
+        {/* The matting weights are CC BY-NC-SA and every visitor downloads them, so the
+            credit and licence belong on the site, not only in the README. */}
+        <div className="footerCredits">
+          Background removal:{" "}
+          <a href="https://github.com/ZHKKKe/MODNet" target="_blank" rel="noreferrer">MODNet</a>{" "}
+          by Zhanghan Ke et al., pretrained weights (converted to fp16) under{" "}
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">
+            CC BY-NC-SA 4.0
+          </a>
+          . Face and pose detection:{" "}
+          <a href="https://ai.google.dev/edge/mediapipe/solutions/guide" target="_blank" rel="noreferrer">
+            MediaPipe
+          </a>{" "}
+          (Apache-2.0). App code:{" "}
+          <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noreferrer">MIT</a>.
+        </div>
         <div className="mrz mono" aria-hidden="true">
           {MRZ}
         </div>

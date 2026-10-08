@@ -115,6 +115,8 @@ a { color: var(--navy); text-decoration-color: var(--line-strong); }
 }
 .footerRow { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .footer a { color: var(--navy); font-weight: 500; }
+.footerCredits { margin-top: 8px; font-size: 11.5px; line-height: 1.5; }
+.footerCredits a { font-weight: 400; }
 
 .mrz {
   margin-top: 14px;

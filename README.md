@@ -184,14 +184,19 @@ copyright notice.
 That covers the code in this repository. The things it depends on carry their own terms,
 and two are worth knowing about before you build a product on this:
 
-- **MODNet** (`public/models/modnet.onnx`) — the matting network. The MODNet source is
-  Apache-2.0, but the officially published pretrained weights are released under
-  CC BY-NC-SA 4.0, which is **non-commercial**. If you intend to use this commercially,
-  confirm the provenance of the weights you are shipping and retrain or substitute if
-  needed.
+- **MODNet** (`public/models/modnet.onnx`) — the matting network, by Zhanghan Ke et al.
+  ([ZHKKKe/MODNet](https://github.com/ZHKKKe/MODNet)). The MODNet source is Apache-2.0,
+  but the officially published pretrained weights are released under
+  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), which is
+  **non-commercial**. The file here is those weights converted to fp16, so it carries the
+  same licence, and the site credits it in its footer as the licence requires. Ads, paid
+  prints or a paid tier would be commercial use: retrain or substitute the model first.
 - **MediaPipe Tasks Vision** — Apache-2.0.
 - **ONNX Runtime Web**, **React**, **Vite**, **Zustand**, **react-easy-crop** — MIT or
   Apache-2.0.
+
+The name **Right ID Photo** and its logo are not covered by the MIT license. Forks are
+welcome to use the code, under a name of their own.
 
 The specifications in `specs/documents.csv` are transcriptions of published
 government requirements. They are provided as a convenience and are not legal advice —
