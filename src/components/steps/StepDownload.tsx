@@ -12,7 +12,7 @@ import MeasuredPreview from "../ui/MeasuredPreview";
 import { GitHubStarCard } from "../ui/GitHubStar";
 import { useComplianceReport } from "../../state/useComplianceReport";
 import { encodeJpegWithin, formatBytes } from "../../utils/encode";
-import { documentsFor, formatFileKB, formatSize, presetTitle, slugsFor, type Preset } from "../../utils/presets";
+import { documentLabel, documentsFor, formatFileKB, formatSize, presetTitle, slugsFor, type Preset } from "../../utils/presets";
 
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
@@ -65,11 +65,16 @@ export default function StepDownload() {
 
   const setPhoto = useAppStore(s => s.setPhoto);
   const syncToUrl = useAppStore(s => s.syncToUrl);
-  /** The same country's documents that can be printed, offered from an upload-only one. */
-  const printable = useMemo(
-    () => (preset?.digitalOnly ? documentsFor(preset.country).filter(p => !p.digitalOnly) : []),
-    [preset]
-  );
+  /**
+   * The printed version of an upload-only document, offered from it: the same document first
+   * ("Passport · printed" from "Passport · online"), else others in its category.
+   */
+  const printable = useMemo(() => {
+    if (!preset?.digitalOnly) return [];
+    const prints = documentsFor(preset.country).filter(p => !p.digitalOnly);
+    const same = prints.filter(p => p.doc === preset.doc);
+    return (same.length ? same : prints.filter(p => p.category === preset.category)).slice(0, 4);
+  }, [preset]);
   /** A different size needs a new crop, so switching goes back to step 2, which re-frames. */
   const switchTo = (p: Preset) => {
     setPhoto({ presetId: p.id });
@@ -290,7 +295,7 @@ export default function StepDownload() {
                 <div className="row wrap" style={{ marginTop: 10 }}>
                   {printable.map(p => (
                     <button key={p.id} className="btn" onClick={() => switchTo(p)}>
-                      {p.doc} · {formatSize(p)}
+                      {documentLabel(p)} · {formatSize(p)}
                     </button>
                   ))}
                 </div>

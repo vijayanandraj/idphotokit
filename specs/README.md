@@ -1,62 +1,67 @@
-# Photo requirements sheet
+# Photo requirements sheets
 
-`documents.csv` is the list of every photo the site can make: one row per document. Edit it
-to add a country, add a document (a visa, an ID card, a licence…), or correct a figure. No
-code changes are needed — the site is rebuilt from this sheet.
+Every photo the site can make comes from two spreadsheets in this folder:
+
+- **`countries.csv`**: one row per country. Its code, region, whether it's featured, and the other names people search it by.
+- **`documents.csv`**: one row per document (passport, visa, residence permit, ID card, licence…) with its size, head position, background, file-size limit, notes and official sources.
+
+Edit them to add a country, add a document, or correct a figure. No code changes are needed; the site is rebuilt from these sheets.
+
+`Data_completed.xlsx` is the research workbook the sheets were built from. Its wording matches the site, but **the CSVs are what the site reads**. Make changes there.
 
 ## How to edit
 
-- **In Excel:** open `documents.csv`, edit, then **File → Save As → "CSV UTF-8 (Comma
-  delimited)"**. Plain "CSV" can garble names like *Türkiye*; the build will tell you if
-  that happened.
+- **In Excel:** open the CSV, edit, then **File → Save As → "CSV UTF-8 (Comma delimited)"**. Plain "CSV" can garble names like *Türkiye*; the build will tell you if that happened.
 - **In Google Sheets:** File → Import the CSV, edit, then File → Download → CSV.
-- **On GitHub:** open the file and press the pencil icon. GitHub shows the sheet as a table
-  and lets you edit it in the browser.
+- **On GitHub:** open the file and press the pencil icon.
 
-Every change is checked when the site builds. If something is wrong, the build stops and
-says exactly where, for example:
+Every change is checked when the site builds. If something is wrong, the build stops and says exactly where, for example:
 
 ```
-row 14, head_max_%: 80 is larger than … / row 22, background: "Purple" is not a known colour
+specs/documents.csv row 14, head: "34,5 mmm" should be a number with its unit, like 34.5mm, 70%, 1.29in or 32-36mm
+specs/documents.csv row 22, country: "Turkey" is not in specs/countries.csv — add it there first
 ```
 
 Nothing broken reaches the live site.
 
-## The columns
+## countries.csv
 
 | Column | What to put | Example |
 |---|---|---|
-| `id` | **Leave blank for new rows** — one is made for you. Never change an existing one: old shared links use it. | `IND-PAN` |
-| `country` | Country name as people search for it. All rows for a country use the same spelling. | `India` |
-| `region` | One of: `Americas`, `Asia & Pacific`, `Europe`, `Middle East`, `Africa` | `Asia & Pacific` |
-| `featured` | `yes` to show the country as a shortcut button at the top of the picker. | `yes` |
-| `document` | What the photo is for. Add `(upload)` for online-only versions. | `PAN card (upload)` |
-| `badge` | Optional three-letter tag in the list. Defaults to the start of the id. | `OCI` |
+| `country` | The name as people search for it. `documents.csv` uses exactly this spelling. | `India` |
+| `code` | ISO 3-letter code. Shown as the badge in the picker. | `IND` |
+| `iso2` | ISO 2-letter code. Used to start visitors on their own country. | `IN` |
+| `region` | `Americas`, `Asia & Pacific`, `Europe`, `Middle East`, `Africa` or `Worldwide` | `Asia & Pacific` |
+| `featured` | `yes` to show the country as a shortcut at the top of the picker. | `yes` |
+| `aliases` | Other names, separated by `;`. Search finds the country by any of them. | `UK; Britain; England` |
+
+## documents.csv
+
+| Column | What to put | Example |
+|---|---|---|
+| `id` | **Leave blank for new rows**: one is made for you. Never change an existing one; shared links use it. | `IDK-0317` |
+| `country` | Exactly as in `countries.csv`. | `India` |
+| `document` | What the photo is for, in plain words. Don't include the size. | `PAN card` |
+| `variant` | Only when the country has two of the same document: `online`, `printed`, `from the USA`, `blue background`, a size. | `online` |
+| `category` | `Passport`, `Visa`, `Residence & immigration`, `ID card`, `Driving licence`, `Licences & permits`, `Education & exams`, `Cards & passes`, `Standard sizes` or `Other` | `ID card` |
 | `width`, `height` | The photo size, in `unit`. | `35`, `45` |
 | `unit` | `mm`, `cm`, `in` or `px` (`px` only for upload-only documents). | `mm` |
-| `head_min_%`, `head_max_%` | Chin to top of hair, as a % of the photo height. Leave both blank if not published. | `70`, `80` |
-| `top_gap_%` | Space from the top of the photo to the top of the hair, % of the height. Optional. | `7` |
-| `eye_min_%`, `eye_max_%` | Eye line measured **up from the bottom**, % of the height. Optional. | `56`, `69` |
-| `background` | Accepted colours, the usual one first: `White`, `Off-white`, `Light grey`, `Cream`, `Light blue`, `Blue`, `Red`, or a `#rrggbb` code. | `White, Light grey` |
+| `head` | Chin to top of hair, **as the authority publishes it**: `34.5mm`, `1.29in`, `300px`, `70%`, or a range like `32-36mm`. | `34.5mm` |
+| `top_gap` | Top of the photo to the top of the hair, same style. Optional. | `3mm` |
+| `eye_line` | Eye line measured **up from the bottom**, same style. Optional. | `1.18in` |
+| `background` | Accepted colours, the usual one first: `White`, `Off-white`, `Light grey`, `Cream`, `Light blue`, `Blue`, `Red`, or a `#rrggbb` code. | `White, Off-white` |
 | `file_kb_min`, `file_kb_max` | File size the upload form accepts, in KB. Max alone is fine. | `10`, `1024` |
 | `upload_only` | `yes` if the photo is only ever uploaded, never printed. | `yes` |
-| `note` | Anything else worth knowing, in one or two sentences. Shown to users. | `Glasses are not allowed.` |
-| `source` | Link to the authority's own requirements page. Shown on the document's page. | `https://…` |
+| `note` | Anything else worth knowing, in one or two sentences. Shown to users. | `For children under 15.` |
+| `source` | The authority's own requirements page. Several are fine, separated by ` ; `. | `https://…` |
 
-### Turning a published rule into numbers
+### Head size: one figure or a range
 
-Authorities usually publish millimetres; the sheet wants percentages of the photo height.
-
-- **Head 32–36 mm on a 45 mm photo:** 32 ÷ 45 = 71%, 36 ÷ 45 = 80% → `71`, `80`
-- **Head 1 to 1⅜ inch on a 2 inch photo:** 1 ÷ 2 = 50%, 1.375 ÷ 2 = 69% → `50`, `69`
-- **Eyes 1⅛–1⅜ inch from the bottom of a 2 inch photo:** → `56`, `69`
+Most authorities publish one head size ("34.5 mm"). The photo is framed to that figure and checked within **3% of the photo height** either side of it, about ±1.4 mm on a 45 mm photo. If the authority publishes a range, type the range (`32-36mm`) and it's used as is. If nothing is published, leave `head` blank and a neutral ICAO proportion is used. The site says so.
 
 ## Things to know
 
-- **Row order matters a little.** A country's *first* row is its main document: it gets the
-  short page address (`/photo/india`), and the others get `/photo/india/pan-card`.
-- Renaming a `country` or `document` changes that page's web address. Prefer adding a new
-  row to renaming one that has been live for a while.
-- Percentages may be typed as `70` or `70%`, and `yes` as `Yes`, `y` or `x`.
-- Use the official source, not another photo website. Requirements change; when they do,
-  this is the only file to update.
+- **Row order matters a little.** A country's rows must be together, and its *first* row is its main document: it gets the short page address (`/photo/india`). The others get `/photo/india/pan-card-online` (document + variant).
+- Renaming a `country`, `document` or `variant` changes that page's web address. Prefer adding a new row to renaming one that has been live for a while.
+- `yes` may be typed as `Yes`, `y` or `x`.
+- Documents with identical photo rules (size, head, background, file limit) are linked automatically: "The same photo works for…".

@@ -4,9 +4,11 @@ type Props = {
   onPick: (file?: File) => void;
   /** What the photo is for, e.g. "India driving licence", so the drop target names it. */
   forWhat?: string;
+  /** Replaces the default "Choose a photo…" line before a file is chosen. */
+  prompt?: string;
 };
 
-export default function FilePicker({ onPick, forWhat }: Props) {
+export default function FilePicker({ onPick, forWhat, prompt }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -61,7 +63,7 @@ export default function FilePicker({ onPick, forWhat }: Props) {
 
       <div className="copy">
         <div className="primaryText">
-          {fileName ?? `Choose a photo${forWhat ? ` for your ${forWhat}` : ""}, or drag one here`}
+          {fileName ?? prompt ?? `Choose a photo${forWhat ? ` for your ${forWhat}` : ""}, or drag one here`}
         </div>
         <div className="secondaryText">
           {fileName ? "Click to choose a different photo" : "Well-lit, facing the camera, plain background works best"}

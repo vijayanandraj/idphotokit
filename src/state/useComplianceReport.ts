@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useAppStore } from "./store";
 import { measureHead, type HeadMetrics } from "../utils/autoframe";
 import { buildReport, type Report } from "../utils/compliance";
+import { analysePose, type FacePose } from "../utils/pose";
 import { findPreset, type Preset } from "../utils/presets";
 import { sizeToPx } from "../utils/units";
 
@@ -23,20 +24,23 @@ export function useComplianceReport(): { report: Report; preset?: Preset; measur
   // result is stored with the photo it was measured from, so a new photo reads as "not
   // measured yet" without having to clear the old value first — which would mean writing
   // state synchronously inside the effect.
-  const [measured, setMeasured] = useState<{ key?: string; metrics: HeadMetrics | null }>();
+  const [measured, setMeasured] = useState<{ key?: string; metrics: HeadMetrics | null; pose: FacePose | null }>();
 
   useEffect(() => {
     if (!imageBitmap) return;
     let live = true;
     const key = imageUrl;
-    measureHead(imageBitmap)
-      .then(metrics => { if (live) setMeasured({ key, metrics }); })
-      .catch(() => { if (live) setMeasured({ key, metrics: null }); });
+    // Each failure is its own: a pose model that won't load shouldn't cost the framing checks.
+    void Promise.all([
+      measureHead(imageBitmap).catch(() => null),
+      analysePose(imageBitmap).catch(() => null)
+    ]).then(([metrics, pose]) => { if (live) setMeasured({ key, metrics, pose }); });
     return () => { live = false; };
   }, [imageBitmap, imageUrl]);
 
   const fresh = !!measured && measured.key === imageUrl;
   const head = fresh ? measured.metrics : undefined;
+  const pose = fresh ? measured.pose : undefined;
 
   const preset = useMemo(() => findPreset(photo.presetId), [photo.presetId]);
   const outPx = useMemo(() => sizeToPx(photo.width, photo.height, photo.unit, photo.dpi), [photo]);
@@ -50,9 +54,10 @@ export function useComplianceReport(): { report: Report; preset?: Preset; measur
         crop: croppedAreaPixels,
         rotation: crop.rotation,
         head,
+        pose,
         outPx
       }),
-    [photo, preset, bg, croppedAreaPixels, crop.rotation, head, outPx]
+    [photo, preset, bg, croppedAreaPixels, crop.rotation, head, pose, outPx]
   );
 
   return { report, preset, measuring: !!imageBitmap && !fresh };

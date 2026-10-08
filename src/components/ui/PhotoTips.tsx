@@ -1,3 +1,5 @@
+import PhotoGuide from "./PhotoGuide";
+
 /**
  * How to take the photo in the first place.
  *
@@ -61,9 +63,21 @@ const AVOID = [
   "A low-resolution crop out of a group picture"
 ];
 
-export default function PhotoTips() {
+type Props = {
+  /** The document's background colour, for the example photo. */
+  background?: string;
+  /**
+   * Checking a finished photo rather than making one: the background is not replaced, so it
+   * counts too.
+   */
+  checking?: boolean;
+  /** Start expanded. */
+  open?: boolean;
+};
+
+export default function PhotoTips({ background, checking = false, open = false }: Props) {
   return (
-    <details className="panel tipsPanel">
+    <details className="panel tipsPanel" open={open}>
       <summary className="panelHead">
         <span className="panelTitle">How to take a photo that passes</span>
         <span className="panelMeta">{TIPS.length} rules · 1 minute</span>
@@ -71,9 +85,12 @@ export default function PhotoTips() {
 
       <div className="panelBody">
         <p className="small tipsIntro">
-          Ignore the background — this tool removes it. Everything else has to be right in
-          the shot itself.
+          {checking
+            ? "A photo that is already taken can only be re-cropped and given a new background. Everything else has to be right in the shot itself."
+            : "Ignore the background — this tool removes it. Everything else has to be right in the shot itself."}
         </p>
+
+        <PhotoGuide background={background} includeBackground={checking} />
 
         <div className="tipGrid">
           {TIPS.map(t => (

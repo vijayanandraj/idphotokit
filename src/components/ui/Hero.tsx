@@ -1,6 +1,8 @@
 import { TAGLINE, TAGLINE_PROMISE } from "../../brand";
 import {
+  ANY_COUNTRY,
   backgroundLabel,
+  documentLabel,
   DEFAULT_HEAD,
   formatFileKB,
   formatSize,
@@ -14,7 +16,7 @@ import { presetFromPath } from "../../utils/route";
 type Tile = { value: string; label: string };
 
 /** The kinds of document covered, as a reader would name them. */
-const KINDS = ["Passports", "Visas", "ID cards", "Residence cards", "Driving licences", "Tax ID", "Visa lottery"];
+const KINDS = ["Passports", "Visas", "Residence permits", "ID cards", "Driving licences", "Student cards", "Licences"];
 
 /**
  * The top of step 1.
@@ -34,7 +36,12 @@ export default function Hero({ preset }: { preset?: Preset }) {
     const head = doc.head ?? DEFAULT_HEAD;
     const tiles: Tile[] = [
       { value: formatSize(doc), label: doc.digitalOnly ? "upload size" : "print size" },
-      { value: `${Math.round(head.min * 100)}–${Math.round(head.max * 100)}%`, label: "head height" },
+      {
+        value: head.target !== undefined
+          ? `${Math.round(head.target * 100)}%`
+          : `${Math.round(head.min * 100)}–${Math.round(head.max * 100)}%`,
+        label: "head height"
+      },
       { value: backgroundLabel(doc), label: "background" }
     ];
     if (doc.fileKB) tiles.push({ value: formatFileKB(doc.fileKB), label: "file size" });
@@ -42,14 +49,14 @@ export default function Hero({ preset }: { preset?: Preset }) {
     return (
       <section className="hero">
         <div className="heroEyebrow mono">
-          {doc.name} · {doc.doc}
+          {doc.country === ANY_COUNTRY ? "Standard size" : doc.name} · {documentLabel(doc)}
         </div>
         <h1 className="heroTitle">
           {presetTitle(doc)} photo.
           <span className="heroPromise">Privacy first. {TAGLINE_PROMISE}</span>
         </h1>
         <p className="heroSub">
-          Made right here in your browser: framed to the {doc.name} rule for this document,
+          Made right here in your browser: framed to the {doc.country === ANY_COUNTRY ? "" : `${doc.name} `}rule for this document,
           background replaced, and every measurement checked before you{" "}
           {doc.digitalOnly ? "upload it" : "print or upload it"}. Free, and no account.
         </p>
@@ -76,7 +83,7 @@ export default function Hero({ preset }: { preset?: Preset }) {
       <Tiles
         tiles={[
           { value: String(PRESETS.length), label: "documents" },
-          { value: String(PRIMARY_PRESETS.length), label: "countries" },
+          { value: String(PRIMARY_PRESETS.filter(p => p.country !== ANY_COUNTRY).length), label: "countries" },
           { value: "0", label: "photos uploaded" },
           { value: "Free", label: "no account, no watermark" }
         ]}

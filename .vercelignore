@@ -1,0 +1,20 @@
+# What `vercel deploy` uploads from this folder. Vercel reads this instead of .gitignore,
+# so everything private there is repeated here.
+node_modules
+dist
+dist-ssr
+*.local
+*.log
+
+# Personal test photos — never upload.
+test-images
+public/test-images
+model-images
+
+# Local tooling and research files the build doesn't need.
+.claude
+.mcp.json
+.ignore
+graft
+specs/*.xlsx
+specs/~$*

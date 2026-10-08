@@ -4,19 +4,22 @@ import { useAppStore } from "../../state/store";
 import {
   backgroundLabel,
   backgroundsFor,
-  documentsFor,
   DEFAULT_HEAD,
+  documentLabel,
   findPreset,
   formatFileKB,
   formatSize,
   headTargetFor,
   presetTitle,
+  samePhotoAs,
+  sourceLabels,
   type Preset
 } from "../../utils/presets";
 import { sizeToPx, toInches } from "../../utils/units";
 import FilePicker from "../ui/FilePicker";
 import PrivacyNotice from "../ui/PrivacyNotice";
 import CountryPicker from "../ui/CountryPicker";
+import DocumentChooser from "../ui/DocumentChooser";
 import PhotoTips from "../ui/PhotoTips";
 import Hero from "../ui/Hero";
 
@@ -61,7 +64,10 @@ function SpecTable({ preset, dpi }: { preset: Preset; dpi: number }) {
         <tr>
           <th scope="row">Head, chin to crown</th>
           <td className="mono">
-            {rangeAlong(head, preset)}
+            {head.target !== undefined ? along(head.target, preset) : rangeAlong(head, preset)}
+            {head.target !== undefined && (
+              <span className="muted"> · checked within {lengthOf(head.min, preset)}–{lengthOf(head.max, preset)} {unitOf(preset)}</span>
+            )}
             {!preset.head && <span className="muted"> · ICAO default, none published</span>}
           </td>
         </tr>
@@ -74,7 +80,9 @@ function SpecTable({ preset, dpi }: { preset: Preset; dpi: number }) {
         {preset.eyeLine && (
           <tr>
             <th scope="row">Eye line, from the bottom</th>
-            <td className="mono">{rangeAlong(preset.eyeLine, preset)}</td>
+            <td className="mono">
+              {preset.eyeLine.target !== undefined ? along(preset.eyeLine.target, preset) : rangeAlong(preset.eyeLine, preset)}
+            </td>
           </tr>
         )}
         <tr>
@@ -100,6 +108,18 @@ function SpecTable({ preset, dpi }: { preset: Preset; dpi: number }) {
           <th scope="row">Use</th>
           <td>{preset.digitalOnly ? "Online upload only" : "Print, or upload where the form accepts it"}</td>
         </tr>
+        {preset.sources && (
+          <tr>
+            <th scope="row">Official source</th>
+            <td className="sourceLinks">
+              {sourceLabels(preset.sources).map(({ url, label }) => (
+                <a key={url} href={url} target="_blank" rel="noopener noreferrer nofollow">
+                  {label}
+                </a>
+              ))}
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
@@ -113,7 +133,7 @@ export default function StepSize() {
 
   const px = useMemo(() => sizeToPx(photo.width, photo.height, photo.unit, photo.dpi), [photo]);
   const preset = useMemo(() => findPreset(photo.presetId), [photo.presetId]);
-  const documents = useMemo(() => (preset ? documentsFor(preset.country) : []), [preset]);
+  const samePhoto = useMemo(() => (preset ? samePhotoAs(preset) : []), [preset]);
   const headPercent = Math.round(headTargetFor(preset) * 100);
 
   const choose = (p: Preset) => {
@@ -147,26 +167,8 @@ export default function StepSize() {
           }}
         />
 
-        {documents.length > 1 && (
-          <>
-            <div className="docTabsLabel small">{preset?.name} documents</div>
-            <div className="docTabs" role="radiogroup" aria-label={`${preset?.name} documents`}>
-              {documents.map(d => (
-                <button
-                  key={d.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={d.id === preset?.id}
-                  className={`pill ${d.id === preset?.id ? "active" : ""}`}
-                  onClick={() => choose(d)}
-                >
-                  {d.doc}
-                  <span className="mono docTabSize">{formatSize(d)}</span>
-                </button>
-              ))}
-            </div>
-          </>
-        )}
+        {/* Keyed by country so a filter typed for one country doesn't carry to the next. */}
+        {preset && <DocumentChooser key={preset.country} selected={preset} onSelect={choose} />}
       </section>
 
       <section className="card uploadCard">
@@ -211,6 +213,20 @@ export default function StepSize() {
 
         {preset && <SpecTable preset={preset} dpi={photo.dpi} />}
         {preset?.note && <div className="small specNote">{preset.note}</div>}
+        {preset && samePhoto.length > 0 && (
+          <div className="small samePhoto">
+            <span className="samePhotoLead">The same photo works for</span>{" "}
+            {samePhoto.slice(0, 8).map((d, i) => (
+              <span key={d.id}>
+                {i > 0 && (i === Math.min(samePhoto.length, 8) - 1 && samePhoto.length <= 8 ? " and " : ", ")}
+                <button type="button" className="linkish" onClick={() => choose(d)}>
+                  {documentLabel(d)}
+                </button>
+              </span>
+            ))}
+            {samePhoto.length > 8 && <> and {samePhoto.length - 8} more</>}.
+          </div>
+        )}
 
         <details style={{ marginTop: 12 }}>
           <summary className="pill" style={{ display: "inline-block" }}>
@@ -287,7 +303,7 @@ export default function StepSize() {
         </div>
       </section>
 
-      <PhotoTips />
+      <PhotoTips background={preset ? backgroundsFor(preset)[0]?.color : undefined} />
     </div>
   );
 }

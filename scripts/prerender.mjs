@@ -16,7 +16,7 @@
 
 import { build } from "esbuild";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { parseSpecs } from "./specs.mjs";
+import { specsModule } from "./specs.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -33,7 +33,7 @@ const DOC_SLOT = "<!-- country-doc -->";
 async function loadPresets() {
   const result = await build({
     stdin: {
-      contents: `export { PRESETS, slugsFor, documentsFor, presetTitle, backgroundsFor, backgroundLabel, formatSize, formatFileKB, DEFAULT_HEAD } from "./src/utils/presets";
+      contents: `export { PRESETS, ANY_COUNTRY, slugsFor, documentsFor, documentsByCategory, documentLabel, presetTitle, backgroundsFor, backgroundLabel, formatSize, formatFileKB, sourceLabels, samePhotoAs, DEFAULT_HEAD } from "./src/utils/presets";
                  export { sizeToPx, toInches } from "./src/utils/units";
                  export { BRAND, TAGLINE, HOME_DESCRIPTION } from "./src/brand";`,
       resolveDir: root,
@@ -47,8 +47,11 @@ async function loadPresets() {
     plugins: [{
       name: "specs-sheet",
       setup(b) {
-        b.onLoad({ filter: /\.csv$/ }, async args => ({
-          contents: `export default ${JSON.stringify(parseSpecs(await readFile(args.path, "utf8"), "specs/documents.csv"))};`,
+        b.onLoad({ filter: /documents\.csv$/ }, async args => ({
+          contents: specsModule(
+            await readFile(args.path, "utf8"),
+            await readFile(join(dirname(args.path), "countries.csv"), "utf8")
+          ),
           loader: "js"
         }));
       }
@@ -78,6 +81,9 @@ const unitOf = (preset) => (preset.unit === "px" ? "px" : "mm");
 const pct = (f) => Math.round(f * 100);
 
 function rangeText(r, preset, lib) {
+  if (r.target !== undefined) {
+    return `${lengthOf(r.target, preset, lib)} ${unitOf(preset)} (${pct(r.target)}% of the height)`;
+  }
   return `${lengthOf(r.min, preset, lib)}–${lengthOf(r.max, preset, lib)} ${unitOf(preset)} (${pct(r.min)}–${pct(r.max)}% of the height)`;
 }
 
@@ -89,7 +95,7 @@ function metaFor(preset, lib) {
   const limit = preset.fileKB ? `, ${lib.formatFileKB(preset.fileKB)}` : "";
   const description =
     `${title} photos are ${size}${limit}. Make one free in your browser: ` +
-    `automatic head sizing to the ${preset.name} rule, background removal, and ` +
+    `automatic head sizing to ${preset.country === lib.ANY_COUNTRY ? "standard ID proportions" : `the ${preset.name} rule`}, background removal, and ` +
     `${preset.digitalOnly ? "a JPEG sized for the upload form" : "a printable sheet"}. ` +
     `No sign-in and no upload — your photo never leaves your device.`;
 
@@ -165,7 +171,7 @@ function diagramFor(preset, lib) {
   const Y = (f) => y0 + f * PH;
 
   const head = preset.head ?? lib.DEFAULT_HEAD;
-  const target = (head.min + head.max) / 2;
+  const target = head.target ?? (head.min + head.max) / 2;
   const gap = preset.crownGap ?? (1 - target) * 0.32;
   const crown = Y(gap);
   const chin = Y(gap + target);
@@ -217,17 +223,17 @@ function diagramFor(preset, lib) {
     </g>`,
     // The allowed chin band, given the crown where it is.
     `<rect x="${c1 - 5}" y="${crown + head.min * PH}" width="10" height="${(head.max - head.min) * PH}" fill="#3f7a5d" fill-opacity=".22"/>`,
-    vdim(c1, crown, chin, `head ${pct(head.min)}–${pct(head.max)}%`, "#3f7a5d"),
+    vdim(c1, crown, chin, head.target !== undefined ? `head ${pct(head.target)}%` : `head ${pct(head.min)}–${pct(head.max)}%`, "#3f7a5d"),
     vdim(c1, y0, crown, preset.crownGap !== undefined ? `${pct(gap)}%` : "", "#5b6470")
   ];
 
   if (preset.eyeLine) {
-    const e = (preset.eyeLine.min + preset.eyeLine.max) / 2;
+    const e = preset.eyeLine.target ?? (preset.eyeLine.min + preset.eyeLine.max) / 2;
     const ey = Y(1 - e);
     parts.push(
       `<rect x="${c2 - 5}" y="${Y(1 - preset.eyeLine.max)}" width="10" height="${(preset.eyeLine.max - preset.eyeLine.min) * PH}" fill="#3f7a5d" fill-opacity=".22"/>`,
       `<line x1="${x0}" y1="${ey}" x2="${c2 + 6}" y2="${ey}" stroke="#3f7a5d" stroke-opacity=".7" stroke-dasharray="6 4"/>`,
-      vdim(c2, ey, yB, `eyes ${pct(preset.eyeLine.min)}–${pct(preset.eyeLine.max)}%`, "#3f7a5d")
+      vdim(c2, ey, yB, preset.eyeLine.target !== undefined ? `eyes ${pct(e)}%` : `eyes ${pct(preset.eyeLine.min)}–${pct(preset.eyeLine.max)}%`, "#3f7a5d")
     );
   }
 
@@ -235,7 +241,7 @@ function diagramFor(preset, lib) {
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(`${lib.presetTitle(preset)} photo: ${lib.formatSize(preset)}, head ${pct(head.min)}–${pct(head.max)}% of the height`)}" font-family="IBM Plex Mono, ui-monospace, monospace">
         ${parts.join("\n        ")}
       </svg>
-      <figcaption>Head height and position are drawn to the middle of the allowed range. The shaded band is the tolerance.</figcaption>
+      <figcaption>Head height and position are drawn to the published figure. The shaded band is the tolerance the photo is checked within.</figcaption>
     </figure>`;
 }
 
@@ -252,14 +258,19 @@ function docFor(preset, lib, all) {
   const head = preset.head ?? lib.DEFAULT_HEAD;
   const backgrounds = lib.backgroundLabel(preset);
 
+  // The rest of the country's documents, grouped as the picker groups them.
   const sameCountry = lib
-    .documentsFor(preset.country)
-    .filter(p => p.id !== preset.id)
-    .map(p => `<li><a href="${pathFor(p, lib)}">${esc(lib.presetTitle(p))} photo</a> — ${esc(lib.formatSize(p))}</li>`)
+    .documentsByCategory(preset.country)
+    .map(g => ({ ...g, documents: g.documents.filter(p => p.id !== preset.id) }))
+    .filter(g => g.documents.length > 0)
+    .map(g => `<h4>${esc(g.category)}</h4><ul class="countryLinks">${g.documents
+      .map(p => `<li><a href="${pathFor(p, lib)}">${esc(lib.presetTitle(p))} photo</a> — ${esc(lib.formatSize(p))}</li>`)
+      .join("")}</ul>`)
     .join("");
+  const samePhoto = lib.samePhotoAs(preset);
 
   const siblings = all
-    .filter(p => p.primary && p.country !== preset.country && p.region === preset.region)
+    .filter(p => p.primary && p.country !== preset.country && p.region === preset.region && p.region !== "Worldwide")
     .slice(0, 8)
     .map(p => `<li><a href="${pathFor(p, lib)}">${esc(lib.presetTitle(p))} photo size</a></li>`)
     .join("");
@@ -269,7 +280,7 @@ function docFor(preset, lib, all) {
     preset.unit !== "px" ? ["At 300 DPI", `${px.w} × ${px.h} pixels`] : null,
     [
       "Head height (chin to crown)",
-      esc(rangeText(head, preset, lib)) + (preset.head ? "" : ` — ICAO guidance, ${esc(preset.name)} publishes no figure`)
+      esc(rangeText(head, preset, lib)) + (preset.head ? "" : " — ICAO guidance, no figure is published")
     ],
     preset.crownGap !== undefined
       ? ["Top of photo to top of hair", `about ${lengthOf(preset.crownGap, preset, lib)} ${unitOf(preset)} (${pct(preset.crownGap)}%)`]
@@ -280,8 +291,16 @@ function docFor(preset, lib, all) {
     ["Use", preset.digitalOnly ? "Online upload only" : "Print, or upload where the form accepts it"],
     ["Expression", "Neutral, mouth closed, both eyes open and visible"],
     preset.note ? ["Notes", esc(preset.note)] : null,
-    preset.source
-      ? ["Source", `<a href="${esc(preset.source)}" rel="nofollow noopener" target="_blank">${esc(new URL(preset.source).hostname)}</a>`]
+    samePhoto.length
+      ? ["Same photo works for", samePhoto.map(p => `<a href="${pathFor(p, lib)}">${esc(lib.documentLabel(p))}</a>`).join(", ")]
+      : null,
+    preset.sources
+      ? [
+          preset.sources.length > 1 ? "Official sources" : "Official source",
+          lib.sourceLabels(preset.sources)
+            .map(({ url, label }) => `<a href="${esc(url)}" rel="nofollow noopener" target="_blank">${esc(label)}</a>`)
+            .join(" · ")
+        ]
       : null
   ].filter(Boolean);
 
@@ -325,7 +344,7 @@ function docFor(preset, lib, all) {
           off your Wi-Fi once the page has loaded and it still works.
         </p>
 
-        ${sameCountry ? `<h3>Other ${esc(preset.name)} documents</h3><ul class="countryLinks">${sameCountry}</ul>` : ""}
+        ${sameCountry ? `<h3>Other ${esc(preset.country === lib.ANY_COUNTRY ? "standard sizes" : `${preset.name} documents`)}</h3>${sameCountry}` : ""}
         ${siblings ? `<h3>Other ${esc(preset.region)} requirements</h3><ul class="countryLinks">${siblings}</ul>` : ""}
 
         <p class="countryDocNote">
@@ -382,7 +401,7 @@ async function main() {
   await writeFile(join(dist, "index.html"), shell.replace(META_BLOCK, homeMeta(lib)).replace(DOC_SLOT, ""), "utf8");
   await writeFile(join(dist, "sitemap.xml"), sitemap(PRESETS, lib), "utf8");
 
-  const countries = PRESETS.filter(p => p.primary).length;
+  const countries = PRESETS.filter(p => p.primary && p.country !== lib.ANY_COUNTRY).length;
   console.log(`prerendered ${PRESETS.length} document pages for ${countries} countries + sitemap.xml (site: ${SITE})`);
 }
 

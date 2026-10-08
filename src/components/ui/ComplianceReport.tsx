@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useAppStore } from "../../state/store";
 import type { CheckStatus, Report } from "../../utils/compliance";
 import { presetTitle, type Preset } from "../../utils/presets";
@@ -16,9 +17,15 @@ const VERDICT_TEXT: Record<CheckStatus, string> = {
   unknown: "Partly checked"
 };
 
-type Props = { report: Report; preset?: Preset; measuring: boolean };
+type Props = {
+  report: Report;
+  preset?: Preset;
+  measuring: boolean;
+  /** Shown when something isn't a pass. Defaults to the wizard's way back to its own steps. */
+  actions?: ReactNode;
+};
 
-export default function ComplianceReport({ report, preset, measuring }: Props) {
+export default function ComplianceReport({ report, preset, measuring, actions }: Props) {
   const setStep = useAppStore(s => s.setStep);
 
   return (
@@ -52,15 +59,20 @@ export default function ComplianceReport({ report, preset, measuring }: Props) {
 
         {report.verdict !== "pass" && (
           <div className="row wrap" style={{ marginTop: 12 }}>
-            <button className="btn" onClick={() => setStep(2)}>Back to crop</button>
-            <button className="btn" onClick={() => setStep(3)}>Back to background</button>
+            {actions ?? (
+              <>
+                <button className="btn" onClick={() => setStep(2)}>Back to crop</button>
+                <button className="btn" onClick={() => setStep(3)}>Back to background</button>
+              </>
+            )}
           </div>
         )}
 
         <div className="small" style={{ marginTop: 12 }}>
-          These are the parts that can be measured. Expression, glasses, shadows and lighting
-          are judged by a person — see the tips on step 1. Requirements change, and the
-          authority's own guidance is always the authority.
+          These are the parts that can be measured, and pose, expression and lighting are
+          estimates. Glasses, glare, hair over the eyes and head coverings are judged by a
+          person — see the photo tips. Requirements change, and the authority's own guidance
+          is always the authority.
         </div>
       </div>
     </details>

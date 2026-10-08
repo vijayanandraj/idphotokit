@@ -31,7 +31,7 @@
   "redirects": [
     {
       "source": "/passport-photo/india-oci-visa",
-      "destination": "/photo/india/oci-card",
+      "destination": "/photo/india/oci-card-2x2-in",
       "permanent": true
     },
     {

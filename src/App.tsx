@@ -1,11 +1,21 @@
 import Wizard from "./components/Wizard";
+import PhotoChecker from "./components/PhotoChecker";
+import { useAppStore, type AppMode } from "./state/store";
 import { GitHubStarLink, REPO_URL } from "./components/ui/GitHubStar";
 import { BRAND } from "./brand";
 
 /** The footer strip, written as the machine-readable zone of an ID card ("I<" document code). */
 const MRZ = `I<UTO${BRAND.toUpperCase().replace(/\s+/g, "")}<<PASSPORT<VISA<ID<LICENCE<<FREE<<NO<UPLOAD<<<<<<<<`;
 
+const MODES: Array<{ id: AppMode; label: string; hint: string }> = [
+  { id: "make", label: "Make a photo", hint: "from any picture" },
+  { id: "check", label: "Check a photo", hint: "you already have" }
+];
+
 export default function App() {
+  const mode = useAppStore(s => s.mode);
+  const setMode = useAppStore(s => s.setMode);
+
   return (
     <div className="app">
       <header className="topbar">
@@ -26,7 +36,22 @@ export default function App() {
       </header>
 
       <main className="main">
-        <Wizard />
+        <div className="modeSwitch" role="tablist" aria-label="What to do">
+          {MODES.map(m => (
+            <button
+              key={m.id}
+              type="button"
+              role="tab"
+              aria-selected={mode === m.id}
+              className={`modeTab ${mode === m.id ? "active" : ""}`}
+              onClick={() => setMode(m.id)}
+            >
+              {m.label} <span className="modeHint">{m.hint}</span>
+            </button>
+          ))}
+        </div>
+
+        {mode === "make" ? <Wizard /> : <PhotoChecker />}
       </main>
 
       <footer className="footer">

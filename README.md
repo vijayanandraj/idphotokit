@@ -7,9 +7,10 @@ If it's useful to you, a ⭐ on the repo helps other people find it.
 
 What it does:
 - Upload an image (no server upload)
-- Pick the document from 65 across 52 countries — each sets the size, the head height, and
-  where published the space above the head, the eye line and the upload file-size limit —
-  or enter a custom size + DPI
+- Pick the document from 965 across 166 countries plus standard sizes. Search by country,
+  document or size ("schengen visa", "pan card", "3x4"). Each sets the size, the head
+  height and, where published, the space above the head, the eye line and the upload
+  file-size limit. Or enter a custom size + DPI.
 - Check the result against that document's rule, with the measurements drawn on the preview
 - Crop with manual controls + automatic head framing
 - Optional Auto Enhance (brightness/contrast/saturation baseline)
@@ -23,7 +24,7 @@ What it does:
 Every document has its own page: a country's primary document at `/photo/<country>` and the
 rest at `/photo/<country>/<document>`, e.g.
 [/photo/india](https://passport-maker-ten.vercel.app/photo/india),
-[/photo/india/pan-card-upload](https://passport-maker-ten.vercel.app/photo/india/pan-card-upload) or
+[/photo/india/pan-card-online](https://passport-maker-ten.vercel.app/photo/india/pan-card-online) or
 [/photo/united-states/dv-lottery](https://passport-maker-ten.vercel.app/photo/united-states/dv-lottery).
 Each opens the tool preset to that document and sets out its published requirements with a
 diagram. The old `/passport-photo/<country>` paths redirect here.
@@ -51,7 +52,7 @@ about 16MB, then cached by the browser. Nothing is downloaded for the crop-only 
 ## Features
 
 ### Step 1: Upload + Size
-- 65 documents across 52 countries, searchable and grouped by region. They live in a spreadsheet, [`specs/documents.csv`](specs/documents.csv) — add or correct one without touching code; see [`specs/README.md`](specs/README.md)
+- 965 documents across 166 countries, searchable by country, document or size, with each country's documents grouped by category (passport, visa, residence, ID card, licence…). They live in two spreadsheets, [`specs/countries.csv`](specs/countries.csv) and [`specs/documents.csv`](specs/documents.csv). Add or correct one without touching code; see [`specs/README.md`](specs/README.md)
 - Each preset carries two things, not one:
   - the **print size** (35×45mm across most of the world, 2×2in in the US, 50×70mm in
     Canada, 33×48mm in China, 26×32mm in Spain)

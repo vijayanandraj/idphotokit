@@ -1,5 +1,6 @@
 import type { BackgroundSpec, PhotoSpec } from "../types";
 import type { HeadMetrics } from "./autoframe";
+import type { FacePose } from "./pose";
 import { backgroundsFor, DEFAULT_HEAD, formatSize, presetTitle, type Preset } from "./presets";
 import { toInches } from "./units";
 
@@ -63,8 +64,19 @@ export type ComplianceInput = {
   rotation: number;
   /** Measured on the source image. Absent when no face was found. */
   head?: HeadMetrics | null;
+  /** How the face is held. Undefined while still being measured, null when no face was found. */
+  pose?: FacePose | null;
   /** Output size in pixels. */
   outPx: { w: number; h: number };
+};
+
+/** What the framing checks need, shared with the checker for finished photos (utils/photoCheck.ts). */
+export type FramingInput = Pick<ComplianceInput, "head" | "crop" | "photo" | "preset" | "rotation"> & {
+  /**
+   * How to fix a framing problem. The wizard points at its crop step; the checker, which
+   * can't re-crop a finished photo, points at the wizard instead.
+   */
+  reframe?: string;
 };
 
 /** The photo's printed height in millimetres, whatever unit it's expressed in. */
@@ -174,8 +186,10 @@ function resolutionCheck(
   };
 }
 
-function headChecks(input: ComplianceInput): { checks: Check[]; geometry?: Geometry } {
-  const { head, crop, photo, preset, rotation } = input;
+export function headChecks(input: FramingInput): { checks: Check[]; geometry?: Geometry } {
+  const { head, crop, photo, preset, rotation, reframe } = input;
+  /** The fix for a framing fault: the wizard's own step, unless the caller says otherwise. */
+  const fix = (onStep2: string) => reframe ?? onStep2;
 
   const unavailable = (advice: string): { checks: Check[] } => ({
     checks: [
@@ -209,20 +223,22 @@ function headChecks(input: ComplianceInput): { checks: Check[]; geometry?: Geome
     label: "Head height",
     status: headStatus,
     value: `${length(fraction, photo)} (${pct(fraction)} of the frame)`,
-    requirement: `${length(range.min, photo)}–${length(range.max, photo)}${preset?.head ? "" : " (ICAO default)"}`,
+    requirement: preset?.head?.target !== undefined
+      ? `${length(preset.head.target, photo)}, within ${length(range.min, photo)}–${length(range.max, photo)}`
+      : `${length(range.min, photo)}–${length(range.max, photo)}${preset?.head ? "" : " (ICAO default)"}`,
     advice:
       headStatus === "pass"
         ? undefined
         : fraction > range.max
-          ? "The head is too large in frame. Zoom out on step 2, or re-run Auto-frame."
-          : "The head is too small in frame. Zoom in on step 2, or re-run Auto-frame."
+          ? `The head is too large in frame. ${fix("Zoom out on step 2, or re-run Auto-frame.")}`
+          : `The head is too small in frame. ${fix("Zoom in on step 2, or re-run Auto-frame.")}`
   };
 
   // Space above the crown. Negative means the top of the head is outside the crop.
   const above = (head.crownY - crop.y) / crop.height;
   const headroom = preset?.crownGap !== undefined
-    ? publishedHeadroom(above, preset.crownGap, photo)
-    : genericHeadroom(above, photo);
+    ? publishedHeadroom(above, preset.crownGap, photo, reframe)
+    : genericHeadroom(above, photo, reframe);
 
   // Horizontal centring.
   const offset = (head.centerX - (crop.x + crop.width / 2)) / crop.width;
@@ -235,14 +251,14 @@ function headChecks(input: ComplianceInput): { checks: Check[]; geometry?: Geome
         ? "Centred"
         : `${pct(Math.abs(offset))} ${offset > 0 ? "right" : "left"} of centre`,
     requirement: "centred horizontally",
-    advice: Math.abs(offset) < 0.025 ? undefined : "Pan sideways on step 2, or re-run Auto-frame."
+    advice: Math.abs(offset) < 0.025 ? undefined : fix("Pan sideways on step 2, or re-run Auto-frame.")
   };
 
   const checks = [headHeight, headroom, centring];
   const eyeFromTop = head.eyeY === undefined ? undefined : (head.eyeY - crop.y) / crop.height;
 
   // Eye line, only when the detector gave us keypoints.
-  if (eyeFromTop !== undefined) checks.push(eyeCheck(eyeFromTop, photo, preset));
+  if (eyeFromTop !== undefined) checks.push(eyeCheck(eyeFromTop, photo, preset, reframe));
 
   return {
     checks,
@@ -256,7 +272,7 @@ function headChecks(input: ComplianceInput): { checks: Check[]; geometry?: Geome
 }
 
 /** Where a document publishes the gap above the hair, hold the photo to it. */
-function publishedHeadroom(above: number, target: number, photo: PhotoSpec): Check {
+function publishedHeadroom(above: number, target: number, photo: PhotoSpec, reframe?: string): Check {
   const off = above - target;
   const status: CheckStatus =
     above < 0 ? "fail" : Math.abs(off) <= 0.03 ? "pass" : Math.abs(off) <= 0.06 ? "warn" : "fail";
@@ -270,10 +286,10 @@ function publishedHeadroom(above: number, target: number, photo: PhotoSpec): Che
       status === "pass"
         ? undefined
         : above < 0
-          ? "The crown is outside the crop. Re-run Auto-frame on step 2, or pan down."
+          ? `The top of the head is cut off. ${reframe ?? "Re-run Auto-frame on step 2, or pan down."}`
           : off > 0
-            ? "Too much space above the head. Re-run Auto-frame on step 2, or pan up."
-            : "Too little space above the head. Re-run Auto-frame on step 2, or pan down."
+            ? `Too much space above the head. ${reframe ?? "Re-run Auto-frame on step 2, or pan up."}`
+            : `Too little space above the head. ${reframe ?? "Re-run Auto-frame on step 2, or pan down."}`
   };
 }
 
@@ -281,7 +297,7 @@ function publishedHeadroom(above: number, target: number, photo: PhotoSpec): Che
  * Where a document publishes no figure, only catch a crown that is clipped or a face sitting
  * far too low. Authorities rarely publish one, so this is the usual case.
  */
-function genericHeadroom(above: number, photo: PhotoSpec): Check {
+function genericHeadroom(above: number, photo: PhotoSpec, reframe?: string): Check {
   return {
     id: "headroom",
     label: "Space above head",
@@ -290,7 +306,7 @@ function genericHeadroom(above: number, photo: PhotoSpec): Check {
     requirement: "a visible gap, up to a quarter of the frame",
     advice:
       above < 0
-        ? "The crown is outside the crop. Re-run Auto-frame on step 2, or pan down."
+        ? `The top of the head is cut off. ${reframe ?? "Re-run Auto-frame on step 2, or pan down."}`
         : above < 0.02
           ? "The head almost touches the top edge. Most authorities want visible space above it."
           : above > 0.25
@@ -306,7 +322,7 @@ function genericHeadroom(above: number, photo: PhotoSpec): Check {
  * Otherwise reported as a guide: the tolerated band is wide and varies by country, so it
  * flags an obviously wrong framing rather than a borderline one.
  */
-function eyeCheck(eyeFromTop: number, photo: PhotoSpec, preset?: Preset): Check {
+function eyeCheck(eyeFromTop: number, photo: PhotoSpec, preset?: Preset, reframe?: string): Check {
   const fromBottom = 1 - eyeFromTop;
   const band = preset?.eyeLine;
   const ok = band
@@ -320,8 +336,133 @@ function eyeCheck(eyeFromTop: number, photo: PhotoSpec, preset?: Preset): Check 
     requirement: band
       ? `${length(band.min, photo)}–${length(band.max, photo)} up from the bottom`
       : "upper half of the frame",
-    advice: ok ? undefined : "The eyes sit outside the band. Re-run Auto-frame on step 2, or pan."
+    advice: ok ? undefined : `The eyes sit outside the band. ${reframe ?? "Re-run Auto-frame on step 2, or pan."}`
   };
+}
+
+/** Fixes offered for a pose fault, which differ between making a photo and checking one. */
+export type PoseFixes = {
+  /** The head is tilted and can be levelled. */
+  tilt: string;
+};
+
+const MAKER_POSE_FIXES: PoseFixes = {
+  tilt: "Turn on “Straighten head” on step 2, or retake it with the head level."
+};
+
+/**
+ * How the face is held and lit — the rejections a perfectly framed photo still collects.
+ *
+ * Tolerances follow ICAO 9303's portrait guidance (roll within ±8°, yaw within about ±5°),
+ * widened by the estimates' own error and held a little tighter for a pass.
+ * Expression is a warning rather than a failure: some authorities accept a natural smile.
+ */
+export function poseChecks(
+  pose: FacePose | null,
+  rotation = 0,
+  fixes: PoseFixes = MAKER_POSE_FIXES
+): Check[] {
+  if (!pose) {
+    return [{
+      id: "pose",
+      label: "Head straight",
+      status: "unknown",
+      value: "Not measured",
+      advice: "No face could be measured. Check by eye that the head is level and facing the camera."
+    }];
+  }
+
+  const checks: Check[] = [];
+
+  if (pose.faces > 1) {
+    checks.push({
+      id: "faces",
+      label: "One person",
+      status: "fail",
+      value: `${pose.faces} faces in the photo`,
+      requirement: "only the applicant",
+      advice: "Retake it with nobody else in the frame."
+    });
+  }
+
+  // Roll, after any rotation applied on the crop step.
+  const roll = pose.roll + rotation;
+  const tilt = Math.abs(roll);
+  checks.push({
+    id: "tilt",
+    label: "Head straight",
+    status: tilt <= 3 ? "pass" : tilt <= 8 ? "warn" : "fail",
+    value: tilt < 0.5 ? "Level" : `Tilted ${tilt.toFixed(1)}° towards the ${roll > 0 ? "left" : "right"} shoulder`,
+    requirement: "eyes level, head not tilted",
+    advice: tilt <= 3 ? undefined : `The head leans to one side. ${fixes.tilt}`
+  });
+
+  // Yaw is judged; pitch only flags the extreme. The pose estimate reads 10–18° of pitch on
+  // straight-on studio portraits (its face model and the camera's perspective both add to
+  // it), so a tighter limit would warn on nearly every good photo.
+  const turned = pose.yaw;
+  const nodding = pose.pitch > 25;
+  checks.push({
+    id: "facing",
+    label: "Facing the camera",
+    status: turned > 14 ? "fail" : turned > 7 || nodding ? "warn" : "pass",
+    value: turned > 7
+      ? `Turned about ${Math.round(turned)}°`
+      : nodding
+        ? "Chin raised or lowered"
+        : "Straight on",
+    requirement: "looking straight at the camera",
+    advice: turned > 7
+      ? "The head is turned to one side. Retake it facing the camera squarely, with both ears equally visible."
+      : nodding
+        ? "The chin looks raised or lowered. Retake it with the camera at eye level and the chin level."
+        : undefined
+  });
+
+  checks.push({
+    id: "eyes",
+    label: "Eyes open",
+    status: pose.eyesClosed > 0.7 ? "fail" : pose.eyesClosed > 0.5 ? "warn" : "pass",
+    value: pose.eyesClosed > 0.7 ? "Closed" : pose.eyesClosed > 0.5 ? "Partly closed" : "Open",
+    requirement: "both eyes open and visible",
+    advice: pose.eyesClosed > 0.5 ? "Retake it with both eyes fully open, looking into the lens." : undefined
+  });
+
+  const mouthOpen = pose.mouthOpen > 0.25;
+  // A closed-mouth half smile scores about 0.6; a clear smile goes well past this.
+  const smiling = pose.smile > 0.7;
+  checks.push({
+    id: "expression",
+    label: "Expression",
+    status: mouthOpen || smiling ? "warn" : "pass",
+    value: mouthOpen ? "Mouth open" : smiling ? "Smiling" : "Neutral",
+    requirement: "neutral, mouth closed",
+    advice: mouthOpen || smiling
+      ? "Most authorities want a neutral expression with the mouth closed. A few accept a slight smile — check the document's rules."
+      : undefined
+  });
+
+  const { left, right } = pose.cheeks;
+  const brighter = Math.max(left, right);
+  const evenness = brighter > 0 ? Math.min(left, right) / brighter : 1;
+  const face = (left + right) / 2;
+  const lightProblem =
+    evenness < 0.7 ? "One side of the face is in shadow"
+      : face < 60 ? "The face is too dark"
+        : face > 235 ? "The face is overexposed"
+          : null;
+  checks.push({
+    id: "lighting",
+    label: "Lighting",
+    status: lightProblem ? "warn" : "pass",
+    value: lightProblem ?? "Even",
+    requirement: "even, no shadows on the face",
+    advice: lightProblem
+      ? "Face a window or a soft light, with nothing bright behind or beside you."
+      : undefined
+  });
+
+  return checks;
 }
 
 function backgroundCheck(bg: BackgroundSpec, preset?: Preset): Check {
@@ -352,20 +493,28 @@ function backgroundCheck(bg: BackgroundSpec, preset?: Preset): Check {
   };
 }
 
+/** A report from its checks: the verdict is the worst of them. */
+export function summarise(checks: Check[], geometry?: Geometry): Report {
+  return {
+    checks,
+    geometry,
+    verdict: worst(checks),
+    passed: checks.filter(c => c.status === "pass").length,
+    total: checks.length
+  };
+}
+
 export function buildReport(input: ComplianceInput): Report {
   const head = headChecks(input);
   const checks: Check[] = [
     sizeCheck(input.photo, input.preset),
     resolutionCheck(input.crop, input.outPx, input.photo.dpi, input.photo.unit),
     ...head.checks,
+    // Left out while the face is still being measured, rather than shown as unknown and
+    // then flipping: the report says "measuring…" meanwhile.
+    ...(input.pose === undefined ? [] : poseChecks(input.pose, input.rotation)),
     backgroundCheck(input.bg, input.preset)
   ];
 
-  return {
-    checks,
-    geometry: head.geometry,
-    verdict: worst(checks),
-    passed: checks.filter(c => c.status === "pass").length,
-    total: checks.length
-  };
+  return summarise(checks, head.geometry);
 }

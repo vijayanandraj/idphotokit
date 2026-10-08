@@ -1,16 +1,51 @@
 import Cropper, { getInitialCropFromCroppedAreaPixels } from "react-easy-crop";
 import type { Area, MediaSize, Size } from "react-easy-crop";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useAppStore } from "../../state/store";
+import { useAppStore, type Tilt } from "../../state/store";
 import Slider from "../ui/Slider";
 import CornerTicks from "../ui/CornerTicks";
 import { sizeToPx } from "../../utils/units";
 import { autoEnhanceParamsFromCanvas, applyAdjustmentsToImageData, canvasFromBitmap } from "../../utils/image";
 import { measureHead, computeFrame } from "../../utils/autoframe";
 import { findPreset, headTargetFor } from "../../utils/presets";
+import { STRAIGHTEN_MAX_DEG } from "../../utils/straighten";
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 8;
+
+/**
+ * What happened to the head's tilt. Straightening is automatic, so it has to say so — and
+ * stay undoable, for the rare photo where the eyes are level and the head is not.
+ */
+function TiltNotice({ tilt, straightened, onToggle }: {
+  tilt?: Tilt;
+  straightened: boolean;
+  onToggle: (on: boolean) => void;
+}) {
+  if (tilt === undefined) return <div className="small tiltNote">Checking whether the head is level…</div>;
+  if (tilt.roll === null) return null;
+
+  const degrees = `${Math.abs(tilt.roll).toFixed(1)}°`;
+  if (tilt.straight) {
+    return (
+      <label className="checkToggle tiltNote">
+        <input type="checkbox" checked={straightened} onChange={e => onToggle(e.target.checked)} />
+        Straighten head
+        <span className="small">
+          {" "}— {straightened ? `levelled; it was tilted ${degrees}` : `tilted ${degrees}, which most authorities reject`}
+        </span>
+      </label>
+    );
+  }
+  if (Math.abs(tilt.roll) > STRAIGHTEN_MAX_DEG) {
+    return (
+      <div className="small tiltNote" style={{ color: "var(--redline)" }}>
+        The head is tilted {degrees}, which is too far to straighten cleanly. Retake it with the head level.
+      </div>
+    );
+  }
+  return <div className="small tiltNote">Head is level.</div>;
+}
 
 export default function StepCrop() {
   const imageUrl = useAppStore(s => s.imageUrl);
@@ -25,6 +60,9 @@ export default function StepCrop() {
   const setAdj = useAppStore(s => s.setAdj);
   const autoFramedFor = useAppStore(s => s.autoFramedFor);
   const setAutoFramedFor = useAppStore(s => s.setAutoFramedFor);
+  const tilt = useAppStore(s => s.tilt);
+  const straightened = useAppStore(s => s.straightened);
+  const setStraightened = useAppStore(s => s.setStraightened);
 
   const px = useMemo(() => sizeToPx(photo.width, photo.height, photo.unit, photo.dpi), [photo]);
   const aspect = useMemo(() => px.w / px.h, [px]);
@@ -193,6 +231,8 @@ export default function StepCrop() {
             Save &amp; next
           </button>
         </div>
+
+        <TiltNotice tilt={tilt} straightened={straightened} onToggle={setStraightened} />
 
         {busy && <div className="small" style={{ marginTop: 8 }}>{busy}</div>}
         {notice && <div className="small" style={{ marginTop: 8, color: "var(--redline)" }}>{notice}</div>}

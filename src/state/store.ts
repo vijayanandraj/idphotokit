@@ -1,18 +1,38 @@
 import { create } from "zustand";
 import type { Adjustments, BackgroundSpec, CropState, PhotoSpec, SheetSpec, WizardStep } from "../types";
 import { decodeStateFromUrl, encodeStateToUrl } from "../utils/share";
-import { defaultBackgroundColor, findPreset } from "../utils/presets";
+import { defaultBackgroundColor, defaultPresetId, findPreset } from "../utils/presets";
 import { pathForPreset, presetFromPath } from "../utils/route";
 import { prefetchModnet } from "../utils/modnet";
 import { clearMatteCache } from "../utils/personMatte";
+import { analysePose } from "../utils/pose";
+import { straighten, STRAIGHTEN_MAX_DEG, STRAIGHTEN_MIN_DEG, type Straightened } from "../utils/straighten";
+
+export type AppMode = "make" | "check";
+
+/**
+ * Head tilt measured on the original photo, in degrees; null when no face was found.
+ * `straight` is the levelled copy, when the tilt was worth fixing.
+ */
+export type Tilt = { roll: number | null; straight?: Straightened };
 
 type AppState = {
   step: WizardStep;
 
-  // source
+  /** Making a photo (the wizard), or checking one that is already finished. */
+  mode: AppMode;
+
+  // source — the image every step works from: the photo as chosen, or its straightened copy
   imageFile?: File;
   imageUrl?: string; // Object URL
   imageBitmap?: ImageBitmap;
+
+  /** The photo as chosen, before any straightening. */
+  original?: { url: string; bitmap: ImageBitmap };
+  /** Undefined while the tilt is still being measured. */
+  tilt?: Tilt;
+  /** Whether the levelled copy is the one in use. */
+  straightened: boolean;
 
   // spec
   photo: PhotoSpec;
@@ -35,10 +55,12 @@ type AppState = {
   /** imageUrl that has already been auto-framed, so we only do it once per photo. */
   autoFramedFor?: string;
 
+  setMode: (m: AppMode) => void;
   setStep: (s: WizardStep) => void;
   setAutoFramedFor: (url?: string) => void;
 
   setImageFile: (file?: File) => Promise<void>;
+  setStraightened: (on: boolean) => void;
   setPhoto: (p: Partial<PhotoSpec>) => void;
   setCrop: (c: Partial<CropState>) => void;
   setCroppedAreaPixels: (r: { x: number; y: number; width: number; height: number }) => void;
@@ -50,11 +72,17 @@ type AppState = {
   hydrateFromUrl: () => void;
 };
 
+// Start on the visitor's own country where the browser says what it is ("en-IN" → India's
+// passport). Anyone else can switch in one click; the guess just saves most people that click.
+const startPreset = findPreset(
+  defaultPresetId(typeof navigator === "undefined" ? [] : navigator.languages ?? [navigator.language])
+)!;
+
 const defaultPhoto: PhotoSpec = {
-  presetId: "IND",
-  width: 35,
-  height: 45,
-  unit: "mm",
+  presetId: startPreset.id,
+  width: startPreset.width,
+  height: startPreset.height,
+  unit: startPreset.unit,
   dpi: 300
 };
 
@@ -79,119 +107,188 @@ const defaultSheet: SheetSpec = {
   paper: "P4x6"
 };
 
-export const useAppStore = create<AppState>((set, get) => ({
-  step: 1,
+export const useAppStore = create<AppState>((set, get) => {
+  /** Revoke every object URL held for the current photo. */
+  const releaseImages = () => {
+    const { imageUrl, original, tilt } = get();
+    const urls = new Set([imageUrl, original?.url, tilt?.straight?.url]);
+    for (const url of urls) if (url) URL.revokeObjectURL(url);
+  };
 
-  photo: { ...defaultPhoto },
-  crop: { ...defaultCrop },
-  adj: { ...defaultAdj },
-  bg: { ...defaultBg },
-  sheet: { ...defaultSheet },
+  /**
+   * Measure the head's tilt and, where it is worth fixing, switch to a levelled copy.
+   *
+   * Runs after the photo is already on screen, so the crop step never waits on the face
+   * model; the photo turns level a moment later and is re-framed on the way.
+   */
+  const levelHead = async (url: string, bitmap: ImageBitmap) => {
+    let roll: number | null = null;
+    let straight: Straightened | undefined;
+    try {
+      const pose = await analysePose(bitmap);
+      roll = pose ? pose.roll : null;
+      if (pose && Math.abs(pose.roll) >= STRAIGHTEN_MIN_DEG && Math.abs(pose.roll) <= STRAIGHTEN_MAX_DEG) {
+        straight = await straighten(bitmap, pose.roll, pose.eyeMid);
+      }
+    } catch (err) {
+      console.warn("Head tilt could not be measured:", err);
+    }
 
-  setStep: (s) => set({ step: s }),
-  setAutoFramedFor: (url) => set({ autoFramedFor: url }),
-
-  setImageFile: async (file?: File) => {
-    const prevUrl = get().imageUrl;
-    if (prevUrl) URL.revokeObjectURL(prevUrl);
-
-    if (!file) {
-      set({ imageFile: undefined, imageUrl: undefined, imageBitmap: undefined });
+    // A different photo was chosen while this one was being measured.
+    if (get().original?.url !== url) {
+      if (straight) URL.revokeObjectURL(straight.url);
       return;
     }
+    set({ tilt: { roll, straight } });
+    if (straight) get().setStraightened(true);
+  };
 
-    // Start the ~13MB matting model downloading now, so it lands while the crop step is
-    // being used rather than stalling the background step later.
-    prefetchModnet();
-    clearMatteCache();
+  return {
+    mode: "make",
+    step: 1,
+    straightened: false,
 
-    const url = URL.createObjectURL(file);
-    const bitmap = await createImageBitmap(file);
-    set({
-      imageFile: file,
-      imageUrl: url,
-      imageBitmap: bitmap,
-      // A new photo starts from a clean crop; the old one's framing means nothing here.
-      crop: { ...defaultCrop },
-      croppedAreaPixels: undefined,
-      autoFramedFor: undefined,
-      step: 2
-    });
-  },
+    photo: { ...defaultPhoto },
+    crop: { ...defaultCrop },
+    adj: { ...defaultAdj },
+    bg: { ...defaultBg },
+    sheet: { ...defaultSheet },
 
-  setPhoto: (p) => {
-    const next = { ...get().photo, ...p };
+    setMode: (m) => set({ mode: m }),
+    setStep: (s) => set({ step: s }),
+    setAutoFramedFor: (url) => set({ autoFramedFor: url }),
 
-    if (p.presetId) {
-      const preset = findPreset(p.presetId);
-      if (preset) {
-        next.width = preset.width;
-        next.height = preset.height;
-        next.unit = preset.unit;
+    setImageFile: async (file?: File) => {
+      releaseImages();
 
-        // Choosing a country also applies the background it asks for. Most people never
-        // touch the colour picker, so defaulting every country to white quietly produced
-        // non-compliant photos for the ones that want grey or cream.
-        set({ bg: { ...get().bg, color: defaultBackgroundColor(preset) } });
+      if (!file) {
+        set({
+          imageFile: undefined,
+          imageUrl: undefined,
+          imageBitmap: undefined,
+          original: undefined,
+          tilt: undefined,
+          straightened: false
+        });
+        return;
       }
+
+      // Start the ~13MB matting model downloading now, so it lands while the crop step is
+      // being used rather than stalling the background step later.
+      prefetchModnet();
+      clearMatteCache();
+
+      const url = URL.createObjectURL(file);
+      const bitmap = await createImageBitmap(file);
+      set({
+        mode: "make",
+        imageFile: file,
+        imageUrl: url,
+        imageBitmap: bitmap,
+        original: { url, bitmap },
+        tilt: undefined,
+        straightened: false,
+        // A new photo starts from a clean crop; the old one's framing means nothing here.
+        crop: { ...defaultCrop },
+        croppedAreaPixels: undefined,
+        autoFramedFor: undefined,
+        step: 2
+      });
+      void levelHead(url, bitmap);
+    },
+
+    setStraightened: (on) => {
+      const { original, tilt } = get();
+      if (!original) return;
+      const use = on && tilt?.straight ? tilt.straight : original;
+      // The matte belongs to the pixels it was cut from, and these are different pixels.
+      clearMatteCache();
+      // A new imageUrl re-runs auto-framing on the crop step, which is what's wanted: the head
+      // moved when the photo turned.
+      set({
+        straightened: use !== original,
+        imageUrl: use.url,
+        imageBitmap: use.bitmap,
+        croppedAreaPixels: undefined
+      });
+    },
+
+    setPhoto: (p) => {
+      const next = { ...get().photo, ...p };
+
+      if (p.presetId) {
+        const preset = findPreset(p.presetId);
+        if (preset) {
+          next.width = preset.width;
+          next.height = preset.height;
+          next.unit = preset.unit;
+
+          // Choosing a country also applies the background it asks for. Most people never
+          // touch the colour picker, so defaulting every country to white quietly produced
+          // non-compliant photos for the ones that want grey or cream.
+          set({ bg: { ...get().bg, color: defaultBackgroundColor(preset) } });
+        }
+      }
+
+      set({ photo: next });
+    },
+
+    setCrop: (partial) =>
+    set((st) => ({
+      crop: { ...st.crop, ...partial }
+    })),
+    setCroppedAreaPixels: (r) => set({ croppedAreaPixels: r }),
+    setAdj: (a) => set({ adj: { ...get().adj, ...a } }),
+    setBg: (b) => set({ bg: { ...get().bg, ...b } }),
+    setSheet: (s) => set({ sheet: { ...get().sheet, ...s } }),
+
+    syncToUrl: () => {
+      const st = get();
+      // On a document's own page, choosing another document moves to that one's page, so the
+      // address bar names what is actually being made. The homepage stays the homepage.
+      const preset = findPreset(st.photo.presetId);
+      const onDocPage = !!presetFromPath();
+      encodeStateToUrl(
+        {
+          photo: st.photo,
+          sheet: st.sheet
+        },
+        onDocPage && preset ? pathForPreset(preset) : undefined
+      );
+    },
+
+    hydrateFromUrl: () => {
+      // A document page (/photo/india/pan-card) states its document in the path. Query
+      // parameters come from a shared link, so they win over the page's own default.
+      const fromPath = presetFromPath();
+      const decoded = decodeStateFromUrl();
+      if (!fromPath && !decoded) return;
+
+      const st = get();
+      const photo = {
+        ...st.photo,
+        ...(fromPath
+          ? {
+              presetId: fromPath.id,
+              width: fromPath.width,
+              height: fromPath.height,
+              unit: fromPath.unit
+            }
+          : {}),
+        ...decoded?.photo
+      };
+      // An id from an old link that no longer names a document is dropped, not kept dangling.
+      if (photo.presetId && !findPreset(photo.presetId)) photo.presetId = undefined;
+
+      // A shared link carries a country, so it has to bring that country's background with it.
+      // This path bypasses setPhoto, so the default has to be applied here too.
+      const preset = findPreset(photo.presetId);
+
+      set({
+        photo,
+        sheet: { ...st.sheet, ...decoded?.sheet },
+        bg: preset ? { ...st.bg, color: defaultBackgroundColor(preset) } : st.bg
+      });
     }
-
-    set({ photo: next });
-  },
-
-  setCrop: (partial) =>
-  set((st) => ({
-    crop: { ...st.crop, ...partial }
-  })),
-  setCroppedAreaPixels: (r) => set({ croppedAreaPixels: r }),
-  setAdj: (a) => set({ adj: { ...get().adj, ...a } }),
-  setBg: (b) => set({ bg: { ...get().bg, ...b } }),
-  setSheet: (s) => set({ sheet: { ...get().sheet, ...s } }),
-
-  syncToUrl: () => {
-    const st = get();
-    // On a document's own page, choosing another document moves to that one's page, so the
-    // address bar names what is actually being made. The homepage stays the homepage.
-    const preset = findPreset(st.photo.presetId);
-    const onDocPage = !!presetFromPath();
-    encodeStateToUrl(
-      {
-        photo: st.photo,
-        sheet: st.sheet
-      },
-      onDocPage && preset ? pathForPreset(preset) : undefined
-    );
-  },
-
-  hydrateFromUrl: () => {
-    // A document page (/photo/india/pan-card) states its document in the path. Query
-    // parameters come from a shared link, so they win over the page's own default.
-    const fromPath = presetFromPath();
-    const decoded = decodeStateFromUrl();
-    if (!fromPath && !decoded) return;
-
-    const st = get();
-    const photo = {
-      ...st.photo,
-      ...(fromPath
-        ? {
-            presetId: fromPath.id,
-            width: fromPath.width,
-            height: fromPath.height,
-            unit: fromPath.unit
-          }
-        : {}),
-      ...decoded?.photo
-    };
-
-    // A shared link carries a country, so it has to bring that country's background with it.
-    // This path bypasses setPhoto, so the default has to be applied here too.
-    const preset = findPreset(photo.presetId);
-
-    set({
-      photo,
-      sheet: { ...st.sheet, ...decoded?.sheet },
-      bg: preset ? { ...st.bg, color: defaultBackgroundColor(preset) } : st.bg
-    });
-  }
-}));
+  };
+});

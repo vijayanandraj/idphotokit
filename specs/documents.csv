@@ -1,66 +1,966 @@
-﻿id,country,region,featured,document,badge,width,height,unit,head_min_%,head_max_%,top_gap_%,eye_min_%,eye_max_%,background,file_kb_min,file_kb_max,upload_only,note,source
-USA,United States,Americas,yes,Passport,,2,2,in,50,69,,56,69,"White, Off-white",,,,"Glasses are not allowed. The same 2x2in print is used for a Green Card, naturalisation and most USCIS forms.",
-USA-VISA,United States,Americas,,Visa (DS-160 upload),,600,600,px,50,69,,56,69,"White, Off-white",,240,yes,"A square JPEG of 600–1200px, under 240KB. Glasses are not allowed.",
-USA-DV,United States,Americas,,DV Lottery,,600,600,px,50,69,,56,69,White,,240,yes,"Exactly 600x600px, JPEG, under 240KB.",
-CAN,Canada,Americas,yes,Passport,,50,70,mm,44,51,,,,"White, Light grey",,,,"The face must measure 31–36mm chin to crown, so the head sits smaller in frame than most countries.",
-CAN-PR,Canada,Americas,,Permanent Resident card,,50,70,mm,44,51,,,,"White, Light grey",,,,The face must measure 31–36mm chin to crown. Same size as the passport photo.,
-CAN-VISA,Canada,Americas,,Visa,,35,45,mm,69,80,,,,"White, Light grey",,,,"Visitor visas, study and work permits. The face must measure 31–36mm chin to crown.",
-MEX,Mexico,Americas,,Passport,,35,45,mm,,,,,,White,,,,,
-BRA,Brazil,Americas,,Passport,,50,70,mm,,,,,,White,,,,,
-ARG,Argentina,Americas,,Passport,,40,40,mm,,,,,,White,,,,,
-CHL,Chile,Americas,,Passport,,35,45,mm,,,,,,White,,,,,
-COL,Colombia,Americas,,Passport,,30,40,mm,,,,,,"White, Blue",,,,,
-PER,Peru,Americas,,Passport,,35,45,mm,,,,,,White,,,,,
-IND,India,Asia & Pacific,yes,Passport,,35,45,mm,70,80,,,,White,,,,Passport Seva asks for 4.5 x 3.5cm prints. The face should fill roughly 70–80% of the frame.,
-IND-OCI,India,Asia & Pacific,,OCI card,OCI,51,51,mm,60,70,,,,White,,,,"Square 2x2in format, same as the US.",
-IND-EVISA,India,Asia & Pacific,,e-Visa (upload),,600,600,px,60,70,,,,White,10,1024,yes,"For indianvisaonline.gov.in: a square JPEG, at least 350px, between 10KB and 1MB.",
-IND-PAN,India,Asia & Pacific,,PAN card,,35,45,mm,69,77,7,,,White,,,,For a paper application. Online forms want the square upload instead.,
-IND-PANUP,India,Asia & Pacific,,PAN card (upload),PAN,213,213,px,66,74,7,,,White,,30,yes,"213x213px, under 30KB, for NSDL and UTIITSL online applications.",
-IND-DL,India,Asia & Pacific,,Driving licence (upload),,420,525,px,71,79,7,,,White,,20,yes,"420x525px, under 20KB, for Parivahan Sarathi.",
-CHN,China,Asia & Pacific,yes,Passport & visa,,33,48,mm,58,69,,,,White,,,,,
-CHN-ONLINE,China,Asia & Pacific,,Passport (online),,354,472,px,71,79,5,,,White,,80,yes,354x472px for the online application at ppt.mfa.gov.cn.,
-JPN,Japan,Asia & Pacific,,Passport,,35,45,mm,71,80,,,,"White, Light grey",,,,Chin to crown must be 34mm ±2mm.,
-AUS,Australia,Asia & Pacific,yes,Passport,,35,45,mm,71,80,,,,"White, Light grey",,,,The face must measure 32–36mm chin to crown.,
-AUS-VISA,Australia,Asia & Pacific,,Visa,,35,45,mm,71,80,11,,,"White, Light grey",,,,The face must measure 32–36mm chin to crown.,
-NZL,New Zealand,Asia & Pacific,,Passport,,35,45,mm,71,80,,,,"Light grey, Cream",,,,,
-KOR,South Korea,Asia & Pacific,,Passport,,35,45,mm,,,,,,White,,,,,
-SGP,Singapore,Asia & Pacific,,Passport,,35,45,mm,,,,,,White,,,,,
-MYS,Malaysia,Asia & Pacific,,Passport,,35,50,mm,,,,,,White,,,,,
-IDN,Indonesia,Asia & Pacific,,Passport,,40,60,mm,,,,,,"White, Red",,,,,
-THA,Thailand,Asia & Pacific,,Passport,,35,45,mm,,,,,,"White, Light blue",,,,,
-VNM,Vietnam,Asia & Pacific,,Passport,,40,60,mm,,,,,,White,,,,,
-PHL,Philippines,Asia & Pacific,,Passport,,35,45,mm,,,,,,White,,,,,
-PAK,Pakistan,Asia & Pacific,,Passport,,35,45,mm,,,,,,White,,,,,
-BGD,Bangladesh,Asia & Pacific,,Passport,,45,55,mm,,,,,,White,,,,,
-LKA,Sri Lanka,Asia & Pacific,,Passport,,35,45,mm,,,,,,White,,,,,
-NPL,Nepal,Asia & Pacific,,Passport,,35,45,mm,,,,,,White,,,,,
-TWN,Taiwan,Asia & Pacific,,Passport,,35,45,mm,,,,,,White,,,,,
-HKG,Hong Kong,Asia & Pacific,,Passport,,40,50,mm,,,,,,White,,,,,
-SCHENGEN,Schengen area,Europe,yes,Visa,EU,35,45,mm,64,76,,,,"Light grey, Cream",,,,The shared standard for Schengen visas and most EU passports.,
-GBR,United Kingdom,Europe,yes,Passport,,35,45,mm,64,76,,,,"Light grey, Cream",,,,Chin to crown must be 29–34mm. The same print is used for UK visas and driving licences.,
-GBR-ONLINE,United Kingdom,Europe,,Passport (online),,900,1200,px,50,60,15,,,"Light grey, Cream",50,10240,yes,At least 600x750px and 50KB–10MB. Leave space around the head: the Passport Office crops it.,
-DEU,Germany,Europe,,Passport,,35,45,mm,71,80,,,,"Light grey, White",,,,The face must measure 32–36mm chin to crown.,
-DEU-ID,Germany,Europe,,ID card (Personalausweis),,35,45,mm,71,80,7,,,"Light grey, White",,,,Same biometric rules as the passport: 32–36mm chin to crown.,
-FRA,France,Europe,,Passport,,35,45,mm,64,76,,,,Light grey,,,,,
-ITA,Italy,Europe,,Passport,,35,45,mm,64,76,,,,Light grey,,,,,
-ESP,Spain,Europe,,Passport,,26,32,mm,,,,,,White,,,,Spain uses an unusually small 26x32mm photo.,
-NLD,Netherlands,Europe,,Passport,,35,45,mm,64,76,,,,Light grey,,,,,
-POL,Poland,Europe,,Passport,,35,45,mm,64,76,,,,"White, Light grey",,,,,
-PRT,Portugal,Europe,,Passport,,35,45,mm,64,76,,,,Light grey,,,,,
-IRL,Ireland,Europe,,Passport,,35,45,mm,64,76,,,,"Light grey, Cream",,,,,
-CHE,Switzerland,Europe,,Passport,,35,45,mm,64,76,,,,Light grey,,,,,
-SWE,Sweden,Europe,,Passport,,35,45,mm,64,76,,,,Light grey,,,,,
-GRC,Greece,Europe,,Passport,,40,60,mm,,,,,,White,,,,,
-RUS,Russia,Europe,,Passport,,35,45,mm,,,,,,"White, Light grey",,,,,
-UKR,Ukraine,Europe,,Passport,,35,45,mm,,,,,,White,,,,,
-TUR,Türkiye,Europe,,Passport,,50,60,mm,,,,,,White,,,,,
-ARE,United Arab Emirates,Middle East,,Visa,,43,55,mm,,,,,,White,,,,,
-SAU,Saudi Arabia,Middle East,,Visa,,40,60,mm,,,,,,White,,,,,
-ISR,Israel,Middle East,,Passport,,35,45,mm,,,,,,White,,,,,
-ZAF,South Africa,Africa,,Passport,,35,45,mm,,,,,,White,,,,,
-NGA,Nigeria,Africa,,Passport,,35,45,mm,,,,,,White,,,,,
-KEN,Kenya,Africa,,Passport,,35,45,mm,,,,,,White,,,,,
-GHA,Ghana,Africa,,Passport,,35,45,mm,,,,,,White,,,,,
-EGY,Egypt,Africa,,Passport,,40,60,mm,,,,,,White,,,,,
-ETH,Ethiopia,Africa,,Passport,,35,45,mm,,,,,,White,,,,,
-MAR,Morocco,Africa,,Passport,,35,45,mm,,,,,,White,,,,,
+﻿id,country,document,variant,category,width,height,unit,head,top_gap,eye_line,background,file_kb_min,file_kb_max,upload_only,note,source
+IDK-0002,Afghanistan,Passport,,Passport,40,45,mm,73%,8%,,"White, Off-white",,,,"Consulates differ: the embassy in the USA accepts photos 35–40 mm wide, others ask for 40×45 mm.",https://www.afghanistanembassy.no/consular-services/passport/ ; http://www.afghanembassyjp.org/MRP/MRPassportApplicationForm.pdf ; http://staging.afghanembassy.us/contents/2016/03/documents/Passport_Photo_Requirements_2015-02-04.pdf
+IDK-0001,Afghanistan,Passport,online,Passport,50,50,mm,68%,,56%,"White, Off-white",,,,,https://embassyofafghanistan.se/e-passport/
+IDK-0004,Afghanistan,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.afghanembassy.com.pl/eng/ambasada/informacje/informacje-wizowe ; http://newdelhi.mfa.af/consular-services-4/visa/entry-tourist-business
+IDK-0005,Afghanistan,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.afghanembassy.us/consulate/visa/
+IDK-0003,Afghanistan,e-Tazkira ID card,,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0006,Albania,Visa,,Visa,36,47,mm,34.5mm,4mm,,"White, Off-white",,250,,The photo must have been taken within the last six months.,https://e-albania.al/sherbimi.aspx?kodi=9759
+IDK-0007,Albania,Driving licence,,Driving licence,40,50,mm,34mm,5mm,,"White, Off-white",,,,,https://e-albania.al/eAlbaniaServices/UseService.aspx?service_code=10099 ; https://e-albania.al/eAlbaniaServices/UseService.aspx?service_code=2314 ; https://www.dpshtrr.al/sherbime/individe/lejedrejtimi/rinovim-lejedrejtimi
+IDK-0008,Algeria,Passport,,Passport,35,45,mm,34.7mm,3.5mm,,"White, Off-white",,,,,https://passeport.interieur.gov.dz/ar/Informations/Normes_Photographie ; https://www.algerian-consulate.org.uk/consulaire/passport/passport-photo-requirements ; http://www.embassyalgeria.ca/passeport
+IDK-0009,Algeria,Visa,,Visa,35,45,mm,34.7mm,3.5mm,,"White, Off-white",,,,,
+IDK-0011,Algeria,Residence permit,,Residence & immigration,35,45,mm,34.7mm,3.5mm,,"White, Off-white",,,,,http://www.interieur.gov.dz/index.php/ar/الأجانب-في-الجزائر/بطاقة-المقيم-الأجنبي.html
+IDK-0012,Algeria,Work permit,,Residence & immigration,35,45,mm,34.7mm,3.5mm,,"White, Off-white",,,,,http://www.mtess.gov.dz/ar/دليل-الإجراءات/
+IDK-0010,Algeria,ID card,,ID card,35,45,mm,34.7mm,3.5mm,,"White, Off-white",,,,,
+IDK-0013,Angola,Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.angolarussia.ru/en/consular/the-consular-information.html
+IDK-0014,Angola,Visa,online,Visa,381,496,px,75%,6%,,"White, Off-white",,200,yes,,http://www.smevisa.gov.ao/Default.aspx
+IDK-0016,Argentina,Passport,,Passport,40,40,mm,70%,8%,,"White, Off-white",,,,"A colour photo, facing the camera, with no hat or glasses.",http://cmila.cancilleria.gov.ar/es/node/732
+IDK-0018,Argentina,Passport,from the USA,Passport,1.5,1.5,in,71%,8%,,"White, Off-white",,,,"For applications made in the USA: a recent 1½ × 1½ inch colour print, full face, on white.",http://eeeuu.mrecic.gov.ar/es/pasaporte-provisorio-serie
+IDK-0017,Argentina,Visa,,Visa,40,40,mm,70%,8%,,"White, Off-white",,,,"A recent colour photo, facing the camera, with no hat or glasses.",http://cancilleria.gob.ar/visa-para-turismo ; http://cnyor.mrecic.gov.ar/en/node/1817
+IDK-0019,Argentina,Visa,from the USA,Visa,1.5,1.5,in,71%,8%,,"White, Off-white",,,,"For applications made in the USA: a recent 1½ × 1½ inch colour print, full face, on white.",http://cnyor.mrecic.gov.ar/en/node/2258
+IDK-0015,Argentina,DNI,,ID card,40,40,mm,70%,8%,,"White, Off-white",,,,"For the DNI (national identity document). A colour photo, facing the camera, with no hat or glasses.",
+IDK-0021,Armenia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.russia.mfa.am/u_files/file/consulate/visaappform.pdf ; http://spain.mfa.am/u_files/file/consulate/visaappform.pdf ; http://www.usa.mfa.am/u_files/file/consulate/visaappform.pdf
+IDK-0020,Armenia,e-Visa,,Visa,600,600,px,75%,10%,,"White, Off-white",10,2000,yes,,https://evisa.mfa.am
+IDK-0022,Armenia,Certificate of return,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.russia.mfa.am/en/return-certificate/ ; http://spain.mfa.am/en/return-certificate/ ; http://www.usa.mfa.am/en/return-certificate/
+IDK-0023,Armenia,ID card,,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0024,Australia,Passport,,Passport,35,45,mm,34mm,5mm,,"White, Off-white",,,,,https://www.passports.gov.au/getting-passport-how-it-works/photo-guidelines
+IDK-0025,Australia,Visa,,Visa,35,45,mm,34mm,5mm,,"White, Off-white",,,,,http://www.immi.gov.au/allforms/pdf/1419.pdf
+IDK-0031,Australia,Citizenship,,Residence & immigration,35,45,mm,34mm,5mm,,"White, Off-white",,,,,https://immi.homeaffairs.gov.au/form-listing/forms/1195.pdf
+IDK-0026,Australia,Proof of age card,,ID card,35,45,mm,34mm,5mm,,"White, Off-white",,,,,https://www.qld.gov.au/transport/licensing/proof-of-age#step2
+IDK-0028,Australia,Driving licence,New South Wales,Driving licence,35,45,mm,34mm,5mm,,"White, Off-white",,,,,http://www.rms.nsw.gov.au/licensing/renewingalicence/renewalwhenoutofnsw/photokitform.html
+IDK-0029,Australia,Driving licence,Victoria,Driving licence,35,45,mm,34mm,5mm,,"White, Off-white",,,,,http://www.vicroads.vic.gov.au/Home/Licences/RenewReplaceOrUpdate/LicensingWhenOutOfVIC.htm
+IDK-0030,Australia,Driving licence,Queensland,Driving licence,35,45,mm,34mm,5mm,,"White, Off-white",,,,,
+IDK-0027,Australia,Degree assessment,,Education & exams,1200,1600,px,70%,10%,,"White, Off-white",,5120,yes,,
+IDK-0033,Austria,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0034,Austria,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.bmeia.gv.at/fileadmin/user_upload/bmeia/media/Vertretungsbehoerden/Pretoria/Fotokriterien_fuer_Visa.pdf
+IDK-0036,Austria,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0032,Austria,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.bmeia.gv.at/fileadmin/user_upload/Vertretungen/London/Dokumente/Passport_Photographs_Criteria.pdf
+IDK-0040,Austria,e-card (health insurance),,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.chipkarte.at/cdscontent/?contentid=10007.770707
+IDK-0035,Austria,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0037,Austria,Civil engineer ID card,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://wien.arching.at/service/ziviltechnikerinnenausweis.html
+IDK-0039,Austria,Weapons passport,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.land-oberoesterreich.gv.at/16869.htm
+IDK-0038,Austria,ÖBB card,,Cards & passes,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.oebb.at/en/tickets-kundenkarten/kundenkarten/oesterreichcard
+IDK-0041,Austria,Bicycle passport,,Other,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0042,Azerbaijan,Visa,,Visa,30,40,mm,77%,6%,,"White, Off-white",,,,,
+IDK-0043,Azerbaijan,ID card,,ID card,30,40,mm,77%,6%,,"White, Off-white",,,,,
+IDK-0044,Bahamas,Passport,,Passport,480,640,px,75%,5%,,"White, Off-white",15,7584,yes,,
+IDK-0045,Bahamas,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://bahconga.com/pdf/new/Instructions_for_Passport_Photos.pdf
+IDK-0046,Bahamas,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://bahconga.com/pdf/new/Instructions_for_Passport_Photos.pdf
+IDK-0047,Bahamas,e-Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",15,7584,,,
+IDK-0048,Bahrain,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0049,Bahrain,e-Passport,,Passport,32.5,43,mm,33.5mm,4mm,,"White, Off-white",,1953.12,,,
+IDK-0050,Bahrain,Visa,,Visa,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0051,Bahrain,ID card,,ID card,240,320,px,75%,6%,,"White, Off-white",,,yes,,
+IDK-0055,Bangladesh,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.bangladoot-paris.org/index.php/passport-info.html
+IDK-0053,Bangladesh,Passport,40×50 mm,Passport,40,50,mm,34mm,5mm,,"White, Off-white",,,,,http://www.bangladeshembassy.de/wp-content/uploads/2016/12/NHP-Form.pdf
+IDK-0054,Bangladesh,Passport,45×55 mm,Passport,45,55,mm,34mm,10mm,,"White, Off-white",,,,,http://www.bdembassyusa.org/index.php?page=instruction-mrp
+IDK-0056,Bangladesh,Child passport,under 15,Passport,25,30,mm,75%,6%,,"White, Off-white",,,,For children under 15.,http://www.passport.gov.bd/
+IDK-0052,Bangladesh,e-Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,300,,,https://www.visa.gov.bd/
+IDK-0059,Bangladesh,Visa,35×45 mm,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,300,,,http://new.bangladeshembassy.ru/images/Forms/Visa_Forms/machine_readable_visa__form.pdf ; http://www.bangladesh-embassy.be/media/dms/Visa_Form.pdf ; http://www.bangladoot-paris.org/index.php/nvr-visa-info-and-procedure.html ; http://www.bangladeshembassy.de/wp-content/uploads/2017/07/MRV_FORM.pdf
+IDK-0060,Bangladesh,Visa,37×37 mm,Visa,37,37,mm,69%,6%,,"White, Off-white",,,,,http://www.bangladeshembassy.de/requirement-for-visa/
+IDK-0058,Bangladesh,Dual nationality,,Residence & immigration,40,50,mm,34mm,5mm,,"White, Off-white",,,,,http://new.bangladeshembassy.ru/images/Forms/Dual_Nationality_Forms/dual_nationality_application_form.pdf
+IDK-0057,Bangladesh,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.forms.gov.bd/sites/default/files/files/brta.portal.gov.bd/forms/7198270c_eaab_409e_9190_347b2592343e/Driving-License-Renewal-Form-for-Professinal-Driver-sm.pdf
+IDK-0061,Barbados,Passport,,Passport,50,50,mm,68%,,56%,"White, Off-white",,,,,http://immigration.gov.bb/documents/Form%20A.pdf
+IDK-0062,Barbados,Visa,,Visa,50,50,mm,68%,,56%,"White, Off-white",,,,,https://www.barbadoswelcomestamp.bb/apply/
+IDK-0063,Belarus,Passport,,Passport,40,50,mm,34mm,3mm,,"White, Off-white",,,,The authorities trim the print down to 35×45 mm themselves.,https://minobl.mvd.gov.by/ru/page/administrativnye-procedury-v-sfere-grazhdanstva-i-migracii/vydacha-i-obmen-pasporta-grazhdanina-rb
+IDK-0064,Belarus,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://mfa.gov.by/visa/vjezd/ ; http://mfa.gov.by/en/visa/
+IDK-0065,Belarus,Citizenship,,Residence & immigration,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,https://www.mvd.gov.by/ru/page/departament-po-grazhdanstvu-i-migraci/grazhdanstvo ; http://www.embassybel.ru/consular-questions/citizenship-residency/Porjadok-rassmotrenija-zajavlenij-o-prieme-v-grazhdanstvo.html
+IDK-0066,Belarus,Residence permit,,Residence & immigration,40,50,mm,34mm,3mm,,"White, Off-white",,,,,http://www.embassybel.ru/consular-questions/permanent-residence/Polucheniya-razresheniya-grajdanami-Rossii-na-postoyannoe-projivanie-v-Belarusi.html
+IDK-0067,Belarus,Driving licence,,Driving licence,40,50,mm,34mm,3mm,,"White, Off-white",,,,,
+IDK-0071,Belgium,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://diplomatie.belgium.be/fr/Services/services_a_letranger/passeport_belge/passeport_biometrique/belge_en_belgique/qualite_exigee_pour_la_photo
+IDK-0070,Belgium,Visa,,Visa,35,45,mm,31mm,2.5mm,,"White, Off-white",,,,,http://diplomatie.belgium.be/en/binaries/SchengenEN_tcm312-69379.pdf ; http://countries.diplomatie.belgium.be/en/south_africa/travel_belgium/visa_belgium/
+IDK-0072,Belgium,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.belgium.be/nl/familie/internationaal/buitenlanders/verblijfsdocumenten ; https://www.belgium.be/fr/famille/international/etrangers/documents_de_sejour
+IDK-0068,Belgium,eID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://diplomatie.belgium.be/sites/default/files/downloads/eid_fr_0.pdf ; https://diplomatie.belgium.be/fr/Services/services_a_letranger/passeport_belge/passeport_biometrique/belge_en_belgique/qualite_exigee_pour_la_photo ; http://www.ibz.rrn.fgov.be/fileadmin/user_upload/nl/kaarten/eid/documentatie/2016_Matrice_NL.pdf ; https://diplomatie.belgium.be/sites/default/files/downloads/2016_matrice_fr.pdf
+IDK-0069,Belgium,Kids-ID,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.ibz.rrn.fgov.be/nl/identiteitsdocumenten/kids-id/ ; http://www.ibz.rrn.fgov.be/fr/documents-didentite/kids-id/
+IDK-0073,Belgium,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://leuven.be/en/driving-licence
+IDK-0074,Belize,Passport,,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://immigration.gov.bz/passport/passport-photo-requirements/
+IDK-0075,Belize,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.embelize.org/?page_id=149
+IDK-0076,Belize,Residence permit,,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://immigration.gov.bz/residence/permanent-residence-requirements/
+IDK-0078,Benin,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,The same photo works for the Benin consular card.,https://ambabenin.dk/consular-formalities/inssuance-or-renewal-of-passports/
+IDK-0079,Benin,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,The same photo works for the Benin consular card.,http://beninembassy.us/passporttravel-documents/
+IDK-0077,Benin,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://ambabenin.dk/consular-formalities/entry-visas/
+IDK-0080,Bhutan,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.citizenservices.gov.bt/passport-service ; http://www.mfa.gov.bt/?page_id=77 ; http://www.mfa.gov.bt/wp-content/uploads/2009/03/application_form_for_new_passport_or_traveldocument1.pdf
+IDK-0083,Bolivia,Passport,,Passport,40,50,mm,34mm,5mm,,"White, Off-white",,,,,http://www.embolivia.se/wp-content/uploads/2022/10/Formulario-registro-PAS.pdf
+IDK-0082,Bolivia,Visa,,Visa,30,30,mm,68%,,56%,"White, Off-white",,150,,,https://www.embolivia.se/consular-services/visas/tourist-visa/
+IDK-0084,Bolivia,Certificate of residence,,Residence & immigration,40,40,mm,70%,8%,,"White, Off-white",,,,,https://www.embolivia.se/seccion-consular/certificado-de-vivencia/
+IDK-0081,Bolivia,ID card,,ID card,30,30,mm,68%,,56%,"White, Off-white",,,,,https://www.embolivia.se/seccion-consular/asignacion-de-numero-de-identidad/
+IDK-0085,Bolivia,Safe-conduct pass,,Other,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://www.embolivia.se/seccion-consular/documentos-para-viaje/salvoconducto-emergencia/
+IDK-0086,Bolivia,Birth registration,,Other,40,40,mm,70%,8%,,"White, Off-white",,,,,https://www.embolivia.se/seccion-consular/registro-civil/registro-de-nacimiento-de-adolescente-12-18-anos/
+IDK-0087,Bosnia and Herzegovina,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.bhembassychina.com/requirements.php
+IDK-0089,Botswana,Passport,,Passport,30,40,mm,75%,6.25%,,"White, Off-white",,,,Also used for the national ID card.,http://www.botswanaembassy.org/page/photo-requirements-for-passport-and-national-id
+IDK-0088,Botswana,Visa,,Visa,30,40,mm,75%,6.25%,,"White, Off-white",,,,,http://www.botswanaembassy.org/sites/default/files/documents/visa_application_form.pdf
+IDK-0090,Botswana,Residence permit,,Residence & immigration,30,40,mm,75%,6.25%,,"White, Off-white",,,,,http://www.botswanaembassy.org/page/residence-permit-application
+IDK-0097,Brazil,Passport,,Passport,50,70,mm,42mm,8mm,,"White, Off-white",,,,,http://ierevan.itamaraty.gov.br/pt-br/passaportes.xml
+IDK-0096,Brazil,Passport,online,Passport,431,531,px,70%,5.2%,,"White, Off-white",10,300,yes,,https://formulario-mre.serpro.gov.br
+IDK-0095,Brazil,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://houston.itamaraty.gov.br/en-us/tourist_visa.xml
+IDK-0091,Brazil,Visa,"online, VFS Global",Visa,413,531,px,68%,7%,,"White, Off-white",10,300,yes,"For citizens of the USA, Canada, Australia and Japan applying through VFS Global. Everyone else uses the 431×531 px format.",http://vfsglobal.com/brazil-evisa/prepare-your-application.html ; http://www.vfsglobal.com/Brazil-eVisa/
+IDK-0092,Brazil,Visa,online,Visa,431,531,px,70%,5.2%,,"White, Off-white",10,300,yes,"Citizens of the USA, Canada, Australia and Japan use the 413×531 px VFS Global format instead.",https://formulario-mre.serpro.gov.br/sci/pages/web/pacomPasesWebInicial.jsf
+IDK-0094,Brazil,Employment record book,,Residence & immigration,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://www.gov.br/pt-br/servicos/obter-a-carteira-de-trabalho
+IDK-0093,Brazil,ID card,,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,"A recent front-facing photo on a plain background. No sunglasses, and no head covering unless worn for religious reasons.",http://mg.gov.br/servico/emissao-da-carteira-de-identidade-1a
+IDK-0098,Brazil,Driving licence,,Driving licence,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://icetran.com.br/blog/perdi-minha-cnh-segunda-via/
+IDK-0099,Brazil,Bilhete Único (São Paulo),,Cards & passes,30,40,mm,30mm,2.5mm,,"White, Off-white",,60,,,http://bilheteunico.sptrans.com.br/COMOENVIAR.ASPX
+IDK-0100,Brunei,Passport,,Passport,40,52,mm,35mm,6mm,,"White, Off-white",,,,Four identical prints are usually requested.,http://www.mofat.gov.bn/usa-washington/Shared%20Documents/PassportRenewal.pdf ; http://www.bruemb.jp/wp-content/themes/BruneiEmbassy/docs/Passport.pdf
+IDK-0101,Brunei,Emergency certificate (Sijil Darurat),,Other,35,42,mm,74%,8%,,"White, Off-white",,,,,http://www.bruemb.jp/brunei-citizen-services/
+IDK-0102,Bulgaria,Passport,,Passport,35,45,mm,30mm,3mm,,"White, Off-white",,,,Also accepted for a temporary passport.,http://www.mfa.bg ; http://www.bulgaria-embassy.org/Consular%20Information/passport/Passport%20Procedures.htm ; http://www.bulgaria-embassy.org/Consular%20Information/passport/pas_samp.pdf
+IDK-0103,Bulgaria,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.mfa.bg/en/pages/109/index.html
+IDK-0105,Bulgaria,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0104,Bulgaria,ID card,,ID card,35,45,mm,30mm,3mm,,"White, Off-white",,,,,https://www.consulatebg.eu/home/id-card
+IDK-0106,Burkina Faso,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.ambaburkina-fr.org/consulat-general/passeport/
+IDK-0107,Burkina Faso,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.ambaburkina-fr.org/consulat-general/visa/ ; http://www.ambaburkina.dk/reglementvisa.html ; http://www.ambaburkinafaso-ch.org/spip.php?rubrique7&lang=fr
+IDK-0108,Cambodia,Passport,,Passport,40,60,mm,36mm,6mm,,"White, Off-white",,,,,https://www.cambodianembassy.org.uk/downloads/Form%20for%20Extending%20Cambodian%20Passport.pdf
+IDK-0109,Cambodia,Visa,35×45 mm,Visa,35,45,mm,34mm,3mm,,"White, Off-white",100,2000,,,http://www.evisa.gov.kh/
+IDK-0110,Cambodia,Visa,40×60 mm,Visa,40,60,mm,36mm,6mm,,"White, Off-white",,,,,http://www.cambodiaembassy.ch/english/VisaEN.pdf
+IDK-0111,Cambodia,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.embassyofcambodia.org/Portals/15/cambodiavisaapplicationform.pdf?ver=2017-11-22-204959-343
+IDK-0112,Cameroon,Passport,40×40 mm,Passport,40,40,mm,75%,8%,,"White, Off-white",,,,,http://www.cameroon-embassy.nl/passport-application/passport-application-required-documents/
+IDK-0113,Cameroon,Passport,40×50 mm,Passport,40,50,mm,34mm,5mm,,"White, Off-white",,,,,http://www.cameroon-embassy.nl/passport-application/passport-application-required-documents/
+IDK-0114,Cameroon,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0115,Cameroon,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://cameroonembassyusa.org/camusa/consular-services/application-forms
+IDK-0116,Cameroon,Visa,40×40 mm,Visa,40,40,mm,75%,8%,,"White, Off-white",,,,,http://ambacam.ru/Consular_section/VISA_DEPARTMENT/HOW_TO_OBTAIN_AN_ENTRY_VISA_TO_CAMEROON_/
+IDK-0117,Cameroon,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://cameroonembassyusa.org/camusa/consular-services/application-forms
+IDK-0118,Cameroon,Visa,online,Visa,500,500,px,75%,8%,,"White, Off-white",,,yes,,http://ambacam.ru/Consular_section/VISA_DEPARTMENT/Online_visa_application/
+IDK-0122,Canada,Passport,printed,Passport,50,70,mm,35mm,,39mm,"White, Off-white",,4096,,For applications made in person or by post. Online applications use the digital format.,https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports/photos.html
+IDK-0121,Canada,Passport,online,Passport,1200,1800,px,48%,,55%,"White, Off-white",200,5120,yes,"The file should be between 1200×1800 and 3000×4500 px, and no larger than 5 MB.",https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports/photos.html#online
+IDK-0119,Canada,Visa,,Visa,35,45,mm,34.7mm,3mm,,"White, Off-white",60,240,,As a digital file this is 420×540 px.,http://www.cic.gc.ca/english/information/applications/photospecs.asp ; http://www.cic.gc.ca/english/pdf/photospecs-e.pdf ; http://www.cic.gc.ca/english/visit/tourist.asp
+IDK-0120,Canada,Temporary resident visa,,Visa,35,45,mm,34.7mm,3mm,,"White, Off-white",60,240,,,http://www.cic.gc.ca/english/information/applications/photospecs.asp
+IDK-0125,Canada,Citizenship,,Residence & immigration,50,70,mm,35mm,,39mm,"White, Off-white",,4096,,,http://www.cic.gc.ca/english/information/applications/photospecs-cit.asp
+IDK-0128,Canada,Indian status card,,Residence & immigration,50,70,mm,35mm,,39mm,"White, Off-white",,4096,,,https://www.sac-isc.gc.ca/eng/1333474227679/1572461782133
+IDK-0123,Canada,Permanent resident card,printed,Residence & immigration,50,70,mm,35mm,,39mm,"White, Off-white",,4096,,"One print needs the photographer's name, address and the date on the back, plus your name and date of birth.",http://www.cic.gc.ca/english/information/applications/guides/pdf/5445EB-e.pdf
+IDK-0124,Canada,Permanent resident card,online,Residence & immigration,1200,1680,px,50%,,55%,"White, Off-white",,4096,yes,,https://www.canada.ca/en/immigration-refugees-citizenship/services/new-immigrants/pr-card/apply-renew-replace/photo.html
+IDK-0129,Canada,Quebec health insurance card,,ID card,50,70,mm,35mm,,39mm,"White, Off-white",,4096,,,http://www.ramq.gouv.qc.ca/en/citizens/health-insurance/health-insurance-card/Pages/photo-signature.aspx
+IDK-0132,Canada,Veteran service card,,ID card,50,70,mm,35mm,,39mm,"White, Off-white",,4096,,,https://www.canada.ca/en/department-national-defence/services/benefits-military/transition/service-card.html
+IDK-0131,Canada,Security licence,,Licences & permits,50,70,mm,35mm,,39mm,"White, Off-white",,945,,,https://www.ontario.ca/page/security-guard-or-private-investigator-licence-individuals
+IDK-0127,Canada,Firearms licence,printed,Licences & permits,45,57,mm,30mm,15mm,,"White, Off-white",,,,,https://www.rcmp-grc.gc.ca/en/firearms/licence-renewal-individuals ; http://www.huntsafe.ca/downloads/PAL_renewal_application.pdf
+IDK-0126,Canada,Firearms licence,online,Licences & permits,1120,1480,px,67%,12%,,"White, Off-white",102,5120,yes,,https://www.rcmp-grc.gc.ca/en/firearms/licence-renewal-individuals ; http://www.huntsafe.ca/downloads/PAL_renewal_application.pdf
+IDK-0959,Canada,University of Guelph-Humber student ID,,Education & exams,400,533,px,373px,24px,,"White, Off-white",10,2048,yes,"Name the file with your seven-digit student number, for example 0123456.jpg.",https://www.guelphhumber.ca/registrar/id
+IDK-0130,Canada,Personnel security screening,,Other,43,54,mm,77%,6%,,"White, Off-white",,,,,https://www.tbs-sct.gc.ca/tbsf-fsct/330-23-nf-eng.pdf
+IDK-0133,Chad,Passport,,Passport,50,50,mm,68%,,56%,"White, Off-white",,,,Two colour prints are needed.,http://ambatchad-paris.org/index.php/formalites/passeport
+IDK-0135,Chile,Passport,,Passport,45,45,mm,27mm,7.5mm,,"White, Off-white",,,,,https://chile.gob.cl/sydney/en/preguntas-frecuentes/ ; https://minrel.gob.cl/preguntas-frecuentes/minrel_old/2008-07-16/174427.html
+IDK-0134,Chile,Visa,20×30 mm,Visa,20,30,mm,75%,10%,,"White, Off-white",,,,,https://www.extranjeria.gob.cl ; https://www.extranjeria.gob.cl/media/2018/11/20.11.18-RequisitosVisaTemporariaPrimeraRM.pdf ; https://www.extranjeria.gob.cl/media/2018/02/RequisitosVisaTemporariaPro%CC%81rrogaGOB.pdf
+IDK-0136,Chile,Visa,50×50 mm,Visa,50,50,mm,68%,,56%,"White, Off-white",,,,,https://chile.gob.cl/chile/blog/venezuela/informacion-sobre-visa-de-responsabilidad-democratica
+IDK-0141,China,Passport,,Passport,33,48,mm,31.5mm,5mm,,"White, Off-white",,,,,http://www.china-embassy.org/chn/lszj/hzlxz/t1644169.htm
+IDK-0142,China,Passport,light grey background,Passport,33,48,mm,31.5mm,5mm,,Light grey,,,,,http://www.fmprc.gov.cn/ce/cgny/eng/lsyw/lszjx/sbqz/cccbu/t895733.htm ; http://www.fmprc.gov.cn/ce/cenp/eng/ConsularService/t1068494.htm
+IDK-0139,China,Passport,online,Passport,354,472,px,356px,25px,,"White, Off-white",,80,yes,,http://ppt.mfa.gov.cn/appo/page/agreement.html
+IDK-0140,China,Passport,"online, old format",Passport,354,472,px,,,262px,"White, Off-white",,80,yes,,
+IDK-0143,China,Passport & visa,"online, eyes on guide lines",Passport,354,472,px,,,262px,"White, Off-white",40,120,yes,For online passport and visa applications; the eyes line up with the form's guide marks.,
+IDK-0137,China,Visa,,Visa,33,48,mm,31.5mm,5mm,,"White, Off-white",,,,Applying through a US visa agency such as CIBT? Use that agency's format instead.,http://www.fmprc.gov.cn/ce/cenp/eng/ConsularService/t1068494.htm ; http://www.china-embassy.org/eng/visas/t1421603.htm ; http://www.chinaconsulatechicago.org/eng/ywzn/qzhz/qz/t1421600.htm
+IDK-0138,China,Visa,online,Visa,354,472,px,356px,25px,,"White, Off-white",40,120,yes,For the online form. Paper applications use the 33×48 mm print.,https://www.fmprc.gov.cn ; http://www.china-embassy.org/eng/visas/t1421603.htm
+IDK-0152,China,Permanent residence card (Green Card),,Residence & immigration,33,48,mm,31.5mm,5mm,,"White, Off-white",,,,,http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm
+IDK-0144,China,Social security card,,ID card,26,32,mm,20mm,3.5mm,,"White, Off-white",20,40,,Also accepted for the resident ID card.,https://www.gov.cn/ ; http://rst.hebei.gov.cn/a/redianzhuanti/shebaokabaominsheng/xgxz/2016/0302/3070.html
+IDK-0145,China,Resident ID card,,ID card,26,32,mm,20mm,3.5mm,,"White, Off-white",20,40,,,https://www.tiebazhushou.com/zaixian/2019111523586.html
+IDK-0150,China,Medical insurance card,,ID card,26,32,mm,20mm,3.5mm,,"White, Off-white",20,40,,,
+IDK-0146,China,Driving licence,22×32 mm,Driving licence,22,32,mm,21mm,9%,,"White, Off-white",,,,,https://www.chazhengla.com/news/3134.html
+IDK-0147,China,Driving licence,21×26 mm,Driving licence,21,26,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0151,China,Licensed pharmacist exam,,Licences & permits,215,300,px,75%,6%,,"White, Off-white",10,100,yes,,http://www.sohu.com/a/209999642_100064254
+IDK-0149,China,National Computer Rank Examination,,Education & exams,144,192,px,75%,6%,,"White, Off-white",20,200,yes,,http://www.sohu.com/a/209999642_100064254
+IDK-0148,China,Putonghua proficiency test,blue background,Education & exams,390,567,px,75%,6%,,Blue,30,80,yes,,
+IDK-0153,China,APEC Business Travel Card,,Cards & passes,300,400,px,75%,6%,,"White, Off-white",,,yes,,
+IDK-0154,Colombia,Visa,online,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,290,,,https://tramitesmre.cancilleria.gov.co/tramites/enlinea/solicitarVisa.xhtml
+IDK-0156,Colombia,Residence visa,,Residence & immigration,30,40,mm,30mm,2.5mm,,"White, Off-white",,290,,,https://www.nomasfilas.gov.co/memoficha-tramite/-/tramite/T7326
+IDK-0158,Colombia,Nationality certificate,,Residence & immigration,40,50,mm,40mm,2mm,,"White, Off-white",,,,,https://www.cancilleria.gov.co/en/node/6280
+IDK-0155,Colombia,Citizenship card (cédula),,ID card,40,50,mm,40mm,2mm,,"White, Off-white",,,,"The cédula de ciudadanía, issued by the Registraduría.",http://houston.consulado.gov.co/tramites_servicios/tramites_exterior/cedula_ciudadania
+IDK-0157,Colombia,ID card (ages 7–18),,ID card,40,50,mm,40mm,2mm,,"White, Off-white",,,,Only for children aged 7 to 18 (tarjeta de identidad). Adults need the citizenship card (cédula).,https://milan.consulado.gov.co/node/news/8356/conozca-las-especificaciones-las-fotos-documentos ; http://houston.consulado.gov.co/tramites_servicios/tramites_exterior/tarjeta_identidad
+IDK-0159,Colombia,Driving licence,,Driving licence,30,40,mm,30mm,2.5mm,,"White, Off-white",,290,,,https://www.acc.com.co/p/acc-comercial-internacional ; https://internationaldrivingpermit.org/country/colombia/?lang=es
+IDK-0160,Comoros,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0161,Comoros,ID card,,ID card,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0170,Costa Rica,Passport,,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0171,Costa Rica,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0169,Costa Rica,ID card,40×45 mm,ID card,40,45,mm,73%,8%,,"White, Off-white",,,,,https://www.embajadadecostarica.org/index.php?option=com_content&view=article&id=82&Itemid=533
+IDK-0172,Costa Rica,ID card,30×35 mm,ID card,30,35,mm,25mm,2mm,,"White, Off-white",,,,,https://costaricaembassy.be/consulado/cedulas_de_identidad/
+IDK-0176,Croatia,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0174,Croatia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://za.mfa.hr/?mh=331&mv=2046
+IDK-0173,Croatia,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://stari.mup.hr/42.aspx
+IDK-0175,Croatia,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://ok-smz.hr/mup-donio-novu-odluku-izgledu-fotografije-izdavanje-vozacke-dozvole/
+IDK-0177,Cuba,Visa,,Visa,45,45,mm,27mm,7.5mm,,"White, Off-white",,,,,http://misiones.minrex.gob.cu/sites/default/files/formularios/admin/planilla_solicitud_de_visas_extranjeros.pdf
+IDK-0178,Cuba,Tourist card,,Visa,45,45,mm,27mm,7.5mm,,"White, Off-white",,,,,http://misiones.minrex.gob.cu
+IDK-0179,Cuba,Residence abroad permit,,Residence & immigration,45,45,mm,27mm,7.5mm,,"White, Off-white",,,,,http://misiones.minrex.gob.cu/en/usa/consular-services#residencia_exterior
+IDK-0181,Cyprus,Passport,,Passport,40,50,mm,34mm,5mm,,"White, Off-white",,,,,http://www.mfa.gov.cy/mfa/embassies/embassy_moscow.nsf/All/C5BC6CA69B176A5CC2257F99003B70F8?OpenDocument ; http://www.mfa.gov.cy/mfa/Embassies/embassy_berlin.nsf/All/E52FC5F687D9CD77C2257FCB002C89D1 ; https://cyprusembassy.fi/main/index.php?p=Consular_Section/5/1&lang=EN
+IDK-0182,Cyprus,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0184,Cyprus,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.cyprusembassy.net/home/index.php?module=page&cid=109
+IDK-0180,Cyprus,ID card,35×45 mm,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.cyprusembassy.net/home/uploads/pdf/Miscellaneous/ICAO%20Picture%20Specifications.pdf
+IDK-0183,Cyprus,ID card,30×40 mm,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://cyprusembassy.fi/main/index.php?p=Consular_Section/5/2&lang=EN
+IDK-0187,Czech Republic,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.mvcr.cz/mvcren/article/photograph.aspx ; http://www.mzv.cz/telaviv/en/visa_and_consular_services/passports/index.html
+IDK-0188,Czech Republic,Passport,50×50 mm,Passport,50,50,mm,68%,,56%,"White, Off-white",,,,,http://www.mzv.cz/london/en/visa_and_consular_information/consular_information/czech_passport/index.html ; http://www.mzv.cz/telaviv/en/visa_and_consular_services/passports/index.html
+IDK-0185,Czech Republic,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.mzv.cz/manila/en/visa_and_consular_services/visa_information/schengen_visa_stay_of_up_to_90_days/list_of_reguirements_for/tourism.html ; http://www.mvcr.cz/mvcren/article/photograph.aspx
+IDK-0192,Czech Republic,Employee card,,Residence & immigration,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.mvcr.cz/clanek/zamestnanecka-karta.aspx?q=Y2hudW09Mg%3D%3D
+IDK-0193,Czech Republic,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.mvcr.cz/mvcren/file/zadost-o-udeleni-dlouhodobeho-viza-cze-eng.aspx
+IDK-0186,Czech Republic,ID card,,ID card,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.mzv.cz/file/149406/foto.pdf
+IDK-0189,Czech Republic,Firearms licence,,Licences & permits,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.policie.cz/clanek/policie-ceske-republiky-zbrane-a-strelivo.aspx
+IDK-0190,Czech Republic,In Karta,,Cards & passes,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.cd.cz/jizdne/in-karta/default.htm ; https://kehila-olomouc.cz/rs/wp-content/uploads/in-karta-zadost.pdf
+IDK-0191,Czech Republic,Lítačka card,,Cards & passes,260,346,px,75%,6%,,"White, Off-white",,2048,yes,,https://karta.litacka.cz/casto-kladene-dotazy#chcete-vedet-vice-o-ochrane-osobnich-udaju
+IDK-0162,DR Congo,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.ambardcstockholm.com/chancellerie/passeport
+IDK-0196,Denmark,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://politi.dk/pas/krav-til-pas-og-koerekortfoto
+IDK-0195,Denmark,Passport,Copenhagen (kk.dk),Passport,35,45,mm,57%,14%,,"White, Off-white",,300,,,https://www.kk.dk/pas
+IDK-0194,Denmark,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,240,,,http://usa.um.dk/en/travel-and-residence/visa/photo-requirements/
+IDK-0197,Denmark,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,240,,,https://roskilde.dk/pas-og-koerekort/id-kort
+IDK-0198,Denmark,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,240,,,https://politi.dk/pas/krav-til-pas-og-koerekortfoto
+IDK-0200,Denmark,Seafarer's discharge book,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.dma.dk/SoefarendeBemanding/SoefartsbogBeviser/Soefartsbog/Sider/default.aspx
+IDK-0199,Denmark,University of Copenhagen student card,,Education & exams,200,200,px,70%,7%,,"White, Off-white",,200,yes,,https://it.ku.dk/studerende/id-kort/
+IDK-0202,Djibouti,Passport,,Passport,35,35,mm,70%,8%,,"White, Off-white",,,,,http://www.ambassadededjibouti.be/images/PP.Form.pdf
+IDK-0201,Djibouti,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0203,Djibouti,ID card,,ID card,35,35,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0204,Dominica,Passport,,Passport,38,45,mm,29.5mm,4.5mm,,"White, Off-white",,,,,http://www.dominica.gov.dm/services/passports-and-travel-documents-nationals/120-how-do-i-apply-for-a-passport
+IDK-0206,Dominican Republic,Passport,,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.pasaportes.gob.do/
+IDK-0205,Dominican Republic,Visa,,Visa,40,50,mm,34mm,5mm,,"White, Off-white",,,,,http://www.consuladord.com/pdfs/Visa%20de%20Negocios%20Simple.pdf
+IDK-0207,Ecuador,Visa,,Visa,50,50,mm,68%,,56%,"White, Off-white",,,,,https://www.gob.ec/mremh/tramites/concesion-visa-residencia-temporal-mercosur
+IDK-0208,Egypt,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,https://www.egypt.gov.eg/services/listServicesCategory.aspx?ID=350§ion=citizens ; http://www.egyptembassy.net/consular-services/passports-travel/issuing-egyptian-passport/
+IDK-0210,Egypt,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0209,Egypt,Visa,40×60 mm,Visa,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0211,Egypt,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.egyptembassy.net/consular-services/passports-travel/visa-requirements/
+IDK-0212,Equatorial Guinea,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0214,Estonia,Passport,,Passport,40,50,mm,75%,6%,,"White, Off-white",1024,5120,,,https://www2.politsei.ee/en/teenused/isikut-toendavad-dokumendid/eesti-kodaniku-pass/taiskasvanule/index.dot
+IDK-0218,Estonia,Visa,,Visa,40,50,mm,75%,6%,,"White, Off-white",1024,5120,,,https://www2.politsei.ee/en/teenused/viibimisaja-pikendamine/
+IDK-0219,Estonia,Long-stay D visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://vm.ee/en/long-stay-d-visa
+IDK-0217,Estonia,Alien's passport,,Residence & immigration,40,50,mm,75%,6%,,"White, Off-white",1024,5120,,,https://www2.politsei.ee/en/teenused/isikut-toendavad-dokumendid/valismaalase-pass/taiskasvanule/oluline-info-taiskasvanule-valismaalase-passi-taotlejale.dot#varvifoto
+IDK-0215,Estonia,e-Residency card,,Residence & immigration,2600,3200,px,75%,7%,,"White, Off-white",1024,5120,yes,Also used for the residence permit card.,https://apply.gov.ee/ ; https://www2.politsei.ee/en/teenused/isikut-toendavad-dokumendid/requirements-and-instructions-regarding-document-photographs.dot
+IDK-0213,Estonia,ID card,,ID card,40,50,mm,75%,6%,,"White, Off-white",1024,5120,,,https://www2.politsei.ee/en/teenused/isikut-toendavad-dokumendid/id-kaart/taiskasvanule/oluline-info-taiskasvanule-id-kaardi-taotlejale.dot#varvifoto
+IDK-0216,Estonia,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.mnt.ee/eng/driver/driving-licence/international-driving-permit
+IDK-0220,Estonia,Weapons permit,,Licences & permits,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://www2.politsei.ee/en/teenused/weapons-permit/
+IDK-0223,Ethiopia,Passport,,Passport,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://ethemb.se/wp-content/uploads/2013/04/Checklist-for-Passport-Renewal.pdf ; http://ethiopianembassy.org.br/paginas/passport
+IDK-0221,Ethiopia,e-Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",5,1900,,,https://www.evisa.gov.et/
+IDK-0222,Ethiopia,Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.ethiopianembassy.be/wp-content/uploads/Visa-Application-Form.pdf
+IDK-0224,Ethiopia,Origin ID card,30×40 mm,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,"Three recent colour prints on white, with your name written on the back.",http://www.ethiopianembassy.org/ConsularForms/IDForm1.pdf ; http://ethemb.se/wp-content/uploads/2013/07/Application-form-for-the-issuance-of-origin-ID.pdf
+IDK-0225,Ethiopia,Origin ID card,20×30 mm,ID card,20,30,mm,63%,10%,,"White, Off-white",,,,,http://www.ethiopiaembassy.ru/en/fees_id
+IDK-0226,European Union,Schengen visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.diplomatie.gouv.fr/en/IMG/pdf/sample_photos_france.pdf ; http://www.immihelp.com/visas/schengenvisa/sample_photos_germany.pdf
+IDK-0227,European Union,EU Blue Card,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.bluecard-eu.de/eu-blue-card-germany/application/
+IDK-0964,European Union,ESN card,,Education & exams,27,37,mm,75%,6%,,"White, Off-white",,,,,https://esnuk.org/esncard
+IDK-0228,Fiji,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.immigration.gov.fj/travel-requirements/passport-photo-guidelines
+IDK-0229,Finland,Passport,,Passport,36,47,mm,35mm,4mm,,"White, Off-white",,250,,,https://www.poliisi.fi/licences/passport/dimensions_and_positioning
+IDK-0231,Finland,Passport,online,Passport,500,653,px,487px,56px,,"White, Off-white",,250,yes,,https://www.poliisi.fi/licences/passport/dimensions_and_positioning
+IDK-0230,Finland,Visa,,Visa,36,47,mm,35mm,4mm,,"White, Off-white",,250,,,http://visa.finland.eu/Saintpeterburg/medical_photospecs.html
+IDK-0234,Finland,Residence permit,,Residence & immigration,36,47,mm,35mm,4mm,,"White, Off-white",,250,,,https://migri.fi/documents/5202425/6287239/Oleskelulupahakemuksen+liite_passikuva_olel_pk_en.pdf/466b3532-9ed4-404b-a1b8-16f12d8bb0d8/Oleskelulupahakemuksen+liite_passikuva_olel_pk_en.pdf
+IDK-0233,Finland,ID card,printed,ID card,36,47,mm,35mm,4mm,,"White, Off-white",,250,,,https://www.poliisi.fi/licences/passport/dimensions_and_positioning
+IDK-0232,Finland,ID card,online,ID card,500,653,px,487px,56px,,"White, Off-white",,250,yes,,https://www.poliisi.fi/licences/passport/dimensions_and_positioning
+IDK-0236,Finland,Driving licence,,Driving licence,36,47,mm,35mm,4mm,,"White, Off-white",,250,,,https://ajokortti-info.fi/en/getting-a-driving-licence/driving-licence-permit
+IDK-0235,Finland,Firearms permit,,Licences & permits,36,47,mm,35mm,4mm,,"White, Off-white",,250,,,https://www.poliisi.fi/passport/passport_photo_instructions
+IDK-0237,France,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.consulfrance-washington.org/IMG/pdf/depliant_norme_photo-2.pdf
+IDK-0238,France,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.diplomatie.gouv.fr/en/IMG/pdf/sample_photos_france.pdf
+IDK-0243,France,Asylum application,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.demarches.interieur.gouv.fr/particuliers.html#F2232
+IDK-0239,France,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.demarches.interieur.gouv.fr/particuliers.html#F10619
+IDK-0242,France,Carte Vitale (health card),,ID card,35,45,mm,34.5mm,4.5mm,,"White, Off-white",50,2000,,,https://mutuelle.fr/infos/carte-vitale/carte-vitale-2/
+IDK-0241,France,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.demarches.interieur.gouv.fr/particuliers.html#F2830
+IDK-0240,France,Campus France,,Education & exams,26,32,mm,23.5mm,2mm,,"White, Off-white",,50,,,
+IDK-0244,France,Navigo pass,,Cards & passes,25,30,mm,75%,6%,,"White, Off-white",,,,,https://francetravelplanner.com/go/paris/trans/ratp/tix/navigo.html
+IDK-0245,France,Game Pass,,Cards & passes,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.paris-hospitality.com/jop2024/paris-olympic-games-2024-your-game-pass/
+IDK-0246,Gabon,e-Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",5,300,,,https://evisa.dgdi.ga/
+IDK-0247,Gabon,Visa,,Visa,35,35,mm,75%,8%,,"White, Off-white",,,,,http://www.gabonembassyjapan.org/visas-touristique.html
+IDK-0248,Georgia,Passport,,Passport,35,45,mm,69%,5mm,,"White, Off-white",,,,,
+IDK-0251,Georgia,Passport,online,Passport,35,45,mm,29mm,6.5mm,,"White, Off-white",,,,,https://www.geoconsul.gov.ge/register/visit
+IDK-0249,Georgia,Visa,,Visa,35,45,mm,69%,5mm,,"White, Off-white",,,,,
+IDK-0250,Georgia,e-Visa,35×45 mm,Visa,35,45,mm,29mm,6.5mm,,"White, Off-white",,,,,https://www.geoconsul.gov.ge/register/visit
+IDK-0256,Georgia,e-Visa,40×50 mm,Visa,40,50,mm,33mm,8mm,,"White, Off-white",,,,,https://www.evisa.gov.ge/GeoVisa/en/VisaApp
+IDK-0258,Georgia,Citizenship,,Residence & immigration,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://sda.gov.ge/?page_id=7434&lang=en
+IDK-0259,Georgia,Residence permit,,Residence & immigration,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://centri.gov.ge/en/services?s=19
+IDK-0253,Georgia,Citizenship,online,Residence & immigration,35,45,mm,29mm,6.5mm,,"White, Off-white",,,,,https://www.geoconsul.gov.ge/register/visit
+IDK-0257,Georgia,ID card,,ID card,35,45,mm,29mm,6.5mm,,"White, Off-white",,,,,https://sda.gov.ge/
+IDK-0252,Georgia,Consular services,,Other,35,45,mm,29mm,6.5mm,,"White, Off-white",,,,,https://www.geoconsul.gov.ge/register/visit
+IDK-0254,Georgia,Criminal record certificate,,Other,35,45,mm,29mm,6.5mm,,"White, Off-white",,,,,https://www.geoconsul.gov.ge/register/visit
+IDK-0255,Georgia,Personal number assignment,,Other,35,45,mm,29mm,6.5mm,,"White, Off-white",,,,,https://www.geoconsul.gov.ge/register/visit
+IDK-0260,Germany,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.germany.info/contentblob/2177362/Daten/178573/Sample_Photos_DD.pdf
+IDK-0262,Germany,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.germany.info/Vertretung/usa/en/05__Legal/02__Directory__Services/01__Visa/__Visa__Photo__Instructions.html
+IDK-0264,Germany,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.service-bw.de/leistung/-/sbw/Elektronischen+Aufenthaltstitel+eAT+beantragen-1727-leistung-0
+IDK-0261,Germany,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.personalausweisportal.de/SharedDocs/Downloads/DE/Weitere-Informationen/Fotomustertafel.pdf?__blob=publicationFile&v=2 ; https://www.personalausweisportal.de/SharedDocs/Downloads/DE/Weitere-Informationen/Fotomustertafel.html?nn=6852870
+IDK-0267,Germany,Health insurance card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.barmer.de/faq/faq-gesundheitskarte-133032 ; https://www.sbk.org/versicherung-tarife/elektronische-gesundheitskarte/fragen-zum-foto-auf-der-elektronischen-gesundheitskarte/
+IDK-0263,Germany,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0265,Germany,Lawyer ID card,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.rak-muenchen.de/rechtsanwaelte/mitgliederservice/anwaltsausweis.html
+IDK-0266,Germany,Doctor's ID card,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.aerztekammer-berlin.de/10arzt/10_Mitgliedschaft/12_Arztausweise/12_Einfacher-Arztausweis/index.html
+IDK-0268,Germany,Bus pass,,Cards & passes,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.vgn.de/ratgeber/verbundpass/
+IDK-0269,Germany,Rail card,,Cards & passes,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.bahn.de/p/view/bahncard/ueberblick/bahncard100.shtml
+IDK-0270,Germany,Football player pass,,Cards & passes,375,500,px,60%,8%,,"White, Off-white",,512,yes,,http://www.bremerfv.de/wp-content/uploads/digitaler_spielerpass-leitfaden_fotoerstellung.pdf
+IDK-0272,Ghana,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.ghanaembassy.or.jp/consular_section/passport.html
+IDK-0271,Ghana,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.ghanaembassy.dk/content/visa-application ; http://www.ghanaembassy.ru/inc/visa/tourism-visa
+IDK-0273,Ghana,Visa,from Brazil,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.ghanaembassybrazil.com/information-for-visa/
+IDK-0274,Greece,Passport,,Passport,40,60,mm,34mm,,32mm,"White, Off-white",,,,,http://www.passport.gov.gr/en/npc-content/npc-periexomeno/technical-specifications.html
+IDK-0275,Greece,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.mfa.gr/uk/images/stories/services/docs/technical_requirements_for_photos_1.pdf
+IDK-0277,Greece,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.mfa.gr/usa/en/services/services-for-non-greeks/visa-section.html
+IDK-0278,Greece,Residence permit,,Residence & immigration,40,60,mm,34mm,,32mm,"White, Off-white",,,,,https://www.apdattikis.gov.gr/
+IDK-0276,Greece,ID card,,ID card,36,36,mm,65%,8%,,"White, Off-white",,,,,http://www.hellenicpolice.gr/index.php?option=ozo_content&perform=view&id=139&Itemid=132&lang
+IDK-0279,Greece,Driving licence,,Driving licence,1280,1600,px,75%,6%,,"White, Off-white",,,yes,,https://drivers-vehicles.services.gov.gr/content/specifications.pdf
+IDK-0280,Grenada,Passport,,Passport,1.5,2,in,1.4in,0.25in,,"White, Off-white",,,,Prints must be between 1½ × 2 in and 2 × 2½ in.,https://www.grenadaembassy.ru/wp-content/uploads/2020/05/Schedule-I-Passport-Renewal-Application-Aug-2018.pdf
+IDK-0281,Guatemala,Passport,,Passport,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,,
+IDK-0283,Guinea,Visa,,Visa,35,50,mm,72%,8%,,"White, Off-white",,200,,,
+IDK-0282,Guinea,e-Visa,,Visa,150,214,px,72%,8%,,"White, Off-white",,200,yes,,https://www.paf.gov.gn/visa
+IDK-0284,Guinea-Bissau,Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,Two prints on a white background.,
+IDK-0285,Guinea-Bissau,e-Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://www.rgb-visa.com/
+IDK-0286,Guyana,Passport,26×32 mm,Passport,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,,http://www.guyanaconsulate.com/passport.html ; http://www.guyanahclondon.co.uk/Passport%20Application%20Form%20for%20Guyana.pdf ; https://www.guyanaconsulatenewyork.org/passports/
+IDK-0287,Guyana,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.guyanaconsulate.com/passport.html ; http://www.guyanahclondon.co.uk/Passport%20Application%20Form%20for%20Guyana.pdf ; https://www.guyanaconsulatenewyork.org/passports/
+IDK-0290,Hong Kong,Passport,,Passport,40,50,mm,35mm,5mm,,"White, Off-white",,,,,http://www.gov.hk/en/residents/immigration/traveldoc/photorequirements.htm ; http://www.gov.hk/en/residents/immigration/traveldoc/hksarpassport/applyhkpassport.htm
+IDK-0288,Hong Kong,e-Passport,online,Passport,1200,1600,px,70%,10%,,"White, Off-white",,5120,yes,,https://www.immd.gov.hk/eng/residents/immigration/traveldoc/photorequirements.html ; https://www.gov.hk/en/residents/immigration/traveldoc/hksarpassport/applyhkpassport.htm
+IDK-0291,Hong Kong,Visa,,Visa,40,50,mm,35mm,5mm,,"White, Off-white",,,,,http://www.immd.gov.hk/pdforms/ID1003A.pdf ; http://www.gov.hk/en/residents/immigration/traveldoc/photorequirements.htm
+IDK-0289,Hong Kong,e-Visa,online,Visa,1200,1600,px,70%,10%,,"White, Off-white",,5120,yes,,https://www.immd.gov.hk/eng/residents/immigration/traveldoc/photorequirements.html
+IDK-0292,Hong Kong,ID card,,ID card,40,50,mm,35mm,5mm,,"White, Off-white",,,,,https://www.smartid.gov.hk/en/During-Application/
+IDK-0293,Hong Kong,APEC Business Travel Card,,Cards & passes,40,50,mm,35mm,5mm,,"White, Off-white",,,,,https://www.immd.gov.hk/pdforms/id900.pdf
+IDK-0294,Hong Kong,Octopus card,,Cards & passes,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.octopus.com.hk/en/document/apply_pcard.pdf
+IDK-0295,Hungary,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,Applying at the embassy in London? Use the UK passport format instead.,http://www.mfa.gov.hu/kulkepviselet/UK/en/en_Konzuliinfo/application_for_hungarian_passport.htm
+IDK-0296,Hungary,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.mfa.gov.hu/NR/rdonlyres/70BCBE4B-4408-4F40-852A-B04731C6EB3D/0/photo_requirements_visa_appl.pdf ; http://www.mfa.gov.hu/kulkepviselet/UK/en/en_Konzuliinfo/visa_information.htm
+IDK-0298,Hungary,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.kulugyminiszterium.hu/dtwebe/Iratok/TE.pdf
+IDK-0297,Hungary,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://nyilvantarto.hu/hu/vezetoiengedely_nemzetkozi
+IDK-0307,Iceland,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.syslumenn.is/media/eydublod/Ljosmyndaleidbeiningar.pdf
+IDK-0300,Iceland,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0299,Iceland,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://skra.is/english/individuals/passport-and-id-card/id-card/
+IDK-0302,Iceland,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://old.mcc.is/english/cars/drivers-licence/ ; https://www.syslumenn.is/thjonusta/skirteini-vegabref-vottord/okuskirteini/
+IDK-0301,Iceland,Work licence,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0306,Iceland,Gun licence,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0303,Iceland,Debit card,,Cards & passes,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0304,Iceland,Certificate,,Other,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0305,Iceland,CV,,Other,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0314,India,Passport,,Passport,35,45,mm,80%,2mm,,"White, Off-white",,244.141,,,https://portal2.passportindia.gov.in/AppOnlineProject/online/faqApplicationForm ; https://mportal.passportindia.gov.in/pdf/Guidelines_for_ICAO_Compliant_Photographs_for_Passport_Applications.pdf ; https://portal2.passportindia.gov.in/AppOnlineProject/online/faqCamp
+IDK-0315,India,Child passport,,Passport,35,45,mm,80%,2mm,,"White, Off-white",,244.141,,,https://portal1.passportindia.gov.in/AppOnlineProject/pdf/GUIDELINES%20FOR%20CAPTURING%20PHOTOGRAPHS%20FOR%20MINORS_v2.1.pdf ; https://www.indianembassydublin.gov.in/page/fresh-passport-for-new-born/ ; https://portal2.passportindia.gov.in/AppOnlineProject/online/faqServicesAvailable
+IDK-0313,India,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,200,,,http://passport.gov.in/oci/Photo-Spec-FINAL.pdf
+IDK-0316,India,Passport,35×35 mm,Passport,35,35,mm,70%,8%,,"White, Off-white",,,,,https://embassyofindiabangkok.gov.in/pages.php?id=19 ; http://indianembassy.in.th/images/download/EAP-I.pdf
+IDK-0328,India,Passport,BLS International (USA),Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,200,,,
+IDK-0308,India,e-Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",10,1024,,Works for online and in-person applications alike.,https://indianvisaonline.gov.in
+IDK-0309,India,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,290,,For the online form: a square JPEG between 10 KB and 300 KB.,https://indianvisaonline.gov.in
+IDK-0310,India,Visa,VFS Global,Visa,190,190,px,64.5%,,59%,"White, Off-white",,15,yes,"VFS Global's format, on a plain light background.",http://www.vfsglobal.com/India/UK/
+IDK-0322,India,PIO card,,Residence & immigration,35,35,mm,67%,,58%,"White, Off-white",,200,,,
+IDK-0324,India,FRRO registration,,Residence & immigration,35,35,mm,67%,,58%,"White, Off-white",,50,,,http://indianfrro.gov.in/frro/
+IDK-0311,India,OCI card,2×2 in,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,200,,Digital copies must be between 200×200 and 900×900 px.,http://passport.gov.in/oci/welcome ; https://ociservices.gov.in/Photo-Spec-FINAL.pdf
+IDK-0312,India,OCI card,online,Residence & immigration,360,360,px,70%,7%,,"White, Off-white",,30,yes,,
+IDK-0318,India,PAN card,,ID card,35,45,mm,73%,7%,,"White, Off-white",,20,,,https://tinpan.proteantech.in/downloads/pan/download/Form%2093.pdf ; https://tinpan.proteantech.in/downloads/pan/download/Form%2095.pdf
+IDK-0321,India,Voter ID card,,ID card,2,2,in,1.29in,,1.18in,"White, Off-white",10,240,,,
+IDK-0317,India,PAN card,online,ID card,213,213,px,70%,7%,,"White, Off-white",,30,yes,,https://aponline.gov.in/Apportal_MessageBoard/DOCUMENTSFORSDPRSDPsUSDPs/pancardprocessdoc.pdf
+IDK-0320,India,Driving licence,,Driving licence,35,45,mm,73%,7%,,"White, Off-white",,20,,,https://parivahan.gov.in/sarathiservice/pdf/PhotoSign.pdf ; https://sarathi.parivahan.gov.in/sarathiservicecov12/sarathiHomePublic.do
+IDK-0319,India,Driving licence,online,Driving licence,420,525,px,75%,7%,,"White, Off-white",,20,yes,,https://parivahan.gov.in/sarathiservice/pdf/PhotoSign.pdf
+IDK-0327,India,DGCA (UDAAN),,Licences & permits,35,45,mm,35mm,3mm,,"White, Off-white",10,70,,,http://dgca.nic.in/admit/Instruction%20&%20Procedure%20for%20uploading%20the%20images%20of%20Photograph%20&%20Signature%20in%20UDAAN%20site.pdf
+IDK-0330,India,UPSC exam,2×2 in,Education & exams,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,The photo must be no more than 10 days old when the online application begins.,https://upsconline.nic.in/upsc/OTRP/candidate/faq.php ; https://upsconline.nic.in/ora/oraauth/candidate/Instructionscandidates.pdf
+IDK-0331,India,UPSC exam,110×140 px,Education & exams,110,140,px,75%,5%,,"White, Off-white",,40,yes,The photo must be no more than 10 days old when the online application begins.,https://upsc.gov.in/sites/default/files/IS_Wing_FAQs_0.pdf
+IDK-0323,India,Police clearance or birth certificate,,Other,35,35,mm,67%,,58%,"White, Off-white",,200,,,https://www.hcilondon.in/pages.php?id=85
+IDK-0329,India,Birth registration,,Other,100,120,px,75%,7%,,"White, Off-white",,20,yes,,https://indiancitizenshiponline.nic.in/Home2.aspx?formcode=09
+IDK-0326,India,Police clearance certificate,2×2 in,Other,2,2,in,1.29in,,1.18in,"White, Off-white",,290,,,
+IDK-0325,India,Police clearance certificate,online,Other,160,200,px,75%,5%,,"White, Off-white",5,20,yes,,
+IDK-0333,Indonesia,Passport,red background,Passport,2,2,in,1.29in,,1.18in,Red,,240,,,
+IDK-0334,Indonesia,Passport,white background,Passport,2,2,in,1.29in,,1.18in,White,,240,,,
+IDK-0339,Indonesia,e-Visa on arrival,,Visa,400,600,px,70%,7%,,"White, Off-white",10,240,yes,,
+IDK-0340,Indonesia,e-Visa,,Visa,400,600,px,60%,8%,,"White, Off-white",10,240,yes,,
+IDK-0332,Indonesia,Visa,"online, red background",Visa,30,40,mm,30mm,2.5mm,,Red,,300,,,http://evisa.kbri-newdelhi.go.id/visa/f/2311e713382d87057619d5cca5fba208 ; http://evisa.kbri-newdelhi.go.id/
+IDK-0335,Indonesia,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://consular.embassyofindonesia.org/
+IDK-0336,Indonesia,Visa,35×45 mm,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0337,Indonesia,Visa,red background,Visa,40,60,mm,36mm,6mm,,Red,,,,,https://www.bali.com/work-permit-kitas.html
+IDK-0338,Indonesia,Visa,40×60 mm,Visa,40,60,mm,36mm,6mm,,"White, Off-white",,,,,
+IDK-0341,Iran,e-Visa,,Visa,400,600,px,70%,7%,,"White, Off-white",10,240,yes,,
+IDK-0342,Iraq,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.iraqinationality.gov.iq/InstructionstoapplyforElectronicallyReadPassport.html
+IDK-0346,Iraq,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0343,Iraq,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.iraqiembassy.us/page/visas-to-iraq
+IDK-0345,Iraq,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0344,Iraq,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0348,Ireland,Passport,printed,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0347,Ireland,Passport,online,Passport,715,951,px,55%,14%,,"White, Off-white",,,yes,,https://www.dfa.ie/passportonline/photographerguidelines/
+IDK-0349,Ireland,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0350,Ireland,Employment permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://epos.djei.ie/
+IDK-0352,Ireland,Age card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.agecard.ie/forms/home/
+IDK-0351,Ireland,Digital tachograph driver card,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.rsa.ie/Documents/Tachograph_Enf/Tacho%20Cards/Application%20Forms/Dig_Tac_driver_card_app_form_eng.pdf
+IDK-0353,Ireland,Leap Card,,Cards & passes,715,951,px,55%,14%,,"White, Off-white",,,yes,,https://about.leapcard.ie/about/where-to-buy
+IDK-0356,Israel,Passport,35×45 mm,Passport,35,45,mm,32mm,5mm,,"White, Off-white",,,,,http://embassies.gov.il/stockholm-en/ConsularServices/Pages/Passport-information.aspx
+IDK-0357,Israel,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0358,Israel,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,"Embassies differ, so check which size yours asks for before printing.",
+IDK-0359,Israel,Visa,from India,Visa,55,55,mm,37mm,6mm,,"White, Off-white",,,,,http://www.israelvisa-india.com/photo.aspx
+IDK-0354,Israel,ID card,,ID card,35,45,mm,32mm,5mm,,"White, Off-white",,,,,https://www.gov.il/en/service/new_id
+IDK-0355,Israel,gov.il online services,,Other,35,45,mm,32mm,5mm,,"White, Off-white",,,,,https://www.gov.il
+IDK-0361,Italy,Passport,,Passport,35,45,mm,33.5mm,2mm,,"White, Off-white",,500,,,http://www.consmontreal.esteri.it/resource/2010/05/11973_f_cons97PassaportiNovitaMaggio2011.pdf
+IDK-0363,Italy,Passport,Los Angeles consulate,Passport,40,40,mm,75%,7.5%,,"White, Off-white",,,,,http://www.conslosangeles.esteri.it/consolato_losangeles/en/i_servizi/per-i-cittadini/passaporti
+IDK-0362,Italy,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.ambwashingtondc.esteri.it/Ambasciata_Washington/Menu/In_linea_con_utente/Domande_frequenti/Visti_faq/Visa_Requirements.htm
+IDK-0360,Italy,ID card,,ID card,35,45,mm,33.5mm,2mm,,"White, Off-white",,500,,,
+IDK-0364,Italy,Driving licence,,Driving licence,35,45,mm,33.5mm,2mm,,"White, Off-white",,35,,,http://www.patente.it/normativa/circolare-20-10-2016-n-23176-foto-per-patente?idc=3366 ; https://www.ilportaledellautomobilista.it/web/portale-automobilista/verifica-foto-patente-professionista
+IDK-0367,Italy,Tour guide ID,,Licences & permits,35,45,mm,33.5mm,2mm,,"White, Off-white",,500,,,https://www.ministeroturismo.gov.it/faq-piattaforma-nazionale-delle-guide-turistiche/ ; https://portaleprofessioni.ministeroturismo.gov.it/tour-guides
+IDK-0366,Italy,Fan loyalty card,2×2 in,Cards & passes,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://archivio.sscnapoli.it/userfiles/file/Modulistica/TesseraDelTifoso2012/SSCNapoli_Modulo_Adesione_ClubAzzurroCard_2012-2013.pdf
+IDK-0365,Italy,Fan loyalty card,800×1000 px,Cards & passes,800,1000,px,77%,8.5%,,"White, Off-white",,,yes,,http://www.juventusofficialfanclublaspezia.it/wp-content/uploads/2018/07/modulo-richiesta-tessera-del-tifoso.pdf
+IDK-0368,Ivory Coast,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0369,Jamaica,Passport,,Passport,35,45,mm,33mm,4mm,,"White, Off-white",15,8192,,,http://www.jhcuk.org/citizens/passports/passport-photographs
+IDK-0370,Jamaica,Passport,pale blue background,Passport,35,45,mm,33mm,4mm,,Light blue,15,8192,,Applicants with grey or white hair should use a pale blue background.,https://www.pica.gov.jm/passport/photo-requirements
+IDK-0378,Japan,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.la.us.emb-japan.go.jp/e_web/e_m02_07_02.htm
+IDK-0377,Japan,Passport,online,Passport,600,730,px,73%,10%,,"White, Off-white",20,600,yes,,https://faq.myna.go.jp/faq/show/8043?back=front%2Fcategory%3Ashow&category_id=255&page=1&site_domain=default&sort=sort_access&sort_order=desc ; https://www.mofa.go.jp/mofaj/toko/passport/page24_002222.html
+IDK-0376,Japan,e-Visa,,Visa,35,45,mm,29mm,5mm,,"White, Off-white",,,,,https://www.evisa.mofa.go.jp/index
+IDK-0387,Japan,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.mofa.go.jp/j_info/visit/visa/index.html ; https://www.mofa.go.jp/files/000124528.pdf
+IDK-0372,Japan,Visa,"45×45 mm, 27 mm head",Visa,45,45,mm,27mm,7.5mm,,"White, Off-white",,,,"Embassies differ in which size they ask for, so check with yours first.",http://www.mofa.go.jp ; http://www.ph.emb-japan.go.jp/visiting/visa/photorequirment.htm
+IDK-0373,Japan,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"Embassies differ in which size they ask for, so check with yours first.",http://www.mofa.go.jp/j_info/visit/visa/topics/multiple.html
+IDK-0375,Japan,Visa,"45×45 mm, 34 mm head",Visa,45,45,mm,34mm,4mm,,"White, Off-white",,,,"Embassies differ in which size they ask for, so check with yours first.",http://www.mofa.go.jp ; http://www.in.emb-japan.go.jp/photo.html ; https://japanevisa.net/requirements-and-sizes-of-a-japan-visa/
+IDK-0371,Japan,Residence card / Certificate of Eligibility,,Residence & immigration,30,40,mm,25mm,6mm,,"White, Off-white",,,,,http://www.immi-moj.go.jp/english/tetuduki/zairyuu/photo_info.html
+IDK-0374,Japan,My Number Card,,ID card,35,45,mm,29mm,5mm,,"White, Off-white",,,,,https://www.kojinbango-card.go.jp/kofushinse-checkpoint/ ; https://www.kojinbango-card.go.jp/faq/ ; https://myca.jp/m/size/
+IDK-0379,Japan,Driving licence,,Driving licence,24,30,mm,75%,4%,,Light blue,,,,,https://www.police.pref.miyagi.jp/hp/menkyo/menkyo_syasin.html ; https://www.keishicho.metro.tokyo.jp/smph/menkyo/koshin/koshin/koshin02_2.html
+IDK-0380,Japan,Driving licence,converting a foreign licence,Driving licence,40,50,mm,34mm,5mm,,"White, Off-white",,,,,https://www.police.pref.miyagi.jp/hp/menkyo/menkyo_syasin.html ; https://www.keishicho.metro.tokyo.jp/smph/menkyo/koshin/koshin/koshin02_2.html
+IDK-0386,Japan,Hunting licence,,Licences & permits,24,30,mm,75%,4%,,"White, Off-white",,,,,http://www.env.go.jp/nature/choju/effort/effort8/hunter/license.html ; https://www.kochi-ryoyu.com/menkyo.html
+IDK-0381,Japan,JLPT language test,,Education & exams,30,40,mm,75%,6%,,"White, Off-white",20,200,,,https://www.jlpt.jp
+IDK-0382,Japan,GoGoNihon application,,Education & exams,35,45,mm,60%,5.5%,,"White, Off-white",,,,,
+IDK-0385,Japan,APEC Business Travel Card,,Cards & passes,35,45,mm,34mm,4mm,,"White, Off-white",,,,,https://www.mofa.go.jp/mofaj/gaiko/apec/btc.html#section4
+IDK-0383,Japan,Résumé (rirekisho),30×40 mm,Other,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0384,Japan,Résumé (rirekisho),40×60 mm,Other,40,60,mm,36mm,6mm,,"White, Off-white",,,,,
+IDK-0388,Jordan,Passport,,Passport,35,45,mm,33mm,4mm,,"White, Off-white",,,,,https://jordan.gov.jo/wps/portal/Home/Citizen/CitizenLifeEvent?catId=6589f890-843c-4d44-a395-50fddda0be73
+IDK-0393,Jordan,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.jordanembassyus.org/page/consulate-forms
+IDK-0389,Jordan,Visa,,Visa,35,45,mm,33mm,4mm,,"White, Off-white",,,,,
+IDK-0391,Jordan,Residence permit,,Residence & immigration,35,45,mm,33mm,4mm,,"White, Off-white",,,,,https://www.psd.gov.jo/index.php/ar/2015-03-02-13-04-44/2015-08-10-05-37-07
+IDK-0392,Jordan,Work permit,,Residence & immigration,35,45,mm,33mm,4mm,,"White, Off-white",,,,,
+IDK-0390,Jordan,ID card,,ID card,35,45,mm,33mm,4mm,,"White, Off-white",,,,,
+IDK-0394,Jordan,ID card,from the USA,ID card,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.jordanembassyus.org/page/consulate-forms
+IDK-0395,Kazakhstan,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,30,,,https://egov.kz/cms/ru/articles/trebovaniya_k_fotografiyam
+IDK-0397,Kazakhstan,Passport,online,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,30,,,http://egov.kz/cms/en/services/pass003_mvd
+IDK-0399,Kazakhstan,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0396,Kazakhstan,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,30,,,http://egov.kz/cms/en/services/pass003_mvd
+IDK-0398,Kazakhstan,ID card,online,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,30,,,http://egov.kz/cms/en/services/pass003_mvd
+IDK-0400,Kazakhstan,Seaman's book,,Licences & permits,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0407,Kenya,Passport,35×45 mm,Passport,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://www.kenyarep-jp.com/visa/kenya_passports_e.html
+IDK-0405,Kenya,e-Passport,,Passport,2,2.5,in,72%,8%,,"White, Off-white",,,,,https://www.kenyahighcom.org.uk/passports
+IDK-0406,Kenya,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",5,249,,,https://immigration.ecitizen.go.ke
+IDK-0403,Kenya,East Africa Tourist Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",5,249,,Uploaded as a 500×500 px file.,
+IDK-0402,Kenya,Visa,,Visa,207,207,px,75%,7%,,"White, Off-white",,,yes,,https://immigration.ecitizen.go.ke/index.php?id=9
+IDK-0401,Kenya,e-Visa,online,Visa,500,500,px,70%,8%,,"White, Off-white",,200,yes,,http://evisa.go.ke/
+IDK-0404,Kenya,ID card,,ID card,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://kenyaembassydc.org/id/
+IDK-0410,Kuwait,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,https://www.e.gov.kw/sites/kgoEnglish/Pages/Services/MOI/RenewPassport.aspx
+IDK-0409,Kuwait,Passport,"first application, blue background",Passport,40,50,mm,75%,7%,,Blue,,,,,https://www.e.gov.kw/sites/kgoenglish/Pages/Services/MOI/ApplyforPassport.aspx
+IDK-0408,Kuwait,e-Visa,,Visa,30,40,mm,76%,4%,,"White, Off-white",,1953.12,,,
+IDK-0411,Kuwait,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0416,Kuwait,Visa,35×45 mm,Visa,35,45,mm,34mm,4mm,,"White, Off-white",,,,,
+IDK-0413,Kuwait,Residence permit,,Residence & immigration,40,60,mm,38mm,6mm,,"White, Off-white",,,,,https://www.e.gov.kw/sites/kgoarabic/Pages/Services/MOI/TransferResidencePermitCivilArticle18.aspx
+IDK-0414,Kuwait,Work permit,,Residence & immigration,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0412,Kuwait,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,https://www.e.gov.kw/sites/kgoenglish/Pages/Services/PACI/RenewCivilID.aspx
+IDK-0415,Kuwait,Driving licence,blue background,Driving licence,40,60,mm,38mm,6mm,,Blue,,,,,https://www.moi.gov.kw/gdt/Main_Do011.htm
+IDK-0417,Kyrgyzstan,Passport,,Passport,40,60,mm,,5mm,,"White, Off-white",,,,,https://www.kgembassy.org/wp-content/uploads/2015/06/%d0%a2%d1%80%d0%b5%d0%b1%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d1%8f-%d0%ba-%d1%84%d0%be%d1%82%d0%be-%d0%bd%d0%b0-%d0%bf%d0%b0%d1%81%d0%bf%d0%be%d1%80%d1%82-%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d1%86%d0%b0-2004-%d0%b3%d0%be%d0%b4%d0%b0.pdf ; https://www.kgembassy.org/en/consular-issues/info-for-kyrgyz-citizens/russkij-poluchenie-ili-obmen-obshhegrazh/
+IDK-0418,Kyrgyzstan,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.evisa.e-gov.kg/
+IDK-0421,Laos,Passport,,Passport,40,60,mm,36mm,6mm,,"White, Off-white",,,,,https://s3-eu-west-1.amazonaws.com/storage.cybersite.se/files/cb7d8910-5f61-45f4-8b8f-26b56b89a341/0e59ba75-672b-4b81-8fe1-1971249797114.jpg
+IDK-0422,Laos,Adoption visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.laoembassy.com/ChildAdoptionApplicationUpdateJuly2013.pdf
+IDK-0419,Laos,Visa,40×60 mm,Visa,40,60,mm,36mm,6mm,,"White, Off-white",,,,,http://www.ambalao.be/pages/formulairevisaenfr.pdf
+IDK-0420,Laos,Visa,30×40 mm,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.laosembassy.net/wp-content/uploads/2015/06/51dcf281a28c4_VISA_APPLICATION_FORM.pdf ; https://s3-eu-west-1.amazonaws.com/storage.cybersite.se/files/cb7d8910-5f61-45f4-8b8f-26b56b89a341/0a246bfd-7ec3-4d2e-a87b-7e2f05432da0.pdf
+IDK-0423,Latvia,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.pmlp.gov.lv/ru/home-ru/uslugi/pasporta/dokumentyi.html
+IDK-0424,Latvia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.mfa.gov.lv/en/london/consular-information/documents-required-when-applying-for-a-short-stay-visa-to-enter-latvia ; https://www.mfa.gov.lv/images/KD_faili/Vizas/Mat_RU.pdf
+IDK-0425,Latvia,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.mfa.gov.lv/en/london/consular-information/residence-permits-lv
+IDK-0426,Latvia,Seaman's discharge book,,Licences & permits,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.lja.lv/en/registry-seamen/seamans-discharge-book/procedure-issue-seamans-discharge-book ; https://www.lja.lv/en/registry-seamen/certification-seafarers/flag-state-endorsement
+IDK-0428,Lebanon,Passport,35×45 mm,Passport,35,45,mm,34mm,3mm,,"White, Off-white",,,,,http://www.general-security.gov.lb/ar/posts/182 ; http://www.lebanonembassyus.org/images/picturesample-newpass.jpg ; http://www.emigrants.gov.lb/administrativeproceduresitemsd.aspx?CID=91&SCID=34&ID=253#.Wwv3pX2n9Sk
+IDK-0432,Lebanon,Passport,35×43 mm,Passport,35,43,mm,33mm,3mm,,"White, Off-white",,,,,
+IDK-0427,Lebanon,Visa,,Visa,35,45,mm,34mm,3mm,,"White, Off-white",,,,,
+IDK-0430,Lebanon,Residence permit,,Residence & immigration,35,45,mm,34mm,3mm,,"White, Off-white",,,,,http://www.dawlati.gov.lb/eservices-detail/-/asset_publisher/0iNQGuDWXGZd/content/imu411-15
+IDK-0431,Lebanon,Work permit,,Residence & immigration,35,45,mm,34mm,3mm,,"White, Off-white",,,,,
+IDK-0429,Lebanon,ID card,,ID card,35,45,mm,34mm,3mm,,"White, Off-white",,,,,
+IDK-0433,Lesotho,e-Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://evisalesotho.com/photo-guidelines/
+IDK-0434,Liberia,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0435,Liberia,Seafarer's Certification,,Licences & permits,45,45,mm,77%,8.5%,,"White, Off-white",,,,,https://www.liscr.com/search-category/seafarers
+IDK-0437,Libya,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0436,Libya,Visa,,Visa,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0438,Libya,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0440,Liechtenstein,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.llv.li/inhalt/12524/amtsstellen/ausstellungsprozess
+IDK-0439,Liechtenstein,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.immihelp.com/visas/schengenvisa/sample_photos_germany.pdf
+IDK-0442,Liechtenstein,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.llv.li/inhalt/11724/amtsstellen/biometrischer-aufenthaltsausweis
+IDK-0441,Liechtenstein,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.llv.li/inhalt/1912/amtsstellen/ausstellungsprozess
+IDK-0443,Liechtenstein,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.llv.li/files/onlineschalter/Dokument-376.pdf
+IDK-0445,Lithuania,Passport,40×60 mm,Passport,40,60,mm,33mm,13mm,,"White, Off-white",,,,,https://adic.lrv.lt/lt/teisine-informacija/nuotrauku-pavyzdziai
+IDK-0446,Lithuania,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://uk.mfa.lt/uk/en/travel-and-residence/consular-issues/lithuanian-passport
+IDK-0444,Lithuania,ID card,,ID card,40,60,mm,33mm,13mm,,"White, Off-white",,,,,https://adic.lrv.lt/lt/teisine-informacija/nuotrauku-pavyzdziai
+IDK-0448,Luxembourg,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0447,Luxembourg,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://guichet.public.lu/en/entreprises/ressources-humaines/recrutement/ressortissant-pays-tiers/visa.html
+IDK-0450,Luxembourg,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0449,Luxembourg,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://transports.public.lu/fr/support/faq/permis-de-conduire.html
+IDK-0452,Macau,Passport,,Passport,35,45,mm,34.5mm,4mm,,"White, Off-white",,,,,http://www.dsi.gov.mo/passport_e.jsp ; http://www.dsi.gov.mo/documents/photo_format_e.pdf
+IDK-0453,Macau,Visa,,Visa,33,48,mm,31.5mm,5mm,,"White, Off-white",,,,,http://www.china-embassy.org/eng/visas/vephmsar/t943876.htm
+IDK-0451,Macau,Resident identity card (BIR),,ID card,35,45,mm,34.5mm,4mm,,"White, Off-white",,,,,http://www.dsi.gov.mo/documents/photo_format_e.pdf
+IDK-0454,Macau,Driving licence,,Driving licence,32,42,mm,30mm,3mm,,"White, Off-white",,3072,,,
+IDK-0460,Madagascar,Passport,,Passport,40,40,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0457,Madagascar,Visa,35×45 mm,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.botschaft-madagaskar.de/file/repository/visa/en/Tourisme.pdf
+IDK-0458,Madagascar,Visa,40×40 mm,Visa,40,40,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0461,Madagascar,Visa,50×50 mm,Visa,50,50,mm,68%,,56%,"White, Off-white",,,,,http://madagascar-embassy.jp/_index.php/embassy/
+IDK-0462,Madagascar,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.madagascar-embassy.org/wp-content/uploads/2017/04/Visa-form_042317.pdf
+IDK-0459,Madagascar,ID card,,ID card,40,40,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0463,Malawi,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.malawihighcommission.co.uk/index.php/immigration-and-consular ; http://www.malawiembassy-dc.org/page/malawi-passports
+IDK-0464,Malawi,Visa,,Visa,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.evisa.gov.mw/
+IDK-0465,Malaysia,Passport,white background,Passport,35,50,mm,29mm,10mm,,White,100,1000,,,http://www.imi.gov.my/index.php/en/main-services/passport/malaysian-international-passport.html
+IDK-0467,Malaysia,Passport,blue background,Passport,35,50,mm,29mm,10mm,,Blue,100,1000,,,http://www.imi.gov.my/index.php/en/main-services/passport/malaysian-international-passport.html
+IDK-0466,Malaysia,e-Visa,,Visa,35,50,mm,32.5mm,5mm,,"White, Off-white",10,350,,"When uploading, the photo should fill the crop box completely.",https://malaysiavisa.imi.gov.my/evisa/evisa.jsp
+IDK-0468,Malaysia,Visa,"blue background, 35×50 mm",Visa,35,50,mm,70%,10%,,Blue,,,,,
+IDK-0471,Malaysia,Visa,"white background, 35×50 mm",Visa,35,50,mm,70%,10%,,White,,,,,http://www.vfsglobal.com/malaysia/india/wrf_photospecifications.html
+IDK-0472,Malaysia,Visa,"blue background, 35×45 mm",Visa,35,45,mm,31mm,5mm,,Blue,,,,,
+IDK-0473,Malaysia,Visa,"white background, 35×45 mm",Visa,35,45,mm,31mm,5mm,,White,,,,,http://www.vfsglobal.com/malaysia/india/wrf_photospecifications.html
+IDK-0477,Malaysia,Work permit,,Residence & immigration,35,50,mm,29mm,10mm,,"White, Off-white",100,1000,,,https://esd.imi.gov.my/portal/pdf/tc-esd-quick-guidev3-2021_april.pdf
+IDK-0469,Malaysia,Expatriate pass,blue background,ID card,99,142,px,70%,10%,,Blue,,20,yes,,
+IDK-0470,Malaysia,Driving licence,,Driving licence,25,32,mm,23mm,2mm,,"White, Off-white",,,,,
+IDK-0475,Malaysia,Student pass (EMGS),printed,Education & exams,35,45,mm,36mm,3mm,,"White, Off-white",,66,,,
+IDK-0474,Malaysia,Student pass (EMGS),online,Education & exams,217,280,px,80%,6%,,"White, Off-white",,66,yes,"The EMGS online checker sometimes flags skin colour wrongly, even on compliant photos.",https://educationmalaysia.gov.my/how-to-apply/online-photo-checker.html/
+IDK-0476,Malaysia,APEC Business Travel Card,,Cards & passes,35,50,mm,70%,10%,,"White, Off-white",,,,,https://www.lam.gov.my/apec/files/ABTC-Application.pdf
+IDK-0478,Malaysia,Marriage registration,35×50 mm,Other,35,50,mm,29mm,10mm,,"White, Off-white",100,1000,,,https://www.malaysia.gov.my/media/uploads/fa0d2f5c-e465-41cd-b865-820d79c97dd4.pdf
+IDK-0479,Malaysia,Marriage registration,32×38 mm,Other,32,38,mm,75%,6%,,"White, Off-white",,,,,https://www.kln.gov.my/web/gin_conakry/birth_marriage_cert
+IDK-0480,Maldives,Passport,,Passport,35,45,mm,31mm,3mm,,"White, Off-white",,,,,https://immigration.gov.mv/application/photo-standards/
+IDK-0481,Malta,Passport,30×40 mm,Passport,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://identitymalta.com/wp-content/uploads/2017/09/FORM-A.pdf ; https://identitymalta.com/passport-office/
+IDK-0483,Malta,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,For adults who can't attend a passport office in person for medical reasons.,https://identitymalta.com/wp-content/uploads/2018/01/Form-B-Image-Capture-Form-2.pdf
+IDK-0482,Malta,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0486,Mauritania,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0484,Mauritania,Visa,35×45 mm,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0485,Mauritania,Visa,480×640 px,Visa,480,640,px,75%,6%,,"White, Off-white",,390.625,yes,,
+IDK-0487,Mauritania,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0488,Mauritius,Passport,,Passport,35,45,mm,33mm,3mm,,"White, Off-white",,,,,http://passport.govmu.org/English/Mauritius%20Passport/Pages/The-Standard-of-Passport-photo.aspx
+IDK-0489,Mexico,Passport,,Passport,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://consulmex.sre.gob.mx/frankfurt/images/stories/pdf/fotosejemp.pdf
+IDK-0490,Mexico,Visa,35×45 mm,Visa,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://consulmex.sre.gob.mx/nuevayork/index.php/en/visas-foreigners
+IDK-0491,Mexico,Visa,25×35 mm,Visa,25,35,mm,26mm,1.7mm,,"White, Off-white",,,,,
+IDK-0494,Mexico,Visa,1.5×1.75 in,Visa,1.5,1.75,in,1.3125in,0.08in,,"White, Off-white",,,,,http://consulmex.sre.gob.mx/seattle/index.php/visas-requirements
+IDK-0492,Mexico,Permanent residence visa,,Residence & immigration,31,39,mm,29mm,1.8mm,,"White, Off-white",,,,,http://embamex.sre.gob.mx/canada_eng/index.php/consular-fees/5337-permanent-resident-visa-2012
+IDK-0496,Mexico,Small ID photo,,ID card,25,30,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0493,Mexico,Driving licence,,Driving licence,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://www.licenciainternacional.com.mx/wp-content/uploads/2018/05/foto-pasaporte.png
+IDK-0495,Mexico,Military service card,,Licences & permits,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.gob.mx/sedena/acciones-y-programas/cuales-son-los-requisitos-para-tramitar-la-cartilla-de-identidad-del-servicio-militar
+IDK-0499,Moldova,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0500,Moldova,Work and residence permit,,Residence & immigration,50,60,mm,36mm,10mm,,"White, Off-white",,,,,http://bma.gov.md/ro ; http://www.mfa.gov.md/right-work-reside/-
+IDK-0497,Moldova,ID card,30×40 mm,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.sua.mfa.md/national-cards-en/
+IDK-0498,Moldova,ID card,10×15 cm,ID card,100,150,mm,65%,12%,,"White, Off-white",,,,,http://www.sua.mfa.md/national-cards-en/
+IDK-0503,Mongolia,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://mongolianembassy.us/passportorder/
+IDK-0501,Mongolia,Passport,online,Passport,413,531,px,88%,6%,,"White, Off-white",10,300,yes,,https://photo.burtgel.gov.mn/
+IDK-0502,Mongolia,Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://mongolianembassy.us/wp-content/uploads/2013/07/visa_application.pdf
+IDK-0504,Mongolia,Citizenship,,Residence & immigration,40,60,mm,38mm,6mm,,"White, Off-white",,,,,http://immigration.gov.mn/en/?page_id=2281
+IDK-0505,Mongolia,Residence permit,,Residence & immigration,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://immigration.gov.mn/en/?page_id=2214
+IDK-0506,Montenegro,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://mvp.gov.me/en/sections/consular-affairs/visa-information/Visa-issuance-precedure/
+IDK-0508,Morocco,Passport,,Passport,35,45,mm,35mm,3mm,,"White, Off-white",,,,,https://www.passeport.ma/Ar/NORMES%20POUR%20LES%20PHOTOGRAPHIES.pdf
+IDK-0507,Morocco,Visa,,Visa,35,45,mm,35mm,3mm,,"White, Off-white",,,,,
+IDK-0510,Morocco,Residence permit,,Residence & immigration,35,45,mm,33mm,4mm,,"White, Off-white",,,,,http://www.service-public.ma/ar/web/guest/home
+IDK-0509,Morocco,National ID Card,,ID card,35,45,mm,33mm,4mm,,"White, Off-white",,,,,http://www.moroccanconsulate.com/nid.cfm
+IDK-0511,Mozambique,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.embamoc.jp/english/visa/index.html
+IDK-0514,Myanmar,Passport,,Passport,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://mecanberra.com.au/index.php/en/myanmar-citizen-services/renewal-of-passport
+IDK-0512,Myanmar,Visa,38×46 mm,Visa,38,46,mm,33mm,3mm,,"White, Off-white",,,,The eVisa site may preview the photo squashed into a square; the 38×46 mm photo is still accepted.,http://evisa.moip.gov.mm
+IDK-0513,Myanmar,Visa,38×48 mm,Visa,38,48,mm,34mm,4mm,,"White, Off-white",,,,,https://evisa.moip.gov.mm/noticetotourists.aspx
+IDK-0516,Myanmar,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0517,Myanmar,Permanent residence,,Residence & immigration,1.5,2,in,1.1in,0.4in,,"White, Off-white",,,,"On a white or off-white background, with the face filling about half of the photo.",http://www.myanmarembassy.sg/pr-apply/
+IDK-0515,Myanmar,Driving licence,,Driving licence,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://www.myanmarrtad.com/?q=en/article/79
+IDK-0518,Namibia,Passport,37×52 mm,Passport,37,52,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0519,Namibia,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.embassyofnamibia.org.br/en/docs/applic_new_passport.pdf
+IDK-0520,Namibia,Visa,,Visa,37,52,mm,70%,8%,,"White, Off-white",,,,,http://www.embassyofnamibia.org.br/en/docs/visa_applic_tourists.pdf
+IDK-0521,Namibia,Visa,from Europe,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://consular.namibia-botschaft.de/touristholiday-visa/
+IDK-0526,Nepal,Passport,,Passport,35,45,mm,32.5mm,3mm,,"White, Off-white",,,,,http://ru.nepalembassy.gov.np/passport/
+IDK-0522,Nepal,eTA,,Visa,35,45,mm,32.5mm,3mm,,"White, Off-white",,,,,http://nepaliport-new.immigration.gov.np/
+IDK-0523,Nepal,Visa,online,Visa,1.5,1.5,in,72%,6%,,"White, Off-white",,,,,http://online.nepalimmigration.gov.np/
+IDK-0524,Nepal,Visa,35×45 mm,Visa,35,45,mm,32.5mm,3mm,,"White, Off-white",,,,,
+IDK-0525,Nepal,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0527,Nepal,NRN card,,ID card,25,30,mm,75%,6%,,"White, Off-white",,,,,http://ru.nepalembassy.gov.np/nrn-id/
+IDK-0528,Nepal,COVID QR code,,Other,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://vaccine.mohp.gov.np/verification-info
+IDK-0529,Netherlands,Passport,,Passport,35,45,mm,28.5mm,,50%,"White, Off-white",,,,,https://www.government.nl/binaries/government/documenten/publications/2020/06/18/photo-specification-guidelines-2020/RvIG-Fotomatrix-ENG+DEF_20200908.pdf ; https://www.rvig.nl/sites/default/files/2023-02/Fotomatrix%202020.pdf
+IDK-0530,Netherlands,Visa,,Visa,35,45,mm,28.5mm,,50%,"White, Off-white",,,,,http://unitedkingdom.nlembassy.org/passports-visas--consular/visas
+IDK-0531,Netherlands,ID card,,ID card,35,45,mm,28.5mm,,50%,"White, Off-white",,,,,https://www.rijksoverheid.nl/onderwerpen/paspoort-en-identiteitskaart/eisen-pasfoto-paspoort-id-kaart
+IDK-0532,Netherlands,Driving licence,,Driving licence,35,45,mm,28.5mm,,50%,"White, Off-white",,,,,https://www.rijksoverheid.nl/onderwerpen/paspoort-en-identiteitskaart/eisen-pasfoto-paspoort-id-kaart
+IDK-0534,Netherlands,Driving theory exam,,Driving licence,35,45,mm,28.5mm,,50%,"White, Off-white",,,,,
+IDK-0533,Netherlands,OV-chipkaart,,Cards & passes,35,45,mm,28.5mm,,50%,"White, Off-white",50,5120,,,https://www.ov-chipkaart.nl/vragen-en-antwoorden/waar-moet-ik-opletten-bij-het-uploaden-van-mijn-foto.htm
+IDK-0538,New Zealand,Passport,printed,Passport,35,45,mm,65%,,55%,"White, Off-white",,,,,
+IDK-0535,New Zealand,Passport,online,Passport,1500,2000,px,70%,,54%,"White, Off-white",250,10240,yes,"If the form rejects decimal values, set your browser language to English (NZ or US) so it uses a decimal point.",https://www.passports.govt.nz/passport-photos/passport-photo-requirements/
+IDK-0537,New Zealand,NZETA,,Visa,540,720,px,72%,8%,,"White, Off-white",,10240,yes,,https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/tools-and-information/acceptable-photos
+IDK-0539,New Zealand,Visa,printed,Visa,35,45,mm,65%,,55%,"White, Off-white",,,,"Print on glossy paper, not matte.",https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/tools-and-information/acceptable-photos
+IDK-0536,New Zealand,Visa,online,Visa,1650,2200,px,72%,8%,,"White, Off-white",500,5120,yes,"If the form rejects decimal values, set your browser language to English (NZ or US) so it uses a decimal point.",https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/tools-and-information/acceptable-photos
+IDK-0543,New Zealand,Certificate of identity / refugee travel document,,Residence & immigration,35,45,mm,65%,,55%,"White, Off-white",,,,,https://www.passports.govt.nz/assets/Uploads/Forms/COI-RTD-form.pdf
+IDK-0542,New Zealand,Citizenship,35×45 mm,Residence & immigration,35,45,mm,65%,,55%,"White, Off-white",,,,,https://www.govt.nz/assets/Documents/Passports-citizenship-and-identity/Application-for-NZ-citizenship-Samoan-adult-and-child.pdf
+IDK-0541,New Zealand,Citizenship,1500×2000 px,Residence & immigration,1500,2000,px,70%,,54%,"White, Off-white",250,10240,yes,"Between 900 and 4500 px wide, and 1200 and 6000 px tall.",https://dia.services.govt.nz/citizenship-getting-started/
+IDK-0544,New Zealand,Kiwi Access Card,,ID card,35,45,mm,65%,,55%,"White, Off-white",,,,,http://www.18plus.org.nz/
+IDK-0540,New Zealand,Firearms licence,,Licences & permits,35,45,mm,65%,,55%,"White, Off-white",,,,,http://www.police.govt.nz/advice/firearms-and-safety/standard-new-zealand-firearms-licence
+IDK-0547,New Zealand,SeaCert,printed,Licences & permits,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.maritimenz.govt.nz/commercial/certification/documents/seafarer-certificate-application-form.pdf
+IDK-0546,New Zealand,SeaCert,online,Licences & permits,1650,2200,px,72%,8%,,"White, Off-white",500,5120,yes,,https://www.maritimenz.govt.nz/commercial/certification/documents/seafarer-certificate-application-form.pdf
+IDK-0947,New Zealand,University of Auckland ID card,,Education & exams,1125,1500,px,1125px,50px,,"White, Off-white",500,1024,yes,,https://www.auckland.ac.nz/en/about/admission-and-enrolment/ae-before-you-arrive/cs-id-cards/cs-id-card-photo-requirements.html
+IDK-0545,New Zealand,APEC Business Travel Card,,Cards & passes,35,45,mm,65%,,55%,"White, Off-white",,,,,https://www.immigration.govt.nz/documents/forms-and-guides/apec.pdf
+IDK-0548,Nicaragua,Passport,,Passport,40,50,mm,34mm,5mm,,"White, Off-white",,,,,http://www.nicaraguaportal.de/wp-content/uploads/2016/04/Pasaporte-Nuevo-1.pdf ; https://www.municipio.co.ni/pasaporte-desde-el-extranjero.html
+IDK-0549,Niger,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.embassyofniger.org/about-us/demande-de-visa/#1499385743927-e54285c0-3f86
+IDK-0553,Nigeria,Passport,,Passport,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://immigration.gov.ng/passport-learn_more
+IDK-0552,Nigeria,Passport,"online, 600×800 px",Passport,600,800,px,75%,8%,,"White, Off-white",,2048,yes,,https://passport.immigration.gov.ng/image-compliance
+IDK-0555,Nigeria,Passport,"online, 120×140 px",Passport,120,140,px,75%,6%,,"White, Off-white",,,yes,,https://portal.immigration.gov.ng/pages/faq
+IDK-0551,Nigeria,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.nigerianembassy.ru/index.php/consular-immigration/visa-application.html
+IDK-0550,Nigeria,Visa,online,Visa,350,450,px,73%,7%,,"White, Off-white",,,yes,,http://www.immigration.gov.ng/
+IDK-0554,Nigeria,ECOWAS card,,Other,40,40,mm,70%,8%,,"White, Off-white",,,,,https://immigration.gov.ng/ecowas-travel-certificates/ ; https://ecotis.projects.ecowas.int/wp-content/uploads/2020/03/ADEC.2785-relating-to-THE-ESTABLISHMENT-OF-ECOWAS-TRAVEL-CERTIFICATE-FOR-MEMBER-STATE.pdf
+IDK-0556,Nigeria,NNPC recruitment,,Other,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://careersngr.com/nnpc-recruitment/ ; https://www.efficiencyview.com/nnpc-recruitment-portal-2019-2020/
+IDK-0455,North Macedonia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.mfa.gov.mk/mk/page/433/vidovi-vizi-za-vlez-vo-republika-severna-makedonija
+IDK-0456,North Macedonia,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://mvr.gov.mk/upravni-rab/7
+IDK-0557,Norway,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.udi.no/Norwegian-Directorate-of-Immigration/Oversiktsider/Common-pages/Photo-requirements/
+IDK-0558,Norway,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0559,Oman,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,http://www.oman.om/wps/wcm/connect/ar/site/home/cr/cr7is/cr71/omanpassissue
+IDK-0560,Oman,Passport,white background,Passport,40,60,mm,38mm,6mm,,White,,,,,https://www.rop.gov.om/english/pr-service.html
+IDK-0561,Oman,Visa,,Visa,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0563,Oman,Residence permit,,Residence & immigration,40,60,mm,38mm,6mm,,"White, Off-white",,,,,http://www.oman.om/wps/wcm/connect/ar/site/home/cr/cr7is/cr72/residencecard
+IDK-0564,Oman,Work permit,,Residence & immigration,40,60,mm,38mm,6mm,,"White, Off-white",,,,,http://www.rop.gov.om/arabic/dg_pr_visas_employment.html
+IDK-0562,Oman,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0569,Pakistan,Passport,,Passport,35,45,mm,34mm,3.5mm,,"White, Off-white",,20,,,https://onlinemrp.dgip.gov.pk/photo-requirements/
+IDK-0575,Pakistan,Visa,,Visa,35,45,mm,34mm,3.5mm,,"White, Off-white",100,300,,,https://visa.nadra.gov.pk/photograph-guide/
+IDK-0576,Pakistan,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.pakconsulatela.org/tourist-visa/
+IDK-0572,Pakistan,Pakistan Origin Card (POC),,Residence & immigration,35,45,mm,34mm,3.5mm,,"White, Off-white",100,300,,,http://id.nadra.gov.pk/photo-requirements/
+IDK-0567,Pakistan,National ID card (CNIC / NICOP),,ID card,35,45,mm,34mm,3.5mm,,"White, Off-white",100,300,,,http://id.nadra.gov.pk/photo-requirements/
+IDK-0568,Pakistan,CNIC,,ID card,35,45,mm,34mm,3.5mm,,"White, Off-white",100,300,,,https://id.nadra.gov.pk/identity-documents/identity-nic/
+IDK-0573,Pakistan,Family registration certificate,,ID card,35,45,mm,34mm,3.5mm,,"White, Off-white",100,300,,,http://id.nadra.gov.pk/photo-requirements/
+IDK-0566,Pakistan,NADRA ID card,babies,ID card,35,45,mm,27mm,,23.5mm,"White, Off-white",100,300,,For babies only. Adults use the standard NADRA format.,http://id.nadra.gov.pk/photo-requirements/
+IDK-0570,Pakistan,NADRA,format 2,ID card,35,45,mm,25mm,,26mm,"White, Off-white",100,300,,,
+IDK-0571,Pakistan,NADRA,format 3,ID card,35,45,mm,23mm,,27mm,"White, Off-white",100,300,,,
+IDK-0565,Pakistan,NADRA ID card,online,ID card,350,467,px,72%,9%,,White,,60,yes,,https://id.nadra.gov.pk/docs/PhotoGuidelines.pdf
+IDK-0574,Pakistan,Driving licence,,Driving licence,35,45,mm,34mm,3.5mm,,"White, Off-white",100,300,,,https://dlims.punjab.gov.pk/howtoapply/
+IDK-0577,Palestine,Passport,blue background,Passport,35,45,mm,34.5mm,3mm,,Blue,,,,,
+IDK-0578,Palestine,Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0579,Palestine,ID card,blue background,ID card,35,45,mm,34.5mm,3mm,,Blue,,,,,
+IDK-0581,Panama,Passport,,Passport,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://www.panamaembassy.co.uk/?page_id=584 ; https://www.panamaconsulate.gr/gr/en/content/passport-info
+IDK-0584,Panama,Passport,from Canada,Passport,45,50,mm,70%,9%,,"White, Off-white",,,,,http://consulatepanama.com/panamanian-passport.html
+IDK-0585,Panama,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.consulateofpanama.com/en/consular-services/item/19-passport ; https://www.embassyofpanama.org/passport
+IDK-0580,Panama,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.panamaconsulate.gr/system/uploads/asset/data/16/aplicacion_de_visa_1.pdf
+IDK-0582,Panama,Seaman's book,30×30 mm,Licences & permits,30,30,mm,75%,8%,,"White, Off-white",,,,,
+IDK-0583,Panama,Seaman's book,40×40 mm,Licences & permits,40,40,mm,70%,8%,,"White, Off-white",,,,,https://www.consulatgeneraldepanamamarseille.com/maritime-services/seaman-book-2/
+IDK-0586,Papua New Guinea,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.immigration.gov.pg/passport.html
+IDK-0587,Papua New Guinea,Citizenship,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.immigration.gov.pg/images/documents/Dual_Citizenship/C2%20-%20Request%20for%20resumption%20of%20citizenship%20-%20%20v1.1%20-%20fillable.pdf ; https://www.immigration.gov.pg/images/documents/Dual_Citizenship/C3%20-%20Request%20for%20citizenship%20by%20naturalisation%20sportsperson%20-%20%20v1.1%20-%20fillable.pdf
+IDK-0589,Paraguay,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.paraguayembassy.co.uk/passports.html
+IDK-0588,Paraguay,Visa,,Visa,50,50,mm,68%,,56%,"White, Off-white",,,,,http://www.embapar.ru/ru/visas
+IDK-0591,Peru,Visa,35×45 mm,Visa,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://www.consulado.pe/es/NuevaDelhi/tramite/Paginas/Visas/Issuance-of-Tourist-Visa.aspx
+IDK-0594,Peru,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.consulado.pe/es/Hartford/tramite/paginas/Issuance-of-Tourist-Visa.aspx
+IDK-0590,Peru,ID card,,ID card,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://www.consulado.pe/es/Madrid/tramite/Paginas/DNI/Renovacion-DNI-mayor.aspx
+IDK-0592,Peru,Driving licence,35×45 mm,Driving licence,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://drtcsanmartin.gob.pe
+IDK-0593,Peru,Driving licence,25×35 mm,Driving licence,25,35,mm,27.5mm,2mm,,"White, Off-white",,,,,
+IDK-0940,Peru,Universidad César Vallejo,,Education & exams,240,288,px,75%,10%,,"White, Off-white",4,50,yes,,https://www.ucv.edu.pe
+IDK-0941,Peru,National University of Cañete,,Education & exams,240,288,px,75%,10%,,"White, Off-white",40,50,yes,,https://www.undc.edu.pe/portal/procedimiento-para-subir-fotos-de-los-ingresantes-2019-para-el-carne-universitario-en-plataforma-sivireno/
+IDK-0942,Peru,University of Lima,,Education & exams,240,288,px,75%,10%,,"White, Off-white",4,50,yes,,https://www.ulima.edu.pe/departamentos/informacion-academica/actualizacion-de-foto
+IDK-0598,Philippines,Passport,,Passport,35,45,mm,74%,5mm,,"White, Off-white",,,,Matte paper is preferred.,http://www.philippine-embassy.de/bln/images/ConsularSection/PassportServices/pdf/info%20bulletin%20on%20the%20implementation%20of%20mrp-22%20dec%2008.pdf
+IDK-0595,Philippines,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"The same size is used for many consular applications: travel documents, citizenship, seafarer papers and NBI clearance.",http://riyadhpe.dfa.gov.ph/consular-services/visa-services ; http://www.philippineembassy-usa.org/philippines-dc/consular-services-dc/faq-dc/
+IDK-0599,Philippines,Visa,35×45 mm,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.moscowpe.dfa.gov.ph/2014-04-15-07-22-03/2014-04-25-05-48-13 ; http://www.philembassy.no/consular-services/visa
+IDK-0600,Philippines,Certificate of Identity and Registration card,,Residence & immigration,25,25,mm,68%,,56%,"White, Off-white",,,,,http://www.philippine-embassy.de/bln/images/ConsularSection/PassportServices/pdf/infosheet.general.passport.pdf
+IDK-0601,Philippines,Employment contract acknowledgement,,Residence & immigration,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,For Filipino household and skilled workers registering an employment contract.,http://www.moscowpe.dfa.gov.ph/images/pdf/ackcontractform.pdf
+IDK-0596,Philippines,RUSH ID,,ID card,1,1,in,65%,10%,,"White, Off-white",,,,,
+IDK-0597,Philippines,PRC professional licence,,Licences & permits,1,1,in,65%,10%,,"White, Off-white",,,,"Accepted for PRC professional licences, including engineering and real-estate licences.",
+IDK-0602,Philippines,CLCCM,,Licences & permits,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://bangkokpe.dfa.gov.ph/consular-office/services/notarial-services/capacity-to-contract-marriage
+IDK-0605,Poland,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.paszporty.mswia.gov.pl/portal/content/pdf/plakat_nowe_zdjecia_do_paszportu.pdf ; https://www.gov.pl/web/gov/zdjecie-do-dowodu-lub-paszportu
+IDK-0610,Poland,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.msz.gov.pl/en/travel_to_poland/visa/
+IDK-0611,Poland,Card of the Pole,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0612,Poland,Permanent residence card,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,2560,,,https://mos.cudzoziemcy.gov.pl/en/most-common-mistakes/
+IDK-0613,Poland,Temporary residence card,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,2560,,,https://mos.cudzoziemcy.gov.pl/en/most-common-mistakes/
+IDK-0604,Poland,Long-term residence permit (MOS),online,Residence & immigration,684,883,px,76%,6.7%,,"White, Off-white",,2560,yes,,https://mos.cudzoziemcy.gov.pl/kategorie-informacji/mozliwosci-legalizacji/spoza-ue-kontynuacja-pobytu/zezwolenie-na-pobyt-rezydenta-dlugoterminowego-ue/
+IDK-0606,Poland,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu ; https://www.gov.pl/web/gov/zdjecie-do-dowodu-lub-paszportu
+IDK-0603,Poland,ID card,"online, 492×633 px",ID card,492,633,px,76%,6.7%,,"White, Off-white",,2560,yes,,https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu ; https://www.gov.pl/web/gov/zdjecie-do-dowodu-lub-paszportu
+IDK-0609,Poland,ID card,"online, 492×610 px",ID card,492,610,px,75%,5%,,"White, Off-white",,2560,yes,Some offices ask for 492×610 px instead of the usual 492×633 px.,
+IDK-0608,Poland,Driving licence,35×45 mm,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy
+IDK-0607,Poland,Driving licence,480×615 px,Driving licence,480,615,px,75%,6%,,"White, Off-white",,100,yes,,https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy
+IDK-0614,Poland,Military card,,Licences & permits,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://www.gov.pl/web/gov/powiadom-o-utracie-lub-zniszczeniu-ksiazeczki-wojskowej
+IDK-0616,Portugal,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0617,Portugal,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0620,Portugal,Visa,in Indonesia and the Philippines,Visa,30,40,mm,30mm,2mm,,"White, Off-white",,,,,http://www.embassyportugaljakarta.or.id/v2/?p=215&lang=en
+IDK-0622,Portugal,Visa,online,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,30,,,https://pedidodevistos.mne.gov.pt/VistosOnline/
+IDK-0618,Portugal,AIMA portal registration,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0621,Portugal,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0615,Portugal,ID card,,ID card,32,32,mm,71%,8%,,"White, Off-white",,,,,https://www.portaldocidadao.pt/web/direcao-geral-dos-assuntos-consulares-e-das-comunidades-portuguesas/bilhete-de-identidade-para-cidadao-portugues-residente-no-estrangeiro-renovacao
+IDK-0619,Portugal,Citizen card,,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://consuladoportugalsp.org.br/cartao-do-cidadao-urgente-2/
+IDK-0626,Qatar,Passport,,Passport,38,48,mm,34mm,4mm,,"White, Off-white",,,,,
+IDK-0625,Qatar,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0627,Qatar,Passport,blue background,Passport,38,48,mm,34mm,4mm,,Blue,,,,,
+IDK-0624,Qatar,Visa,,Visa,38,48,mm,34mm,4mm,,"White, Off-white",,,,,
+IDK-0628,Qatar,ID card,,ID card,38,48,mm,34mm,4mm,,"White, Off-white",,,,,
+IDK-0629,Qatar,Driving licence,,Driving licence,38,48,mm,34mm,4mm,,"White, Off-white",,,,,https://hukoomi.gov.qa/en/article/driving-license
+IDK-0623,Qatar,Hayya platform,,Other,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://hayya.qatar2022.qa/
+IDK-0166,Republic of the Congo,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://ambacongofr.org/index.php/services-consulaires/passeport
+IDK-0167,Republic of the Congo,Passport,40×40 mm,Passport,40,40,mm,70%,8%,,"White, Off-white",,300,,,http://www.ambacongo-us.org/fr-fr/servicesdambassade/serviceconsulaire/passeport.aspx
+IDK-0168,Republic of the Congo,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.ambacongo-us.org/en-us/embassyservices/consular/passport.aspx
+IDK-0163,Republic of the Congo,e-Visa,,Visa,40,40,mm,70%,8%,,"White, Off-white",,300,,,https://girafe.ambacongofr.org/index.php/externe/visaRegistration/index
+IDK-0164,Republic of the Congo,Visa,,Visa,40,40,mm,70%,8%,,"White, Off-white",,300,,"A colour photo, full face, on a plain white or light background.",http://ambacongofr.org/index.php/services-consulaires/visas ; http://www.ambacongo-us.org/fr-fr/servicesdambassade/serviceconsulaire/visa.aspx
+IDK-0165,Republic of the Congo,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.ambacongo-us.org/en-us/embassyservices/consular/visa.aspx
+IDK-0632,Romania,Passport,,Passport,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://pasapoarte.mai.gov.ro/indexActe2.html
+IDK-0631,Romania,Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.mae.ro/en/node/2051 ; http://www.mae.ro/sites/default/files/file/mae_old/poze_editare/2008.11.14_Formular_Viza_ABC.pdf
+IDK-0633,Romania,e-Visa,,Visa,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://romania-e-visa.com/photo-specifications-and-guidelines-for-romania-visa-application/
+IDK-0630,Romania,ID card,,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://washington.mae.ro/node/477
+IDK-0635,Russia,International passport,,Passport,35,45,mm,33mm,4mm,,"White, Off-white",,300,,,
+IDK-0636,Russia,Internal passport,,Passport,35,45,mm,78%,4.5mm,,"White, Off-white",,300,,,https://gosuslugi.ru
+IDK-0634,Russia,International passport,for Gosuslugi,Passport,35,45,mm,33mm,4mm,,"White, Off-white",,300,,,https://gosuslugi.ru
+IDK-0637,Russia,Internal passport,for Gosuslugi,Passport,35,45,mm,78%,4.5mm,,"White, Off-white",,300,,,https://gosuslugi.ru
+IDK-0638,Russia,Passport,eyes 12 mm above the chin,Passport,35,45,mm,,5mm,,"White, Off-white",,300,,,https://gosuslugi.ru
+IDK-0649,Russia,Visa,,Visa,35,45,mm,33mm,4mm,,"White, Off-white",,300,,,https://visa.kdmid.ru/PetitionChoice.aspx ; http://www.rusembassy.ca/node/57
+IDK-0650,Russia,e-Visa,,Visa,450,600,px,77%,7%,,"White, Off-white",20,35,yes,At most 900×1200 px.,https://evisa.kdmid.ru/
+IDK-0651,Russia,Visa,VFS Global,Visa,35,45,mm,30mm,5mm,,"White, Off-white",,300,,Not applying through VFS Global? Use the standard visa format.,
+IDK-0644,Russia,Work permit,,Residence & immigration,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,
+IDK-0646,Russia,Temporary residence permit,,Residence & immigration,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,
+IDK-0652,Russia,Citizenship,35×45 mm,Residence & immigration,35,45,mm,33mm,4mm,,"White, Off-white",,300,,,https://malta.mid.ru/ru/grazdanstvo ; https://indonesia.mid.ru/konsulskie-uslugi/grazhdanstvo
+IDK-0653,Russia,Citizenship,30×40 mm,Residence & immigration,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157
+IDK-0639,Russia,Pensioner ID,,ID card,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,
+IDK-0659,Russia,ULM card,,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://tramontana.biz/uslugi/12-morekhodnaya-knizhka-udostoverenie-lichnosti
+IDK-0640,Russia,Pensioner ID,for Gosuslugi,ID card,21,30,mm,80%,5%,,"White, Off-white",,300,,,
+IDK-0662,Russia,Driving licence,,Driving licence,21,30,mm,80%,5%,,"White, Off-white",,300,,,
+IDK-0658,Russia,ESTR driver card,,Driving licence,394,506,px,394px,,260px,"White, Off-white",,200,yes,,http://www.rustahonet.com/poluchenie-kart-estr/karta-voditelya/11-estr/poluchenie-kart-voditelej-estr/67-trebovaniya-k-fotografiyam.html
+IDK-0641,Russia,Driving licence,for Gosuslugi,Driving licence,245,350,px,235px,13px,,"White, Off-white",,27,yes,,
+IDK-0642,Russia,Army ID,,Licences & permits,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,
+IDK-0643,Russia,Civil service ID,,Licences & permits,40,60,mm,75%,7%,,"White, Off-white",,10240,,,https://gossluzhba.gov.ru/web-lk-new/assets/docs/trebovaniya-postanovleniye-1012.pdf
+IDK-0645,Russia,Medical book,,Licences & permits,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,
+IDK-0654,Russia,Hunting licence,,Licences & permits,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,
+IDK-0660,Russia,Seaman's book,,Licences & permits,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.ampskk.ru/filialy/mk-krs.php
+IDK-0647,Russia,Student ID,30×40 mm,Education & exams,30,40,mm,25mm,4mm,,"White, Off-white",,300,,,
+IDK-0648,Russia,Student ID,25×35 mm,Education & exams,25,35,mm,27.5mm,2mm,,"White, Off-white",,,,,
+IDK-0655,Russia,Moscow social card,,Cards & passes,30,40,mm,71.5%,4.2%,,"White, Off-white",,300,,"When uploading, zoom out as far as the editor allows.",https://www.mos.ru/
+IDK-0656,Russia,APEC Business Travel Card,,Cards & passes,40,60,mm,75%,7%,,"White, Off-white",,,,,https://uslugi.tpprf.ru/ru/services/32614/
+IDK-0657,Russia,Fan ID,,Cards & passes,35,45,mm,28.5mm,,50%,"White, Off-white",,,,The photo may be cropped further during processing.,
+IDK-0661,Russia,EKARTa card,,Cards & passes,420,525,px,72%,10%,,"White, Off-white",,100,yes,,https://oplata.ekarta-ek.ru/karty/personalnaya-karta-dlya-grazhdan-bez-lgot/
+IDK-0663,Russia,Library card,,Cards & passes,540,720,px,72%,8%,,"White, Off-white",,10240,yes,,https://www.mos.ru/pgu/ru/services/link/5020/
+IDK-0665,Rwanda,East Africa Tourist Visa,printed,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",5,249,,,
+IDK-0664,Rwanda,East Africa Tourist Visa,online,Visa,500,500,px,64.5%,,59%,"White, Off-white",,40,yes,,https://www.migration.gov.rw/ ; https://irembo.gov.rw/rolDGIE/visa_v1/Visa_v1.xhtml?vspte=T12&&lang=en
+IDK-0666,Saint Kitts and Nevis,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0668,Samoa,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,One print may need to be signed on the back by a certifier.,http://www.samoa.org.nz/pdfs/2017_PASSPORT_FORM.pdf
+IDK-0667,Samoa,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.samoa.org.nz/index.php?page=visa
+IDK-0673,Saudi Arabia,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,http://www.gdp.gov.sa/sites/pgd/ar-sa/procedures/saudiprocedures/newsaudipassport/pages/default.aspx
+IDK-0674,Saudi Arabia,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0672,Saudi Arabia,Hajj visa,,Visa,200,200,px,70%,7%,,"White, Off-white",,18,yes,,https://hajj.nusuk.sa/
+IDK-0670,Saudi Arabia,e-Visa,Visit Saudi,Visa,200,200,px,70%,7%,,"White, Off-white",5,100,yes,,https://visa.visitsaudi.com/Home/PhotoSpecifications
+IDK-0671,Saudi Arabia,e-Visa,Enjaz,Visa,200,200,px,70%,7%,,"White, Off-white",,18,yes,,https://enjazit.com.sa
+IDK-0676,Saudi Arabia,Work permit,,Residence & immigration,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0675,Saudi Arabia,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0669,Saudi Arabia,Absher ID photo,,ID card,480,640,px,75%,6%,,"White, Off-white",,100,yes,,
+IDK-0678,Serbia,Passport,,Passport,50,50,mm,68%,,56%,"White, Off-white",,,,,http://www.mup.gov.rs/wps/portal/sr/gradjani/dokumenta/putne+isprave/biometrijski+pasos
+IDK-0677,Serbia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.mfa.gov.rs/en/consular-affairs/entry-serbia/visa-requirements
+IDK-0679,Seychelles,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0680,Sierra Leone,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0684,Singapore,Passport,printed,Passport,35,45,mm,74%,4mm,,"White, Off-white",,,,,https://www.ica.gov.sg/common/passport_photo_guidelines
+IDK-0682,Singapore,Passport,online,Passport,400,514,px,74%,9%,,"White, Off-white",10,60,yes,,https://apples.ica.gov.sg/apples/index.xhtml
+IDK-0685,Singapore,Visa,printed,Visa,35,45,mm,74%,4mm,,"White, Off-white",,,,,
+IDK-0681,Singapore,Visa,online,Visa,400,514,px,74%,9%,,"White, Off-white",10,60,yes,,
+IDK-0686,Singapore,Citizenship Certificate,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,60,,,https://www.ica.gov.sg/common/photo-guidelines
+IDK-0683,Singapore,ID card,,ID card,35,45,mm,74%,9%,,"White, Off-white",,60,,,https://www.ica.gov.sg/common/photo-guidelines
+IDK-0688,Singapore,Driving licence,,Driving licence,35,45,mm,74%,4mm,,"White, Off-white",,,,,https://www.mfa.gov.sg/Overseas-Mission/Cairo/Consular-Services/Photocard-Driving-Licence
+IDK-0689,Singapore,Seaman's discharge book,online,Licences & permits,400,514,px,74%,9%,,"White, Off-white",10,60,yes,,https://marinet.mpa.gov.sg/sdb/dispatch-newapp
+IDK-0690,Singapore,EZ-Link card,,Cards & passes,240,320,px,75%,6%,,"White, Off-white",,170,yes,,https://www.transitlink.com.sg/eservice/econcession/app_guidelines.html
+IDK-0687,Singapore,Certificate of identity,,Other,35,45,mm,74%,9%,,"White, Off-white",,60,,,https://www.ica.gov.sg/common/photo-guidelines
+IDK-0692,Slovakia,Visa,,Visa,30,35,mm,25mm,2mm,,"White, Off-white",,,,,http://www.mzv.sk/en/consular_info/visa
+IDK-0691,Slovakia,ID card,,ID card,30,35,mm,25mm,2mm,,"White, Off-white",,,,,http://www.mzv.sk/
+IDK-0693,Slovakia,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.minv.sk/?medzinarodny-vodicsky-preukaz
+IDK-0696,Slovenia,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://e-uprava.gov.si/
+IDK-0695,Slovenia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,175,,,https://svvmzz.adapta.si/applicationnew.htm
+IDK-0698,Slovenia,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://e-uprava.gov.si/
+IDK-0694,Slovenia,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://e-uprava.gov.si/
+IDK-0697,Slovenia,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.pisrs.si/Pis.web/pregledPredpisa?id=PRAV10612
+IDK-0699,Slovenia,Weapon certificate,,Licences & permits,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://evem.gov.si/
+IDK-0700,Somalia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0701,Somalia,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0703,South Africa,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.dha.gov.za/index.php/travel-documents2 ; http://www.southafrica-canada.ca/Consular/passport-application.htm
+IDK-0704,South Africa,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.vfsglobal.com/southafrica/india/hoilday_documentsrequired.html
+IDK-0702,South Africa,Smart ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.sahc.org.au/citizenship/Identity_Document_Reapplication.htm ; https://www.westerncape.gov.za/service/applying-identity-document ; https://www.westerncape.gov.za/text/2015/February/south_african_id_photo_specifications.pdf
+IDK-0705,South Africa,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.westerncape.gov.za/service/driving-licences
+IDK-0707,South Korea,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.passport.go.kr/new/issue/photo.php ; http://www.passport.go.kr/img/download/document_1.pdf ; http://www.passport.go.kr/issue/document.php
+IDK-0708,South Korea,Passport,online,Passport,413,531,px,50%,8%,,"White, Off-white",10,300,yes,,https://consul.mofa.go.kr/cipp/0100/selectCivilComplaintList.do
+IDK-0706,South Korea,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.koreanconsulate.on.ca/en/?mnu=a02b03
+IDK-0709,South Korea,K-ETA,,Visa,530,690,px,75%,6%,,"White, Off-white",,100,yes,,https://m.k-eta.go.kr/portal/board/viewboardlist.do?tmpltNm=faq
+IDK-0710,South Korea,Residence card,,Residence & immigration,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://whic.mofa.go.kr/contents.do?menuNo=114&contentsNo=51
+IDK-0712,South Korea,Alien registration card,,Residence & immigration,30,40,mm,78%,7%,,"White, Off-white",,,,,http://www.immigration.go.kr/HP/IMM80/imm_04/imm_0405/imm_405010.jsp
+IDK-0713,South Korea,Registration card,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.mois.go.kr/frt/sub/a06/b06/IDCard_5/screen.do
+IDK-0711,South Korea,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.safedriving.or.kr/guide/rerGuide07View.do?menuCode=MN-PO-1117 ; https://www.gov.kr/portal/service/serviceInfo/PTR000050207
+IDK-0716,Spain,Passport,,Passport,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,"A recent colour photo, facing the camera, head uncovered, on a plain white background. No dark glasses.",
+IDK-0714,Spain,Passport,30×40 mm,Passport,30,40,mm,24mm,5mm,,"White, Off-white",,,,,
+IDK-0721,Spain,Passport,40×53 mm,Passport,40,53,mm,27mm,15mm,,"White, Off-white",,,,,http://www.exteriores.gob.es/Embajadas/BERLIN/es/Embajada/ServiciosConsulares/Documents/FOTOS%20PASAPORTE.pdf
+IDK-0722,Spain,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.exteriores.gob.es/Consulados/LOSANGELES/es/InformacionParaExtranjeros/Documents/Especificaciones%20foto%20visado.pdf
+IDK-0723,Spain,Visa,Chicago consulate,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.exteriores.gob.es/Consulados/LOSANGELES/es/InformacionParaExtranjeros/Documents/Especificaciones%20foto%20visado.pdf
+IDK-0718,Spain,TIE (foreigner ID card),,Residence & immigration,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,"The foreigner identity card (TIE). A recent colour photo, facing the camera, head uncovered, on a plain white background. No dark glasses.",http://extranjeros.empleo.gob.es/es/InformacionInteres/InformacionProcedimientos/Ciudadanosnocomunitarios/hoja092/
+IDK-0719,Spain,NIE card,,Residence & immigration,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,"The foreigner identity number (NIE) residence card. A recent colour photo, facing the camera, head uncovered, on a plain white background. No dark glasses.",
+IDK-0715,Spain,DNI (ID card),,ID card,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,"The DNI. A recent colour photo, facing the camera, head uncovered, on a plain white background. No dark glasses.",https://www.dnielectronico.es/PortalDNIe/PRF1_Cons02.action?pag=REF_420&id_menu=[7] ; http://www.interior.gob.es/web/servicios-al-ciudadano/dni/documentacion-necesaria-para-su-tramitacion
+IDK-0717,Spain,Driving licence,,Driving licence,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,"A recent colour photo, facing the camera, head uncovered, on a plain white background. No dark glasses.",https://sede.dgt.gob.es/es/
+IDK-0720,Spain,Gun licence,,Licences & permits,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,,http://www.interior.gob.es/web/servicios-al-ciudadano/seguridad/armas-y-explosivos/documentacion-de-la-titularidad-de-armas
+IDK-0725,Sri Lanka,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://srilankahc.uk/wpnew/consular/new-passport/ ; http://slembassyusa.org/consular/application-for-a-new-passport/ ; http://www.stockholm.embassy.gov.lk/npp.html ; http://www.srilankaembassy.ru/en/consular-section/for-sri-lankan-citizens/passports/applying-for-new-passport ; http://www.slembassyjapan.org/new_passport
+IDK-0724,Sri Lanka,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,100,,,http://www.srilankaembassy.ru/en/consular-section/for-russian-citizens/visa/tourist-visit-visa ; http://www.srilankaembassy.ru/images/Consular/Visa_Form.pdf
+IDK-0727,Sri Lanka,Dual citizenship,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://srilankahc.uk/wpnew/dual-citizenship/ ; http://stockholm.embassy.gov.lk/images/dual_application.pdf
+IDK-0726,Sri Lanka,ID card,blue background,ID card,35,45,mm,34.5mm,3mm,,Blue,,,,,http://www.drp.gov.lk/Templates/Artical%20-%20English%20how%20to%20take%20photos.html
+IDK-0728,Sri Lanka,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://slembassyusa.org/consular/issuance-of-driving-license-for-sri-lankans-living-abroad/
+IDK-0729,Sudan,Passport,,Passport,40,50,mm,34mm,5mm,,"White, Off-white",,,,Women are expected to wear a hijab in the photo.,
+IDK-0731,Sudan,Visa,,Visa,40,50,mm,34mm,5mm,,"White, Off-white",,,,Women from Muslim-majority countries are expected to wear a hijab in the photo.,
+IDK-0730,Sudan,ID card,,ID card,40,50,mm,34mm,5mm,,"White, Off-white",,,,,
+IDK-0733,Suriname,Passport,35×45 mm,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://scgmia.com/consular-services/passports/photo-instructions/
+IDK-0735,Suriname,Passport,35×50 mm,Passport,35,50,mm,34.5mm,6mm,,"White, Off-white",,,,,https://scgmia.com/consular-services/passports/photo-instructions/
+IDK-0734,Suriname,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://scgmia.com/consular-services/visa-application-form-aanvraag-visa/
+IDK-0732,Suriname,Visa,online,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://scgmia.com/consular-services/visa-application-form-aanvraag-visa/
+IDK-0740,Sweden,Passport,,Passport,35,45,mm,77%,3mm,,"White, Off-white",,,,,
+IDK-0738,Sweden,Visa,35×45 mm,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.swedenabroad.com/en-GB/Embassies/New-Delhi/Visit-Sweden/Visa-for-visiting-Sweden/Tourist-visa/
+IDK-0739,Sweden,Visa,446×580 px,Visa,446,580,px,77%,8%,,"White, Off-white",,34,yes,,
+IDK-0736,Sweden,ID card,,ID card,35,45,mm,77%,3mm,,"White, Off-white",,,,,
+IDK-0737,Sweden,Driving licence,,Driving licence,35,45,mm,,3mm,,"White, Off-white",,,,,
+IDK-0741,Sweden,Taxi driver licence,,Driving licence,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://www.tagtaxi.se/taxiforarlegitimation.html
+IDK-0745,Switzerland,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.sem.admin.ch/dam/data/pass/ausweise/fotomustertafel.pdf
+IDK-0742,Switzerland,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.eda.admin.ch/etc/medialib/downloads/edactr/rus.Par.0083.File.tmp/Photograph_Guidelines_en.pdf
+IDK-0743,Switzerland,ID card,,ID card,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0744,Switzerland,ID card,online,ID card,1440,1980,px,,,55%,"White, Off-white",,693,yes,,https://www.fedlex.admin.ch/eli/cc/2010/96/de#a12
+IDK-0746,Switzerland,Driving licence,,Driving licence,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://www.zh.ch/de/mobilitaet/fuehrerausweis-fahren-lernen/auslaendischer-fuehrerausweis.html
+IDK-0747,Syria,Passport,2×2 in,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.syrianembassy.cz/index.php?clanek=21&lang=2
+IDK-0749,Syria,Passport,40×60 mm,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0750,Syria,Passport,40×40 mm,Passport,40,40,mm,25mm,10mm,,"White, Off-white",,,,,https://www.syrianembassy.cz/index.php?clanek=108&lang=2
+IDK-0752,Syria,Visa,,Visa,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0748,Syria,Residence permit,,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0751,Syria,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0753,Taiwan,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.boca.gov.tw/ct.asp?xItem=1302&CtNode=768&mp=2
+IDK-0754,Taiwan,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0755,Taiwan,Visa & e-Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,340,,,https://coa.immigration.gov.tw/coa-frontend/overseas-foreign-china
+IDK-0758,Taiwan,Residence permit,,Residence & immigration,35,45,mm,77%,9%,,"White, Off-white",,,,,https://www.immigration.gov.tw/5385/7244/7250/7317/%E5%B1%85%E7%95%99/29987/
+IDK-0759,Taiwan,Alien Resident Certificate (ARC),,Residence & immigration,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://oiss.mcu.edu.tw/en/content/arc-information
+IDK-0756,Taiwan,ID card,2×2 in,ID card,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.boca.gov.tw
+IDK-0757,Taiwan,ID card,25×30 mm,ID card,25,30,mm,75%,6%,,"White, Off-white",,,,,http://www.boca.gov.tw
+IDK-0760,Tajikistan,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://www.tajembassy.org.uk/consular-section/for-tajikistan-citizens/passport-services
+IDK-0761,Tajikistan,e-Visa,,Visa,50,60,mm,75%,6%,,"White, Off-white",,1024,,,https://www.evisa.tj/index.evisa.html#/ ; https://www.visa.gov.tj/index.html
+IDK-0762,Tanzania,Passport,,Passport,40,45,mm,34mm,4mm,,"White, Off-white",,300,,,
+IDK-0763,Tanzania,Visa,,Visa,40,45,mm,34mm,4mm,,"White, Off-white",,300,,,
+IDK-0764,Tanzania,Azania Bank account,blue background,Other,2,2,in,1.29in,,1.18in,Blue,,240,,,
+IDK-0766,Thailand,Visa,,Visa,40,60,mm,75%,10%,,"White, Off-white",,,,,https://immigration.go.th/
+IDK-0765,Thailand,Visa on arrival,,Visa,40,60,mm,75%,10%,,"White, Off-white",,,,,https://www.immigration.go.th/download/1486544488315.pdf
+IDK-0768,Thailand,Visa,online,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://thaievisa.go.th/static/media/sample-photo.3e754e63.pdf
+IDK-0770,Thailand,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.thaicgny.com/app/download/544568204/visa+form.pdf
+IDK-0771,Thailand,Visa,"online, Singapore embassy",Visa,132,170,px,75%,6%,,"White, Off-white",,,yes,For online applications through the Thai embassy in Singapore.,https://visaonline.thaiembassy.sg/
+IDK-0767,Thailand,Certificate of residence,,Residence & immigration,40,60,mm,75%,10%,,"White, Off-white",,,,,https://immigration.go.th/content/service
+IDK-0774,Thailand,Alien registration book,,Residence & immigration,40,60,mm,75%,10%,,"White, Off-white",,,,,https://www.immigration.go.th/content/service_52
+IDK-0769,Thailand,Driving licence,2×2 in,Driving licence,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.dlt.go.th/en/international-driving-licence/
+IDK-0772,Thailand,Driving licence,1×1 in,Driving licence,1,1,in,65%,10%,,"White, Off-white",,,,Used for motorbike and car licences and other ID cards.,
+IDK-0773,Thailand,APEC Business Travel Card,,Cards & passes,33,48,mm,31.5mm,5mm,,"White, Off-white",,1024,,,http://www.jsccib.org/en/home/apec_business
+IDK-0776,Togo,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://france.ambassadetogo.org/?page_id=118
+IDK-0775,Togo,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://france.ambassadetogo.org/?page_id=102
+IDK-0777,Tunisia,Passport,,Passport,35,45,mm,33mm,4mm,,"White, Off-white",,,,,
+IDK-0781,Tunisia,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.tunconsusa.org/passport
+IDK-0778,Tunisia,Visa,,Visa,35,45,mm,33mm,4mm,,"White, Off-white",,,,,
+IDK-0780,Tunisia,Residence permit,,Residence & immigration,35,45,mm,33mm,4mm,,"White, Off-white",,,,,http://www.sicad.gov.tn/Ar/_57_3_D1024
+IDK-0779,Tunisia,ID card,,ID card,35,45,mm,33mm,4mm,,"White, Off-white",,,,,
+IDK-0789,Turkmenistan,Passport,,Passport,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://migration.gov.tm/en/citizen/zagranichnyj-biometricheskij-pasport-2/
+IDK-0788,Turkmenistan,Visa,,Visa,50,60,mm,35mm,10mm,,"White, Off-white",,,,,http://migration.gov.tm/tm/citizen/wizalary-resmilesdirmek-we-olary-uzaltmak/
+IDK-0783,Türkiye,Passport,,Passport,50,60,mm,34mm,10mm,,"White, Off-white",,,,,https://www.konsolosluk.gov.tr
+IDK-0782,Türkiye,Visa,,Visa,50,60,mm,34mm,10mm,,"White, Off-white",,,,,https://www.konsolosluk.gov.tr
+IDK-0785,Türkiye,Residence permit (ikamet),,Residence & immigration,600,720,px,56.7%,16.7%,,"White, Off-white",,,yes,,https://e-ikamet.goc.gov.tr/Ikamet/IstenenBelgeler/BasvuruFormuBelgelerIliskinAciklamalar
+IDK-0784,Türkiye,ID card,,ID card,50,60,mm,34mm,10mm,,"White, Off-white",,,,,https://randevu.nvi.gov.tr/pages/sss
+IDK-0786,Türkiye,Driving licence,,Driving licence,50,60,mm,34mm,10mm,,"White, Off-white",,,,,https://residencepermitturkey.com/turkish-drivers-license-application/
+IDK-0787,Türkiye,Passolig card,,Cards & passes,600,771,px,75%,7%,,"White, Off-white",,,yes,The card needed to enter football stadiums in Türkiye.,https://www.passolig.com.tr
+IDK-0790,Uganda,Passport,,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",5,249,,,
+IDK-0791,Uganda,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",5,249,,,
+IDK-0792,Uganda,Eastern Africa visa (Uganda),,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",5,249,,,
+IDK-0793,Ukraine,Internal passport,,Passport,35,45,mm,34.5mm,3.5mm,,"White, Off-white",,,,,http://zakon1.rada.gov.ua/laws/show/2503-12
+IDK-0794,Ukraine,International passport,child,Passport,35,45,mm,34.5mm,3.5mm,,"White, Off-white",,,,,
+IDK-0798,Ukraine,International passport,"child, 10×15 cm",Passport,100,150,mm,70%,10%,,"White, Off-white",,,,,
+IDK-0797,Ukraine,Visa,,Visa,30,40,mm,31mm,2.5mm,,"White, Off-white",,,,,http://mfa.gov.ua/ua/consular-affairs/entering-ukraine/visa-mfa-branches
+IDK-0796,Ukraine,Visa,online,Visa,450,600,px,77.5%,6.25%,,"White, Off-white",,,yes,,http://visa.mfa.gov.ua/
+IDK-0800,Ukraine,Residence permit,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0795,Ukraine,Driving licence,,Driving licence,35,45,mm,34.5mm,3.5mm,,"White, Off-white",,,,,
+IDK-0799,Ukraine,Seafarer's identity document,,Licences & permits,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,http://seamen.com.ua/pasport/
+IDK-0807,United Arab Emirates,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,https://www.dnrd.ae/ar/node/41708
+IDK-0802,United Arab Emirates,Visa,Flydubai / Etihad,Visa,43,55,mm,40mm,5mm,,"White, Off-white",,,,,http://www.dubaivisa.net
+IDK-0803,United Arab Emirates,Visa,ICP website,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,2048,,,
+IDK-0804,United Arab Emirates,Visa,VFS Global,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,2048,,,
+IDK-0801,United Arab Emirates,Visa,"online, Emirates",Visa,300,369,px,72%,8%,,"White, Off-white",10,40,yes,,http://emirates.com
+IDK-0809,United Arab Emirates,Residence permit,,Residence & immigration,40,60,mm,38mm,6mm,,"White, Off-white",,,,,http://www.dubai.ae/ar/Lists/HowToGuide/DispForm.aspx?ID=44
+IDK-0805,United Arab Emirates,Emirates ID / residence visa,ICA,Residence & immigration,35,40,mm,62%,6%,,"White, Off-white",,,,,https://www.ica.gov.ae
+IDK-0808,United Arab Emirates,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0812,United Arab Emirates,Family book,,ID card,35,45,mm,34mm,4mm,,"White, Off-white",,,,,https://ica.gov.ae/en/service/issue-family-book/
+IDK-0806,United Arab Emirates,Emirates ID,online,ID card,35,45,mm,34mm,4mm,,"White, Off-white",,,,,https://smartservices.icp.gov.ae/
+IDK-0811,United Arab Emirates,Driving licence,,Driving licence,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0810,United Arab Emirates,Arrivals registration,,Other,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0814,United Kingdom,Passport,printed,Passport,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://www.gov.uk/photos-for-passports
+IDK-0813,United Kingdom,Passport,online,Passport,900,1200,px,55%,15%,,"White, Off-white",50,10240,yes,,https://www.gov.uk/
+IDK-0817,United Kingdom,BNO passport,online,Passport,900,1200,px,55%,15%,,"White, Off-white",50,10240,yes,,
+IDK-0819,United Kingdom,Child passport,online,Passport,900,1200,px,55%,15%,,"White, Off-white",50,10240,yes,,https://www.gov.uk/get-a-child-passport
+IDK-0815,United Kingdom,Visa,,Visa,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,http://www.ukba.homeoffice.gov.uk/sitecontent/applicationforms/flr/photoguidance0409.pdf
+IDK-0818,United Kingdom,ID / residence card,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://validateuk.co.uk/FAQs?f=photo
+IDK-0816,United Kingdom,Driving licence,,Driving licence,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://www.nidirect.gov.uk/articles/photographic-criteria-your-driving-licence
+IDK-0820,United Kingdom,Firearm or shotgun certificate,,Licences & permits,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,http://www.basc.org.uk/en/departments/firearms/certificate-forms-and-fees.cfm
+IDK-0826,United Kingdom,Seaman's discharge book,,Licences & permits,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,
+IDK-0827,United Kingdom,Seaman's card,,Licences & permits,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,
+IDK-0828,United Kingdom,Boat licence,,Licences & permits,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://www.rya.org.uk/knowledge-advice/boating-abroad/icc/Pages/applying-for-or-renewing-an-icc.aspx
+IDK-0831,United Kingdom,School card,,Education & exams,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,
+IDK-0943,United Kingdom,University of Edinburgh card,,Education & exams,413,531,px,68%,7%,,"White, Off-white",10,300,yes,,https://www.ed.ac.uk/information-services/help-consultancy/card/getting-first-card/first-student-card/create-photo
+IDK-0946,United Kingdom,University of Nottingham card,,Education & exams,420,420,px,284px,23px,,"White, Off-white",,,yes,,https://www.nottingham.ac.uk/estates/universitycard/first-card-application.aspx
+IDK-0952,United Kingdom,University of Bristol UCard,,Education & exams,390,520,px,364px,21px,,"White, Off-white",20,10240,yes,,https://www.gov.uk/photos-for-passports
+IDK-0823,United Kingdom,Freedom Pass (London),,Cards & passes,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://www.londoncouncils.gov.uk/services/freedom-pass/older-persons-freedom-pass/documents-and-photograph
+IDK-0824,United Kingdom,Railcard,,Cards & passes,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://www.16-25railcard.co.uk/help/faqs/what-is-an-acceptable-image-to-use-for-my-railcard-photograph/
+IDK-0825,United Kingdom,Oyster photocard,,Cards & passes,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://photocard.tfl.gov.uk/tfl/showLogon.do?selection=16plus
+IDK-0829,United Kingdom,Leisure pass,,Cards & passes,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://www.swansea.gov.uk/ptlphoto
+IDK-0830,United Kingdom,Taxicard,,Cards & passes,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,https://www.londoncouncils.gov.uk/services/taxicard
+IDK-0822,United Kingdom,Bus pass,printed,Cards & passes,35,45,mm,32.8mm,4.9mm,,"White, Off-white",,,,,
+IDK-0821,United Kingdom,Bus pass,online,Cards & passes,264,340,px,75%,7%,,"White, Off-white",,200,yes,"Between 132×170 and 264×340 px, and 200 KB or smaller.",https://www.oxfordshire.gov.uk/residents/roads-and-transport/public-transport/bus-passes/bus-pass-photo-guidance ; https://travelpass.gloucestershire.gov.uk/views/common/photo.faces
+IDK-0833,United States,Passport,,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0851,United States,Passport card,,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://travel.state.gov/content/travel/en/passports/need-passport/card.html
+IDK-0832,United States,Visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0834,United States,DV Lottery,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"For the Diversity Visa (green card lottery) entry form: a square JPEG of 600×600 px, 240 KB or smaller.",
+IDK-0841,United States,Crew visa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0855,United States,Visa through CIBTvisas,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"For visas arranged through CIBTvisas, for any destination.",
+IDK-0856,United States,Visa through VisaCentral,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"For visas arranged through VisaCentral, for any destination.",
+IDK-0857,United States,Visa through Travisa,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"For visas arranged through Travisa, for any destination.",
+IDK-0858,United States,Visa through VisaHQ,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"For visas arranged through VisaHQ, for any destination.",
+IDK-0859,United States,Visa through Visa Headquarters,,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,"For visas arranged through Visa Headquarters, for any destination.",
+IDK-0835,United States,Green Card,,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.uscis.gov/greencard
+IDK-0836,United States,Naturalization (citizenship),,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,http://www.uscis.gov/files/article/M-476.pdf
+IDK-0837,United States,Work permit (EAD),,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0842,United States,Form I-130,,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0846,United States,Re-entry permit,,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.uscis.gov/sites/default/files/document/forms/i-131instr.pdf
+IDK-0849,United States,Advance parole,,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.uscis.gov/i-131
+IDK-0854,United States,USCIS forms,,Residence & immigration,2,2,in,1.29in,,1.18in,"White, Off-white",,125,,,
+IDK-0850,United States,Veteran ID card,,ID card,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.va.gov/records/get-veteran-id-cards/vic/
+IDK-0838,United States,New York gun licence,,Licences & permits,1.5,1.5,in,1in,0.09in,,"White, Off-white",,,,,http://www.nyc.gov/html/nypd/html/permits/handgun_licensing_information.shtml
+IDK-0840,United States,CCHI badge,,Licences & permits,3,3,in,65%,5%,,"White, Off-white",,2048,,,http://cchicertification.org/photo-id-badge/
+IDK-0844,United States,PADI certification card,,Licences & permits,45,57,mm,75%,6%,,"White, Off-white",,,,,https://www.scubacenter.com/PADI_Certification_Card_Replacement.htm
+IDK-0845,United States,Nursing licence,,Licences & permits,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.rn.ca.gov/applicants/lic-exam.shtml
+IDK-0847,United States,Welding certificate,,Licences & permits,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.aws.org/certification/page/photo-id-requirements
+IDK-0848,United States,Illinois FOID card,,Licences & permits,1.25,1.5,in,70%,8%,,"White, Off-white",,,,,http://moultriesheriff.com/media/complete/6-181.pdf
+IDK-0853,United States,ATF NFA form,,Licences & permits,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.atf.gov/file/11281/download
+IDK-0843,United States,Bar exam,,Education & exams,1,1,in,65%,10%,,"White, Off-white",,100,,,https://admissions.alabar.org/photo-upload
+IDK-0852,United States,SAT,,Education & exams,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.sedubois.k12.in.us.schools.bz/userfiles/58/SAT%20Photo%20Requirements.pdf
+IDK-0939,United States,UC Berkeley Cal 1 Card,,Education & exams,1.5,2,in,1.3in,,1.05in,"White, Off-white",,,,,http://services.housing.berkeley.edu/c1c/static/c1cphoto.htm
+IDK-0944,United States,University of Virginia ID card,,Education & exams,500,500,px,300px,,313px,"White, Off-white",50,380,yes,,http://www.virginia.edu/idoffice/photosubmission.html
+IDK-0945,United States,Harvard University ID card,,Education & exams,280,296,px,222px,10px,,"White, Off-white",10,50,yes,,http://isites.harvard.edu/icb/icb.do?keyword=k59921&pageid=icb.page256360
+IDK-0948,United States,Columbia University ID card,,Education & exams,500,500,px,300px,,313px,"White, Off-white",10,100,yes,,http://ssc.columbia.edu/new-student-id-cards-submit-your-photo-online
+IDK-0949,United States,Lehigh University ID,,Education & exams,600,600,px,360px,,375px,"White, Off-white",,,yes,"Name the file with your LIN, for example 876543210.jpg.",http://www.lehigh.edu/~inluid/photo.shtml
+IDK-0950,United States,American University card,,Education & exams,300,375,px,263px,15px,,"White, Off-white",100,2048,yes,,http://www.american.edu/ocl/housing/auidphotosubmission.cfm
+IDK-0951,United States,UConn HuskyOne card,,Education & exams,300,400,px,280px,16px,,"White, Off-white",10,2048,yes,,http://onecard.uconn.edu/wp-content/uploads/sites/279/2013/12/How-to-Upload-Your-Photo-for-Your-UConn-Husky-One-Card_v2.pdf
+IDK-0953,United States,LeTourneau University ID card,,Education & exams,600,600,px,360px,,375px,"White, Off-white",,,yes,,http://www.letu.edu/_Student-Life/NonTradResources/Photo_Id_Card.html
+IDK-0954,United States,Mary Washington EagleOne card,,Education & exams,300,330,px,231px,13px,,"White, Off-white",10,32,yes,"The file name must be under 25 characters, including .jpg.",http://adminfinance.umw.edu/eagleone/online-photo-submission-guidelines/
+IDK-0955,United States,Wayne State OneCard,,Education & exams,300,300,px,180px,,188px,"White, Off-white",,,yes,,http://onecard.wayne.edu/photoupload.php
+IDK-0956,United States,Millersville University ID card,,Education & exams,300,300,px,180px,,188px,"White, Off-white",15,1024,yes,,https://wiki.millersville.edu/display/ittac/ID+Card+Center+Photo+Submission
+IDK-0957,United States,Southeastern University ID card,,Education & exams,300,300,px,180px,,188px,"White, Off-white",10,2048,yes,,https://www2.southeastern.edu/external/photo_submission/
+IDK-0958,United States,Miami University ID,,Education & exams,300,300,px,180px,,188px,"White, Off-white",,,yes,,http://blogs.miamioh.edu/home/miami-id-card-services/submit-your-miami-id-photo/
+IDK-0960,United States,West Virginia University ID,,Education & exams,300,300,px,180px,,188px,"White, Off-white",,,yes,,http://wvucard.wvu.edu/photosubmit
+IDK-0961,United States,Clemson TigerOne card,,Education & exams,400,400,px,240px,,250px,"White, Off-white",100,240,yes,,http://www.clemson.edu/campus-life/campus-services/tigerone/gettingcard/photosubmission.html
+IDK-0962,United States,Pitt Panther Card,,Education & exams,260,300,px,210px,12px,,"White, Off-white",10,5120,yes,,https://www.pc.pitt.edu/card/photoid.php
+IDK-0963,United States,Northwestern WildCARD,,Education & exams,600,600,px,360px,,375px,"White, Off-white",,,yes,,http://www.northwestern.edu/uservices/wildcard/get_a_card/photo-submission.html
+IDK-0839,United States,New York MTA senior MetroCard,,Cards & passes,1.5,2,in,1.4in,0.25in,,"White, Off-white",,,,,http://www.mta.info/nyct/fare/pdf/seniors.pdf
+IDK-0861,Uzbekistan,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://old.my.gov.uz/ru/service/165/26
+IDK-0860,Uzbekistan,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,http://evisa.mfa.uz/evisa_en/ ; https://www.uzbekistan.org/page/view?id=23
+IDK-0862,Uzbekistan,Citizenship,,Residence & immigration,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0863,Venezuela,Visa,,Visa,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://www.venez.pl/visas/
+IDK-0864,Venezuela,Driving licence,,Driving licence,336,448,px,78%,6%,,"White, Off-white",,,yes,,http://www.intt.gob.ve/inttweb/?page_id=4783
+IDK-0872,Vietnam,Passport,,Passport,40,60,mm,40mm,6mm,,"White, Off-white",,45,,,
+IDK-0870,Vietnam,Passport,online,Passport,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,https://passport.mofa.gov.vn/
+IDK-0871,Vietnam,Passport,from the USA,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0865,Vietnam,Visa,40×60 mm,Visa,40,60,mm,40mm,6mm,,"White, Off-white",,45,,,https://evisa.gov.vn/
+IDK-0868,Vietnam,Visa,2×2 in,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,200,,,
+IDK-0866,Vietnam,ID card,,ID card,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,http://www.moj.gov.vn/vbpq/en/lists/vn%20bn%20php%20lut/view_detail.aspx?itemid=1200
+IDK-0867,Vietnam,Driving licence,,Driving licence,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0869,Vietnam,APEC Business Travel Card,,Cards & passes,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0873,Yemen,Passport,,Passport,40,60,mm,38mm,6mm,,"White, Off-white",,,,,http://www.yemenconsulatejeddah.com/_Pages_Folder/Rules_cons_Services.html
+IDK-0875,Yemen,Visa,,Visa,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0874,Yemen,ID card,,ID card,40,60,mm,38mm,6mm,,"White, Off-white",,,,,
+IDK-0878,Zambia,Passport,,Passport,1.5,2,in,70%,10%,,"White, Off-white",,,,,http://www.zambia.or.jp/docs/passportforma.pdf ; http://zambiahc.org.uk/services/passport/
+IDK-0876,Zambia,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0877,Zambia,Visa,from the USA,Visa,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0880,Zimbabwe,Passport,,Passport,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,https://zimembassydc.org/passport-information/
+IDK-0879,Zimbabwe,Visa,,Visa,35,45,mm,34.5mm,3mm,,"White, Off-white",,,,,
+IDK-0885,Any country,Biometric passport,,Passport,35,45,mm,78%,6%,,"White, Off-white",,,,,
+IDK-0938,Any country,UN passport (laissez-passer),,Passport,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,https://www.icc-cpi.int/sites/default/files/Vademecum/ICC%20AI%202019%20008%20%28ENG%29%20-%20UNITED%20NATIONS%20LAISSEZ-PASSER.pdf
+IDK-0921,Any country,IATA ID card,,Licences & permits,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,https://www.iata.org/en/services/accreditation/idcard/apply/
+IDK-0928,Any country,School pass,,Education & exams,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,"Widely used for school passes, including in the UK, Germany, Austria and Kenya.",
+IDK-0965,Any country,ISIC student card,,Education & exams,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,
+IDK-0881,Any country,30×40 mm (3×4 cm),,Standard sizes,30,40,mm,30mm,2.5mm,,"White, Off-white",,,,Also accepted for Iqarus medical examinations.,
+IDK-0882,Any country,1×1 inch,,Standard sizes,1,1,in,65%,10%,,"White, Off-white",,,,,
+IDK-0883,Any country,1.5×1.5 inch,,Standard sizes,1.5,1.5,in,1.1in,0.09in,,"White, Off-white",,,,,
+IDK-0887,Any country,One cun (1寸),,Standard sizes,25,35,mm,77%,8.5%,,"White, Off-white",,,,,
+IDK-0888,Any country,Large one cun,,Standard sizes,33,48,mm,31.5mm,5mm,,"White, Off-white",,,,,
+IDK-0889,Any country,Small one cun,,Standard sizes,22,32,mm,21mm,9%,,"White, Off-white",,,,,
+IDK-0890,Any country,Small two cun,,Standard sizes,35,45,mm,77%,9%,,"White, Off-white",,,,,
+IDK-0891,Any country,Two cun (2寸),,Standard sizes,35,53,mm,40mm,5mm,,"White, Off-white",,,,,
+IDK-0893,Any country,25×35 mm (2.5×3.5 cm),,Standard sizes,25,35,mm,27.5mm,2mm,,"White, Off-white",,,,,
+IDK-0894,Any country,35×35 mm (3.5×3.5 cm),,Standard sizes,35,35,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0895,Any country,2×2 inch,,Standard sizes,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0896,Any country,40×60 mm (4×6 cm),,Standard sizes,40,60,mm,36mm,6mm,,"White, Off-white",,,,,
+IDK-0897,Any country,1.5×2 inch,,Standard sizes,1.5,2,in,1.4in,0.25in,,"White, Off-white",,,,,
+IDK-0898,Any country,2×2.75 inch,,Standard sizes,2,2.75,in,1.7in,0.3in,,"White, Off-white",,,,,
+IDK-0899,Any country,40×50 mm (4×5 cm),,Standard sizes,40,50,mm,34mm,5mm,,"White, Off-white",,,,,
+IDK-0900,Any country,50×70 mm (5×7 cm),,Standard sizes,50,70,mm,42mm,8mm,,"White, Off-white",,,,,
+IDK-0901,Any country,33×48 mm,,Standard sizes,33,48,mm,31.5mm,5mm,,"White, Off-white",,,,,
+IDK-0902,Any country,40×40 mm (4×4 cm),,Standard sizes,40,40,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0903,Any country,26×32 mm,,Standard sizes,26,32,mm,23.5mm,2mm,,"White, Off-white",,,,,
+IDK-0904,Any country,35×50 mm (3.5×5 cm),,Standard sizes,35,50,mm,29mm,10mm,,"White, Off-white",,,,,
+IDK-0905,Any country,43×55 mm,,Standard sizes,43,55,mm,40mm,5mm,,"White, Off-white",,,,,
+IDK-0906,Any country,20×30 mm (2×3 cm),,Standard sizes,20,30,mm,63%,10%,,"White, Off-white",,,,,
+IDK-0907,Any country,38×46 mm,,Standard sizes,38,46,mm,33mm,3mm,,"White, Off-white",,,,,
+IDK-0908,Any country,45×45 mm (4.5×4.5 cm),,Standard sizes,45,45,mm,27mm,7.5mm,,"White, Off-white",,,,,
+IDK-0909,Any country,50×50 mm (5×5 cm),,Standard sizes,50,50,mm,68%,,56%,"White, Off-white",,,,,
+IDK-0910,Any country,25×25 mm (2.5×2.5 cm),,Standard sizes,25,25,mm,68%,,56%,"White, Off-white",,,,,
+IDK-0911,Any country,25×30 mm (2.5×3 cm),,Standard sizes,25,30,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0912,Any country,37×37 mm,,Standard sizes,37,37,mm,69%,6%,,"White, Off-white",,,,,
+IDK-0913,Any country,40×45 mm (4×4.5 cm),,Standard sizes,40,45,mm,73%,8%,,"White, Off-white",,,,,
+IDK-0914,Any country,35×40 mm (3.5×4 cm),,Standard sizes,35,40,mm,30mm,2.5mm,,"White, Off-white",,,,,
+IDK-0916,Any country,30×30 mm (3×3 cm),,Standard sizes,30,30,mm,68%,,56%,"White, Off-white",,,,,
+IDK-0917,Any country,32×42 mm,,Standard sizes,32,42,mm,30mm,3mm,,"White, Off-white",,,,,
+IDK-0919,Any country,30×35 mm (3×3.5 cm),,Standard sizes,30,35,mm,25mm,2mm,,"White, Off-white",,,,,
+IDK-0920,Any country,60×90 mm (6×9 cm),,Standard sizes,60,90,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0922,Any country,20×20 mm (2×2 cm),,Standard sizes,20,20,mm,70%,8%,,"White, Off-white",,,,,
+IDK-0923,Any country,50×65 mm (5×6.5 cm),,Standard sizes,50,65,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0924,Any country,45×60 mm (4.5×6 cm),,Standard sizes,45,60,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0927,Any country,45×57 mm,,Standard sizes,45,57,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0931,Any country,43×54 mm,,Standard sizes,43,54,mm,77%,6%,,"White, Off-white",,,,,
+IDK-0933,Any country,2×2.5 inch,,Standard sizes,2,2.5,in,72%,8%,,"White, Off-white",,,,,
+IDK-0934,Any country,1.25×1.5 inch,,Standard sizes,1.25,1.5,in,75%,6%,,"White, Off-white",,,,,
+IDK-0935,Any country,90×120 mm (9×12 cm),,Standard sizes,90,120,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0936,Any country,21×30 mm,,Standard sizes,21,30,mm,80%,5%,,"White, Off-white",,300,,,
+IDK-0937,Any country,27×37 mm,,Standard sizes,27,37,mm,75%,6%,,"White, Off-white",,,,,
+IDK-0892,Any country,358×441 px,,Standard sizes,358,441,px,,,215px,"White, Off-white",,,yes,,
+IDK-0918,Any country,120×160 px,,Standard sizes,120,160,px,75%,6%,,"White, Off-white",,,yes,,
+IDK-0930,Any country,600×800 px,,Standard sizes,600,800,px,75%,8%,,"White, Off-white",,,yes,,
+IDK-0932,Any country,240×288 px,,Standard sizes,240,288,px,75%,10%,,"White, Off-white",4,50,yes,,
+IDK-0884,Any country,35×45 mm,framed from the top,Standard sizes,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,
+IDK-0886,Any country,35×45 mm,framed by the eye line,Standard sizes,35,45,mm,33.5mm,,26mm,"White, Off-white",,,,,
+IDK-0915,Any country,2×2 inch,under 1 MB,Standard sizes,2,2,in,1.25in,,1.18in,"White, Off-white",,1100,,,
+IDK-0929,Any country,Work pass,,Other,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,"The most common ID photo size worldwide, suitable for staff and work passes.",
+IDK-0925,Any country,Résumé,2×2 in,Other,2,2,in,1.29in,,1.18in,"White, Off-white",,240,,,
+IDK-0926,Any country,Résumé,35×45 mm,Other,35,45,mm,34.5mm,4.5mm,,"White, Off-white",,,,,
