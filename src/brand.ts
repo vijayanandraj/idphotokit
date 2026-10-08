@@ -9,7 +9,7 @@
  * Deliberately not "passport": the tool covers visas, ID and residence cards, licences and
  * tax cards too. And nothing that suggests a government connection ("official", "gov").
  */
-export const BRAND = "ID Photo Kit";
+export const BRAND = "Right ID Photo";
 
 /**
  * The headline, in two beats: what it is, then the promise that sets it apart. Leads with

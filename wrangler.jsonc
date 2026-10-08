@@ -4,7 +4,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "idphotokit",
   "compatibility_date": "2026-10-01",
-  // Served at https://idphotokit.passport-photo.workers.dev; no per-version preview URLs.
+  // Served at https://rightidphoto.com (and www). The workers.dev address stays on so old
+  // links keep working; every page's canonical URL points at the domain.
+  "routes": [
+    { "pattern": "rightidphoto.com", "custom_domain": true },
+    { "pattern": "www.rightidphoto.com", "custom_domain": true }
+  ],
   "workers_dev": true,
   "preview_urls": false,
   "assets": {

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://idphotokit.passport-photo.workers.dev/sitemap.xml
+Sitemap: https://rightidphoto.com/sitemap.xml
