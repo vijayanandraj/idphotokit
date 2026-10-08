@@ -1,0 +1,17 @@
+{
+  // Cloudflare Workers, static assets only: the built site in dist/, no server code yet.
+  // Deploy with `npm run deploy` (builds first).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "idphotokit",
+  "compatibility_date": "2026-10-01",
+  // Served at https://idphotokit.passport-photo.workers.dev; no per-version preview URLs.
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    // /photo/india serves photo/india.html, as cleanUrls did on Vercel.
+    "html_handling": "drop-trailing-slash",
+    // Any other path loads the app, which reads the URL itself.
+    "not_found_handling": "single-page-application"
+  }
+}

@@ -24,7 +24,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
 
 /** Change this once, after pointing a real domain at the deployment. */
-const SITE = process.env.SITE_URL?.replace(/\/+$/, "") || "https://idphotokit-ashy.vercel.app";
+const SITE = process.env.SITE_URL?.replace(/\/+$/, "") || "https://idphotokit.passport-photo.workers.dev";
 
 const META_BLOCK = /<!-- meta:start[\s\S]*?<!-- meta:end -->/;
 const DOC_SLOT = "<!-- country-doc -->";

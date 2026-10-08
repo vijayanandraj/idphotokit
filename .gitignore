@@ -33,3 +33,4 @@ model-images
 
 .vercel
 .env*
+.wrangler
